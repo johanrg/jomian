@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<f:view>
+    <h:form id="registerForm">
+        <h:panelGrid columns="1">
+            <h:message for="registerForm" styleClass="message"/>
+            <h:outputLabel id="nameLabel" value="#{language.nameLabel}"/>
+            <h:inputText id="name" value="#{registerController.account.name}"
+                         required="true"
+                         requiredMessage="#{language.nameRequired}"/>
+            <h:message for="name" styleClass="message"/>
+
+            <h:outputLabel id="passwordLabel" value="#{language.passwordLabel}"/>
+            <h:inputText id="password" value="#{registerController.account.password}"
+                         required="true"
+                         requiredMessage="#{language.passwordRequired}"/>
+            <h:message for="password" styleClass="message"/>
+
+            <h:outputLabel id="emailLabel" value="#{language.emailLabel}"/>
+            <h:inputText id="email" value="#{registerController.account.email}"
+                         required="true"
+                         requiredMessage="#{language.emailRequired}"/>
+            <h:message for="email" styleClass="message"/>
+
+            <h:selectBooleanCheckbox id="student"
+                                     value="#{registerController.account.student}">student</h:selectBooleanCheckbox>
+            <h:selectBooleanCheckbox id="teacher"
+                                     value="#{registerController.account.teacher}">teacher</h:selectBooleanCheckbox>
+            <h:selectBooleanCheckbox id="admin" value="#{registerController.account.admin}">admin</h:selectBooleanCheckbox>
+            <h:commandButton value="#{language.buttonRegister}" action="#{registerController.submit}"/>
+        </h:panelGrid>
+    </h:form>
+</f:view>
+</html>
