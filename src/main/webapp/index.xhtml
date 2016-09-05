@@ -28,10 +28,10 @@
             <h:message for="email" styleClass="message"/>
 
             <h:selectBooleanCheckbox id="student"
-                                     value="#{registerController.account.student}">student</h:selectBooleanCheckbox>
+                                     value="#{registerController.account.student}">#{language.student}</h:selectBooleanCheckbox>
             <h:selectBooleanCheckbox id="teacher"
-                                     value="#{registerController.account.teacher}">teacher</h:selectBooleanCheckbox>
-            <h:selectBooleanCheckbox id="admin" value="#{registerController.account.admin}">admin</h:selectBooleanCheckbox>
+                                     value="#{registerController.account.teacher}">#{language.teacher}</h:selectBooleanCheckbox>
+            <h:selectBooleanCheckbox id="admin" value="#{registerController.account.admin}">#{language.admin}</h:selectBooleanCheckbox>
             <h:commandButton value="#{language.buttonRegister}" action="#{registerController.submit}"/>
         </h:panelGrid>
     </h:form>

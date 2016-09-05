@@ -3,6 +3,9 @@ package se.lexicon.jomian.entity;
 import javax.persistence.*;
 
 /**
+ * This is the glue between the account and the CourseSession table. At every CourseSession we set a timestamp,
+ * here we set the present flag for an account so we can keep track of the attendance of the student.
+ *
  * @author johan
  * @since 2016-09-04.
  */

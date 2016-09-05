@@ -6,6 +6,8 @@ import java.sql.Time;
 import java.sql.Timestamp;
 
 /**
+ * Every unique lesson gets a new CourseSession entry in this table.
+ *
  * @author johan
  * @since 2016-09-04.
  */

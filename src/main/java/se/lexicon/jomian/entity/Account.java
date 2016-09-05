@@ -6,8 +6,11 @@ import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
+ * The Account table holds all students, teachers and admins in one single table. Differentiated by 3 boolean values.
+ * We use boolean here so we can at least combine the admin and teacher roll to one person if that makes sense in
+ * the school.
+ *
  * @author johan
  * @since 2016-09-01.
  */
@@ -18,8 +21,9 @@ public class Account {
     private String name;
     private String password;
     private String email;
-    private AccountType accountType;
-    private char testOfChar;
+    private boolean student;
+    private boolean teacher;
+    private boolean admin;
     private List<AccountCourse> accountCourses = new ArrayList<>();
 
     @Id
@@ -63,21 +67,31 @@ public class Account {
         this.email = email;
     }
 
-    @Enumerated(EnumType.ORDINAL)
-    public AccountType getAccountType() {
-        return accountType;
+    @Column(nullable = false)
+    public boolean isStudent() {
+        return student;
     }
 
-    public void setAccountType(AccountType accountType) {
-        this.accountType = accountType;
+    public void setStudent(boolean student) {
+        this.student = student;
     }
 
-    public char getTestOfChar() {
-        return testOfChar;
+    @Column(nullable = false)
+    public boolean isTeacher() {
+        return teacher;
     }
 
-    public void setTestOfChar(char testOfChar) {
-        this.testOfChar = testOfChar;
+    public void setTeacher(boolean teacher) {
+        this.teacher = teacher;
+    }
+
+    @Column(nullable = false)
+    public boolean isAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
     }
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "account", orphanRemoval = true)

@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.List;
 
 /**
+ * Course table hold all the courses available at the school.
+ *
  * @author johan
  * @since 2016-09-01.
  */

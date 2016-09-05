@@ -3,6 +3,11 @@ package se.lexicon.jomian.entity;
 import javax.persistence.*;
 
 /**
+ * Many to many glue between an Account and a Course, the reason for doing it this way instead of a manytomany is so
+ * we can define the account as either student or teacher no matter what the account says. Of course an account
+ * can not be the teacher for a course unless he has the teacher flag set in account and in here. But this opens up
+ * the possibility for a teacher being a student in a certain course.
+ *
  * @author johan
  * @since 2016-09-01.
  */

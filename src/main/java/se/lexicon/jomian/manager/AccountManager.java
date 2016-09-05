@@ -13,6 +13,8 @@ import javax.persistence.criteria.CriteriaQuery;
 import java.util.List;
 
 /**
+ * Handles all the logic concerning accounts.
+ *
  * @author johan
  * @since 2016-09-01.
  */
@@ -21,6 +23,12 @@ public class AccountManager {
     @PersistenceContext
     private EntityManager em;
 
+    /**
+     * Creates a new account if the email is not present in the table already.
+     *
+     * @param account The account to create.
+     * @throws ManagerException if the e-mail is already used by another account.
+     */
     public void createAccount(Account account) throws ManagerException {
         if (findByEmail(account.getEmail()) == null) {
             em.persist(account);
@@ -29,6 +37,12 @@ public class AccountManager {
         }
     }
 
+    /**
+     * Finds and returns the account holding the specified id.
+     *
+     * @param id the account id.
+     * @return Account entity.
+     */
     public Account findById(Long id) {
         return em.find(Account.class, id);
     }
