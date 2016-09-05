@@ -5,6 +5,7 @@ import se.lexicon.jomian.entity.Course;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 /**
  * @author johan
@@ -12,6 +13,6 @@ import javax.persistence.EntityManager;
  */
 @Stateless
 public class CourseManager {
-    @Inject
+    @PersistenceContext
     private EntityManager em;
 }

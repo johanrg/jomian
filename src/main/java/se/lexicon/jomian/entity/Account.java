@@ -18,9 +18,8 @@ public class Account {
     private String name;
     private String password;
     private String email;
-    private boolean student;
-    private boolean teacher;
-    private boolean admin;
+    private AccountType accountType;
+    private char testOfChar;
     private List<AccountCourse> accountCourses = new ArrayList<>();
 
     @Id
@@ -64,31 +63,21 @@ public class Account {
         this.email = email;
     }
 
-    @Column(nullable = false)
-    public boolean isStudent() {
-        return student;
+    @Enumerated(EnumType.ORDINAL)
+    public AccountType getAccountType() {
+        return accountType;
     }
 
-    public void setStudent(boolean student) {
-        this.student = student;
+    public void setAccountType(AccountType accountType) {
+        this.accountType = accountType;
     }
 
-    @Column(nullable = false)
-    public boolean isTeacher() {
-        return teacher;
+    public char getTestOfChar() {
+        return testOfChar;
     }
 
-    public void setTeacher(boolean teacher) {
-        this.teacher = teacher;
-    }
-
-    @Column(nullable = false)
-    public boolean isAdmin() {
-        return admin;
-    }
-
-    public void setAdmin(boolean admin) {
-        this.admin = admin;
+    public void setTestOfChar(char testOfChar) {
+        this.testOfChar = testOfChar;
     }
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "account", orphanRemoval = true)

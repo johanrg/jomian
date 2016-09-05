@@ -7,6 +7,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.List;
  */
 @Stateless
 public class AccountManager {
-    @Inject
+    @PersistenceContext
     private EntityManager em;
 
     public void createAccount(Account account) throws ManagerException {

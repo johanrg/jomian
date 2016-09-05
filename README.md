@@ -47,5 +47,5 @@ asadmin ping-connection-pool JomianPool
 
 Bind the connection pool to a JDBC resource:
 ```
-asadmin create-jdbc-resource --connectionpoolid forum-pool jdbc/Jomian
+asadmin create-jdbc-resource --connectionpoolid JomianPool jdbc/Jomian
 ```
