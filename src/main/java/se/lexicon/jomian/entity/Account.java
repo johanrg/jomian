@@ -37,7 +37,7 @@ public class Account {
     }
 
     @Column(length = 80, nullable = false)
-    @Size(min = 1, max = 80, message = "{name.size}")
+    @Size(min = 1, max = 80)
     public String getName() {
         return name;
     }
@@ -47,7 +47,7 @@ public class Account {
     }
 
     @Column(length = 80, nullable = false)
-    @Size(min = 6, max = 80, message = "{password.size}")
+    @Size(min = 6, max = 80)
     public String getPassword() {
         return password;
     }
@@ -57,7 +57,7 @@ public class Account {
     }
 
     @Column(length = 255, nullable = false)
-    @Size(min = 3, max = 255, message = "{email.size}")
+    @Size(min = 3, max = 255)
     @Pattern(regexp = "^.+@.+$", message = "{email.invalid}")
     public String getEmail() {
         return email;

@@ -9,6 +9,8 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 /**
  * @author johan
@@ -20,7 +22,6 @@ public class RegisterController {
     @Inject
     private AccountManager accountManager;
     private Account account = new Account();
-
     /**
      * Bound to the form commandButton on the registration page, adds a new account to the system.
      */
