@@ -1,0 +1,9 @@
+1. Som användare vill jag kunna skapa ett konto för att kunna registrera mig till en kurs.
+2. Som admin vill jag kunna se vilka konton som jag behöver verifiera.
+3. Som admin vill jag kunna sätta behörighet på en användare samtidigt som jag verifierar kontot.
+4. Som student vill jag kunna se en lista på kurser som jag kan registrera mig till.
+5. Som student vill jag kunna se alla kurser jag har registrerat mig till så att jag kan avsluta en om jag vill.
+6. Som lärare vill jag kunna lägga till kurstillfällen i förväg så att jag kan planera kursen i förväg.
+7. Som elev vill jag kunna se all kurstillfällen i förväg så att jag vet när jag skall gå.
+8. Som admin vill jag kunna ta bort konton.
+9. Som admin vill jag kunna ta bort kurser.

@@ -16,10 +16,19 @@
             <h:message for="name" styleClass="message"/>
 
             <h:outputLabel id="passwordLabel" value="#{language.passwordLabel}"/>
-            <h:inputText id="password" value="#{registerController.account.password}"
-                         required="true"
-                         requiredMessage="#{language.passwordRequired}"/>
+            <h:inputSecret id="password" value="#{registerController.account.password}"
+                           required="true"
+                           requiredMessage="#{language.passwordRequired}">
+                <f:validator validatorId="passwordValidator"/>
+                <f:attribute name="confirmPassword" value="#{confirmPassword}"/>
+            </h:inputSecret>
             <h:message for="password" styleClass="message"/>
+
+            <h:outputLabel id="confirmPasswordLabel" value="#{language.confirmPasswordLabel}"/>
+            <h:inputSecret id="confirmPassword" required="true"
+                         binding="#{confirmPassword}"
+                         requiredMessage="#{language.confirmPasswordRequired}"/>
+            <h:message for="confirmPassword" styleClass="message"/>
 
             <h:outputLabel id="emailLabel" value="#{language.emailLabel}"/>
             <h:inputText id="email" value="#{registerController.account.email}"
@@ -27,11 +36,6 @@
                          requiredMessage="#{language.emailRequired}"/>
             <h:message for="email" styleClass="message"/>
 
-            <h:selectBooleanCheckbox id="student"
-                                     value="#{registerController.account.student}">#{language.student}</h:selectBooleanCheckbox>
-            <h:selectBooleanCheckbox id="teacher"
-                                     value="#{registerController.account.teacher}">#{language.teacher}</h:selectBooleanCheckbox>
-            <h:selectBooleanCheckbox id="admin" value="#{registerController.account.admin}">#{language.admin}</h:selectBooleanCheckbox>
             <h:commandButton value="#{language.buttonRegister}" action="#{registerController.submit}"/>
         </h:panelGrid>
     </h:form>

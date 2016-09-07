@@ -31,6 +31,7 @@ public class AccountManager {
      */
     public void createAccount(Account account) throws ManagerException {
         if (findByEmail(account.getEmail()) == null) {
+            account.setVerified(false);
             em.persist(account);
         } else {
             throw new ManagerException(Language.getMessage("emailInUse"));

@@ -21,8 +21,9 @@ public class Account {
     private String name;
     private String password;
     private String email;
+    private boolean verified;
     private boolean student;
-    private boolean teacher;
+    private boolean teacher ;
     private boolean admin;
     private List<AccountCourse> accountCourses = new ArrayList<>();
 
@@ -65,6 +66,14 @@ public class Account {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public boolean isVerified() {
+        return verified;
+    }
+
+    public void setVerified(boolean verified) {
+        this.verified = verified;
     }
 
     @Column(nullable = false)

@@ -22,6 +22,7 @@ public class RegisterController {
     @Inject
     private AccountManager accountManager;
     private Account account = new Account();
+
     /**
      * Bound to the form commandButton on the registration page, adds a new account to the system.
      */
