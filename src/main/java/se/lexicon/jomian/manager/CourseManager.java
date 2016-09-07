@@ -3,7 +3,6 @@ package se.lexicon.jomian.manager;
 import se.lexicon.jomian.entity.Course;
 
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 

@@ -23,7 +23,7 @@ public class Account {
     private String email;
     private boolean verified;
     private boolean student;
-    private boolean teacher ;
+    private boolean teacher;
     private boolean admin;
     private List<AccountCourse> accountCourses = new ArrayList<>();
 

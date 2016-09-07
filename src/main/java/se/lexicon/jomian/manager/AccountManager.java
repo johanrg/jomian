@@ -4,7 +4,6 @@ import se.lexicon.jomian.entity.Account;
 import se.lexicon.jomian.util.Language;
 
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
