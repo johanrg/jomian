@@ -20,7 +20,6 @@ import java.util.List;
 })
 public class Account {
     private Long id;
-    private String loginName;
     private String name;
     private String password;
     private String email;

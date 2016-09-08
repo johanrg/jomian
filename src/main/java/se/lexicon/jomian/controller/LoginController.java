@@ -21,11 +21,13 @@ public class LoginController implements Serializable {
     @Inject
     private AccountService accountService;
     private Account account = new Account();
+    private boolean isLoggedIn = false;
 
     public String submit() {
         try {
             account = accountService.loginAccount(account);
-            return "index?faces-redirect=true";
+            isLoggedIn = true;
+            return "faces/restricted/index.xhtml?faces-redirect=true";
         } catch (ServiceException e) {
             FacesContext.getCurrentInstance().addMessage("loginForm", new FacesMessage(e.getMessage()));
         }
@@ -38,5 +40,9 @@ public class LoginController implements Serializable {
 
     public void setAccount(Account account) {
         this.account = account;
+    }
+
+    public boolean isLoggedIn() {
+        return isLoggedIn;
     }
 }
