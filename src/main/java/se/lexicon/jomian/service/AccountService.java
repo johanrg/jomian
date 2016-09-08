@@ -1,5 +1,6 @@
-package se.lexicon.jomian.manager;
+package se.lexicon.jomian.service;
 
+import org.mindrot.jbcrypt.BCrypt;
 import se.lexicon.jomian.entity.Account;
 import se.lexicon.jomian.util.Language;
 
@@ -18,7 +19,7 @@ import java.util.List;
  * @since 2016-09-01.
  */
 @Stateless
-public class AccountManager {
+public class AccountService {
     @PersistenceContext
     private EntityManager em;
 
@@ -26,15 +27,33 @@ public class AccountManager {
      * Creates a new account if the email is not present in the table already.
      *
      * @param account The account to create.
-     * @throws ManagerException if the e-mail is already used by another account.
+     * @throws ServiceException if the e-mail is already used by another account.
      */
-    public void createAccount(Account account) throws ManagerException {
+    public void createAccount(Account account) throws ServiceException {
         if (findByEmail(account.getEmail()) == null) {
-            account.setVerified(false);
+            account.setPassword(BCrypt.hashpw(account.getPassword(), BCrypt.gensalt(12)));
+
+            if (count() == 0) {
+                // This is the first user in the system so make the account an admin.
+                account.setVerified(true);
+                account.setAdmin(true);
+            } else {
+                account.setVerified(false);
+            }
             em.persist(account);
         } else {
-            throw new ManagerException(Language.getMessage("emailInUse"));
+            throw new ServiceException(Language.getMessage("register.emailInUse"));
         }
+    }
+
+    public Account loginAccount(Account account) throws ServiceException {
+        Account dbAccount = findByEmail(account.getEmail());
+        if (dbAccount != null) {
+           if (BCrypt.checkpw(account.getPassword(), dbAccount.getPassword())) {
+               return dbAccount;
+           }
+        }
+        throw new ServiceException(Language.getMessage("login.invalidAccount"));
     }
 
     /**
@@ -68,8 +87,8 @@ public class AccountManager {
     }
 
     /**
-     * Added for now as an example.
-     * @return Total count of table
+     * Returns the total number of rows in the table
+     * @return Total row count in the table
      */
     public Long count() {
         CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();

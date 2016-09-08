@@ -8,34 +8,34 @@
 <f:view>
     <h:form id="registerForm">
         <h:panelGrid columns="1">
-            <h:outputLabel id="nameLabel" value="#{language.nameLabel}"/>
+            <h:outputLabel id="nameLabel" value="#{language['register.nameLabel']}"/>
             <h:inputText id="name" value="#{registerController.account.name}"
                          required="true"
-                         requiredMessage="#{language.nameRequired}"/>
+                         requiredMessage="#{language['register.nameRequired']}"/>
             <h:message for="name" styleClass="message"/>
 
-            <h:outputLabel id="passwordLabel" value="#{language.passwordLabel}"/>
+            <h:outputLabel id="passwordLabel" value="#{language['register.passwordLabel']}"/>
             <h:inputSecret id="password" value="#{registerController.account.password}"
                            required="true"
-                           requiredMessage="#{language.passwordRequired}">
+                           requiredMessage="#{language['register.passwordRequired']}">
                 <f:validator validatorId="passwordValidator"/>
                 <f:attribute name="confirmPassword" value="#{confirmPassword}"/>
             </h:inputSecret>
             <h:message for="password" styleClass="message"/>
 
-            <h:outputLabel id="confirmPasswordLabel" value="#{language.confirmPasswordLabel}"/>
+            <h:outputLabel id="confirmPasswordLabel" value="#{language['register.confirmPasswordLabel']}"/>
             <h:inputSecret id="confirmPassword" required="true"
                          binding="#{confirmPassword}"
-                         requiredMessage="#{language.confirmPasswordRequired}"/>
+                         requiredMessage="#{language['register.confirmPasswordRequired']}"/>
             <h:message for="confirmPassword" styleClass="message"/>
 
-            <h:outputLabel id="emailLabel" value="#{language.emailLabel}"/>
+            <h:outputLabel id="emailLabel" value="#{language['register.emailLabel']}"/>
             <h:inputText id="email" value="#{registerController.account.email}"
                          required="true"
-                         requiredMessage="#{language.emailRequired}"/>
+                         requiredMessage="#{language['register.emailRequired']}"/>
             <h:message for="email" styleClass="message"/>
 
-            <h:commandButton value="#{language.buttonRegister}" action="#{registerController.submit}"/>
+            <h:commandButton value="#{language['register.buttonRegister']}" action="#{registerController.submit}"/>
         </h:panelGrid>
     </h:form>
 </f:view>

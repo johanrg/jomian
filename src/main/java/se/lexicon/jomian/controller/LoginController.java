@@ -4,37 +4,30 @@ import se.lexicon.jomian.entity.Account;
 import se.lexicon.jomian.service.AccountService;
 import se.lexicon.jomian.service.ServiceException;
 
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.Serializable;
 
 /**
- * @author johan
- * @since 2016-09-01.
+ * @author Johan Gustafsson
+ * @since 2016-09-08.
  */
 @Named
-@RequestScoped
-public class RegisterController {
+@SessionScoped
+public class LoginController implements Serializable {
     @Inject
     private AccountService accountService;
     private Account account = new Account();
 
-    /**
-     * Bound to the form commandButton on the registration page, adds a new account to the system.
-     */
     public String submit() {
         try {
-            accountService.createAccount(account);
-
-            if (account.isAdmin()) {
-                return String.format("welcomeAdmin?faces-redirect=true&username=%s", account.getName());
-            }
-            return String.format("thankyou?faces-redirect=true&username=%s", account.getName());
+            account = accountService.loginAccount(account);
+            return "index?faces-redirect=true";
         } catch (ServiceException e) {
-            FacesContext.getCurrentInstance()
-                    .addMessage("registerForm:email", new FacesMessage(e.getMessage()));
+            FacesContext.getCurrentInstance().addMessage("loginForm", new FacesMessage(e.getMessage()));
         }
         return null;
     }

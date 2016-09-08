@@ -1,0 +1,10 @@
+/*
+ * Override Bootstrap's default container.
+ */
+
+.page404 {
+    width: 455px;
+    height: 544px;
+    margin: 100px auto 0 auto;
+    background-image: url("#{resource['images/404.jpg']}");
+}

@@ -15,9 +15,12 @@ import java.util.List;
  * @since 2016-09-01.
  */
 @Entity
-@NamedQuery(name = "Account.FindByEmail", query = "SELECT a FROM Account a WHERE a.email = :email")
+@NamedQueries({
+        @NamedQuery(name = "Account.FindByEmail", query = "SELECT a FROM Account a WHERE a.email = :email"),
+})
 public class Account {
     private Long id;
+    private String loginName;
     private String name;
     private String password;
     private String email;
@@ -47,8 +50,8 @@ public class Account {
         this.name = name;
     }
 
-    @Column(length = 80, nullable = false)
-    @Size(min = 6, max = 80)
+    @Column(length = 60, nullable = false)
+    @Size(min = 6, max = 100)
     public String getPassword() {
         return password;
     }
@@ -57,7 +60,7 @@ public class Account {
         this.password = password;
     }
 
-    @Column(length = 255, nullable = false)
+    @Column(length = 255, nullable = false, unique = true)
     @Size(min = 3, max = 255)
     @Pattern(regexp = "^.+@.+$", message = "{email.invalid}")
     public String getEmail() {

@@ -1,6 +1,4 @@
-package se.lexicon.jomian.manager;
-
-import se.lexicon.jomian.entity.Course;
+package se.lexicon.jomian.service;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -11,7 +9,7 @@ import javax.persistence.PersistenceContext;
  * @since 2016-09-01.
  */
 @Stateless
-public class CourseManager {
+public class CourseService {
     @PersistenceContext
     private EntityManager em;
 }

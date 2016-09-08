@@ -1,4 +1,4 @@
-package se.lexicon.jomian.manager;
+package se.lexicon.jomian.service;
 
 /**
  * This exception is used to pass through errors from managers to the calling JSF bean.
@@ -6,8 +6,8 @@ package se.lexicon.jomian.manager;
  * @author johan
  * @since 2016-09-01.
  */
-public class ManagerException extends Exception {
-    public ManagerException(String message) {
+public class ServiceException extends Exception {
+    public ServiceException(String message) {
         super(message);
     }
 }
