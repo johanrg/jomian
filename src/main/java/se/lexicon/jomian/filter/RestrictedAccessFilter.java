@@ -13,7 +13,7 @@ import java.io.IOException;
 /**
  * Only allow logged in users to access the restricted area.
  *
- * @author johan
+ * @author Johan Gustafsson
  * @since 2016-09-08.
  */
 @WebFilter(urlPatterns = {"/faces/restricted/*"})

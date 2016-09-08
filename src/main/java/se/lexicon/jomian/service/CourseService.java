@@ -5,7 +5,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 /**
- * @author johan
+ * @author Johan Gustafsson
  * @since 2016-09-01.
  */
 @Stateless

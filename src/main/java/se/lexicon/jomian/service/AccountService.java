@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Handles all the logic concerning accounts.
  *
- * @author johan
+ * @author Johan Gustafsson
  * @since 2016-09-01.
  */
 @Stateless

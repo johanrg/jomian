@@ -11,7 +11,7 @@ import java.util.List;
  * We use boolean here so we can at least combine the admin and teacher roll to one person if that makes sense in
  * the school.
  *
- * @author johan
+ * @author Johan Gustafsson
  * @since 2016-09-01.
  */
 @Entity

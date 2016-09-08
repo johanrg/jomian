@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Course table hold all the courses available at the school.
  *
- * @author johan
+ * @author Johan Gustafsson
  * @since 2016-09-01.
  */
 @Entity

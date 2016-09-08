@@ -8,7 +8,7 @@ import java.sql.Timestamp;
 /**
  * Every unique lesson gets a new CourseSession entry in this table.
  *
- * @author johan
+ * @author Johan Gustafsson
  * @since 2016-09-04.
  */
 @Entity

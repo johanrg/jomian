@@ -8,7 +8,7 @@ import java.util.ResourceBundle;
  * This returns the message from the language key so we can have programmatically defined error message where
  * EL expressions are not available.
  *
- * @author johan
+ * @author Johan Gustafsson
  * @since 2016-09-01.
  */
 public class Language {

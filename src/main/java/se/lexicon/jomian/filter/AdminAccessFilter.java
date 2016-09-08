@@ -12,7 +12,7 @@ import java.io.IOException;
 /**
  * Only allow users with admin rights to access admin pages.
  *
- * @author johan
+ * @author Johan Gustafsson
  * @since 2016-09-08.
  */
 @WebFilter(urlPatterns = {"/faces/admin/*"})

@@ -11,7 +11,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
- * @author johan
+ * @author Johan Gustafsson
  * @since 2016-09-01.
  */
 @Named

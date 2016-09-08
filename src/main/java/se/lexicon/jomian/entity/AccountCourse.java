@@ -8,7 +8,7 @@ import javax.persistence.*;
  * can not be the teacher for a course unless he has the teacher flag set in account and in here. But this opens up
  * the possibility for a teacher being a student in a certain course.
  *
- * @author johan
+ * @author Johan Gustafsson
  * @since 2016-09-01.
  */
 @Entity
