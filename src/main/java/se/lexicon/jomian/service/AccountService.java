@@ -49,9 +49,11 @@ public class AccountService {
     public Account loginAccount(Account account) throws ServiceException {
         Account dbAccount = findByEmail(account.getEmail());
         if (dbAccount != null) {
-           if (BCrypt.checkpw(account.getPassword(), dbAccount.getPassword())) {
-               return dbAccount;
-           }
+            if (!dbAccount.isVerified()) {
+                throw new ServiceException(Language.getMessage("login.notVerified"));
+            } else if (BCrypt.checkpw(account.getPassword(), dbAccount.getPassword())) {
+                return dbAccount;
+            }
         }
         throw new ServiceException(Language.getMessage("login.invalidAccount"));
     }
@@ -76,9 +78,19 @@ public class AccountService {
         }
     }
 
+    public List<Account> getUnverifiedAccounts() {
+        try {
+            return em.createNamedQuery("Account.NotVerified", Account.class)
+                    .getResultList();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
     /**
      * Added for now as an example.
-      * @return List of accounts
+     *
+     * @return List of accounts
      */
     public List<Account> getAll() {
         CriteriaQuery<Account> criteriaQuery = em.getCriteriaBuilder().createQuery(Account.class);
@@ -88,6 +100,7 @@ public class AccountService {
 
     /**
      * Returns the total number of rows in the table
+     *
      * @return Total row count in the table
      */
     public Long count() {

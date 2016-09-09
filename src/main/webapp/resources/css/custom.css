@@ -1,6 +1,11 @@
 /*
  * Override Bootstrap's default container.
  */
+@media (min-width: 1200px) {
+    .container {
+        width: 970px;
+    }
+}
 
 #body404 {
     background-color: #EEEEEE;
@@ -12,4 +17,194 @@
     margin: 100px auto 0 auto;
     background-image: url("#{resource['images/404.jpg']}");
     background-repeat: no-repeat;
+}
+
+body {
+    background: #EEEEEE; !important;
+}
+
+/*
+ * Masthead for nav
+ */
+
+.jomian-masthead {
+    background-color: #428bca;
+    -webkit-box-shadow: inset 0 -2px 5px rgba(0, 0, 0, .1);
+    box-shadow: inset 0 -2px 5px rgba(0, 0, 0, .1);
+}
+
+.admin-masthead {
+    background-color: #ca2e33;
+    -webkit-box-shadow: inset 0 -2px 5px rgba(0, 0, 0, .1);
+    box-shadow: inset 0 -2px 5px rgba(0, 0, 0, .1);
+}
+
+/* Nav links */
+.nav-item {
+    position: relative;
+    display: inline-block;
+    padding: 10px;
+    font-weight: 500;
+    color: #cdddeb;
+}
+
+.nav-item-right {
+    float: right;
+}
+
+.jomian-main {
+
+}
+
+.nav-item:hover,
+.nav-item:focus {
+    color: #fff;
+    text-decoration: none;
+}
+
+.blog-header {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.jomian-title {
+    margin-top: 30px;
+    margin-bottom: 0;
+    font-size: 60px;
+    font-weight: normal;
+}
+
+.jomian-description {
+    font-size: 20px;
+    color: #999;
+}
+
+.forumTable {
+    border-collapse: collapse;
+    width: 600px;
+}
+
+.forumTableHeader {
+    text-align: left;
+    background: none repeat scroll 0 0 #428bca;
+    border-bottom: 1px solid #000000;
+    color: white;
+    padding: 4px;
+    font-size: 1.1em;
+}
+
+.adminTableHeader {
+    text-align: left;
+    background: none repeat scroll 0 0 #ca2e33;
+    border-bottom: 1px solid #000000;
+    color: white;
+    padding: 4px;
+    font-size: 1.1em;
+}
+
+.forumTableOddRow {
+    text-align: left;
+    background: none repeat scroll 0 0 #FFFFFF;
+    padding: 1em;
+}
+
+.forumTableEvenRow {
+    text-align: left;
+    background: none repeat scroll 0 0 #D3D3D3;
+    padding: 1em;
+}
+
+.forumTable td {
+    padding: 0.4em;
+}
+
+.forumTopic {
+    background: #428bca;
+    color: white;
+    font-size: 2em;
+    padding: 0.1em 0.3em;
+    width: 600px;
+}
+
+.forumList {
+    margin-left: 1.5em;
+}
+
+.forumPost {
+    margin-bottom: 0.5em;
+    width: 600px;
+}
+
+.forumHeader {
+    background: #428bca;
+    color: white;
+    padding: 0.1em 0.3em;
+    font-size: 0.9em;
+}
+
+.forumBody {
+    background: white;
+    padding: 0.3em;
+    min-height: 75px;
+}
+
+.forumOptions {
+    float: right;
+
+}
+
+.forumOptions a {
+    color: inherit;
+}
+
+.message {
+    color: red;
+}
+
+/* Style The Dropdown Button */
+.dropbtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px;
+    border: none;
+    cursor: pointer;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 200px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+}
+
+/* Links inside the dropdown */
+.dropdown-link {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {
+    background-color: #f1f1f1
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+    background-color: #3e8e41;
 }

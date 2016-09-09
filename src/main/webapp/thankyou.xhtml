@@ -9,9 +9,18 @@
     <f:viewParam name="username" value="#{username}"/>
 </f:metadata>
 <h:body>
-    <h:outputFormat value="#{language['thankyou.welcomeMessage']}">
-        <f:param value="#{username}"/>
-    </h:outputFormat>
-    <p>#{language['thankyou.loginMessage1']} <h:link value="#{language['thankyou.loginLinkName']}" outcome="login?faces-redirect=true"/> #{language['thankyou.loginMessage2']}</p>
+    <ui:composition template="/template/default/layout.xhtml">
+        <ui:define name="content">
+
+            <h:outputFormat value="#{language['thankyou.welcomeMessage']}">
+                <f:param value="#{username}"/>
+            </h:outputFormat>
+            <p>
+                #{language['thankyou.loginMessage1']}
+                <h:link value="#{language['thankyou.loginLinkName']}"
+                        outcome="login?faces-redirect=true"/> #{language['thankyou.loginMessage2']}
+            </p>
+        </ui:define>
+    </ui:composition>
 </h:body>
 </html>

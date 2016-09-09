@@ -6,9 +6,11 @@ import se.lexicon.jomian.service.ServiceException;
 
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.IOException;
 import java.io.Serializable;
 
 /**
@@ -21,12 +23,12 @@ public class LoginController implements Serializable {
     @Inject
     private AccountService accountService;
     private Account account = new Account();
-    private boolean isLoggedIn = false;
+    private boolean loggedIn = false;
 
     public String submit() {
         try {
             account = accountService.loginAccount(account);
-            isLoggedIn = true;
+            loggedIn = true;
             return "faces/restricted/index.xhtml?faces-redirect=true";
         } catch (ServiceException e) {
             FacesContext.getCurrentInstance().addMessage("loginForm", new FacesMessage(e.getMessage()));
@@ -43,6 +45,13 @@ public class LoginController implements Serializable {
     }
 
     public boolean isLoggedIn() {
-        return isLoggedIn;
+        return loggedIn;
+    }
+
+    public void logout() throws IOException {
+        loggedIn = false;
+        account = new Account();
+        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+        externalContext.redirect(externalContext.getRequestContextPath() + "/faces/login.xhtml");
     }
 }

@@ -17,6 +17,7 @@ import java.util.List;
 @Entity
 @NamedQueries({
         @NamedQuery(name = "Account.FindByEmail", query = "SELECT a FROM Account a WHERE a.email = :email"),
+        @NamedQuery(name = "Account.NotVerified", query = "SELECT a FrOM Account a WHERE a.verified = false")
 })
 public class Account {
     private Long id;

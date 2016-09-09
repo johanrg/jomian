@@ -5,28 +5,32 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
-<f:view>
-    <h1>#{language['login.header']}</h1>
+<h:body>
+    <ui:composition template="/template/default/layout.xhtml">
+        <ui:define name="content">
 
-    <h:form id="loginForm">
-        <h:message for="loginForm" styleClass="message"/>
+            <h1>#{language['login.header']}</h1>
 
-        <h:panelGrid columns="3" id="loginPanel">
-            <h:outputLabel for="email" value="#{language['login.emailLabel']}"/>
-            <h:inputText id="email" value="#{loginController.account.email}" required="true"
-                         requiredMessage="#{language['login.emailRequired']}">
-            </h:inputText>
-            <h:message for="email" styleClass="message"/>
+            <h:form id="loginForm">
+                <h:message for="loginForm" styleClass="message"/>
 
-            <h:outputLabel for="password" value="#{language['login.passwordLabel']}"/>
-            <h:inputSecret id="password" value="#{loginController.account.password}" required="true"
-                           requiredMessage="#{language['login.passwordRequired']}">
-            </h:inputSecret>
-            <h:message for="password" styleClass="message"/>
-        </h:panelGrid>
+                <h:panelGrid columns="3" id="loginPanel">
+                    <h:outputLabel for="email" value="#{language['login.emailLabel']}"/>
+                    <h:inputText id="email" value="#{loginController.account.email}" required="true"
+                                 requiredMessage="#{language['login.emailRequired']}">
+                    </h:inputText>
+                    <h:message for="email" styleClass="message"/>
 
-        <h:commandButton action="#{loginController.submit}" value="#{language['login.buttonLogin']}"/>
-        <p>#{language['login.registerMessage1']} <h:link value="#{language['login.registerLinkName']}" outcome="register?faces-redirect=true"/>#{language['login.registerMessage2']}</p>
-    </h:form>
-</f:view>
+                    <h:outputLabel for="password" value="#{language['login.passwordLabel']}"/>
+                    <h:inputSecret id="password" value="#{loginController.account.password}" required="true"
+                                   requiredMessage="#{language['login.passwordRequired']}">
+                    </h:inputSecret>
+                    <h:message for="password" styleClass="message"/>
+                </h:panelGrid>
+
+                <h:commandButton action="#{loginController.submit}" value="#{language['login.buttonLogin']}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</h:body>
 </html>

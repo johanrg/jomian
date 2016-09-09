@@ -5,38 +5,44 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
-<f:view>
-    <h:form id="registerForm">
-        <h:panelGrid columns="1">
-            <h:outputLabel id="nameLabel" value="#{language['register.nameLabel']}"/>
-            <h:inputText id="name" value="#{registerController.account.name}"
-                         required="true"
-                         requiredMessage="#{language['register.nameRequired']}"/>
-            <h:message for="name" styleClass="message"/>
+<h:body>
+    <ui:composition template="/template/default/layout.xhtml">
+        <ui:define name="content">
 
-            <h:outputLabel id="passwordLabel" value="#{language['register.passwordLabel']}"/>
-            <h:inputSecret id="password" value="#{registerController.account.password}"
-                           required="true"
-                           requiredMessage="#{language['register.passwordRequired']}">
-                <f:validator validatorId="passwordValidator"/>
-                <f:attribute name="confirmPassword" value="#{confirmPassword}"/>
-            </h:inputSecret>
-            <h:message for="password" styleClass="message"/>
+            <h:form id="registerForm">
+                <h:panelGrid columns="1">
+                    <h:outputLabel id="nameLabel" value="#{language['register.nameLabel']}"/>
+                    <h:inputText id="name" value="#{registerController.account.name}"
+                                 required="true"
+                                 requiredMessage="#{language['register.nameRequired']}"/>
+                    <h:message for="name" styleClass="message"/>
 
-            <h:outputLabel id="confirmPasswordLabel" value="#{language['register.confirmPasswordLabel']}"/>
-            <h:inputSecret id="confirmPassword" required="true"
-                         binding="#{confirmPassword}"
-                         requiredMessage="#{language['register.confirmPasswordRequired']}"/>
-            <h:message for="confirmPassword" styleClass="message"/>
+                    <h:outputLabel id="passwordLabel" value="#{language['register.passwordLabel']}"/>
+                    <h:inputSecret id="password" value="#{registerController.account.password}"
+                                   required="true"
+                                   requiredMessage="#{language['register.passwordRequired']}">
+                        <f:validator validatorId="passwordValidator"/>
+                        <f:attribute name="confirmPassword" value="#{confirmPassword}"/>
+                    </h:inputSecret>
+                    <h:message for="password" styleClass="message"/>
 
-            <h:outputLabel id="emailLabel" value="#{language['register.emailLabel']}"/>
-            <h:inputText id="email" value="#{registerController.account.email}"
-                         required="true"
-                         requiredMessage="#{language['register.emailRequired']}"/>
-            <h:message for="email" styleClass="message"/>
+                    <h:outputLabel id="confirmPasswordLabel" value="#{language['register.confirmPasswordLabel']}"/>
+                    <h:inputSecret id="confirmPassword" required="true"
+                                   binding="#{confirmPassword}"
+                                   requiredMessage="#{language['register.confirmPasswordRequired']}"/>
+                    <h:message for="confirmPassword" styleClass="message"/>
 
-            <h:commandButton value="#{language['register.buttonRegister']}" action="#{registerController.submit}"/>
-        </h:panelGrid>
-    </h:form>
-</f:view>
+                    <h:outputLabel id="emailLabel" value="#{language['register.emailLabel']}"/>
+                    <h:inputText id="email" value="#{registerController.account.email}"
+                                 required="true"
+                                 requiredMessage="#{language['register.emailRequired']}"/>
+                    <h:message for="email" styleClass="message"/>
+
+                    <h:commandButton value="#{language['register.buttonRegister']}"
+                                     action="#{registerController.submit}"/>
+                </h:panelGrid>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</h:body>
 </html>
