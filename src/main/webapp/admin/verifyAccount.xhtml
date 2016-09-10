@@ -8,11 +8,43 @@
 <h:body>
     <ui:composition template="/template/default/layout.xhtml">
         <ui:define name="content">
-            <h:dataTable value="#{verifyAccount.unverifiedAccounts}" var="account">
-                <h:column>
-                    #{account.name}
-                </h:column>
-            </h:dataTable>
+            <h:form>
+                <h:dataTable value="#{verifyAccountController.unverifiedAccounts}" var="account" styleClass="table"
+                             headerClass="tableHeader" rowClasses="tableOddRow, tableEvenRow"
+                             columnClasses="column250, column250, column75, column75, column75"
+                             rendered="#{verifyAccountController.unverifiedAccounts.size() ne 0}">
+                    <h:column>
+                        <f:facet name="header">#{language['verifyAccount.name']}</f:facet>
+                        #{account.name}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">#{language['verifyAccount.email']}</f:facet>
+                        #{account.email}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">#{language['verifyAccount.student']}</f:facet>
+                        <h:selectBooleanCheckbox id="student" value="#{account.student}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">#{language['verifyAccount.teacher']}</f:facet>
+                        <h:selectBooleanCheckbox id="teacher" value="#{account.teacher}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">#{language['verifyAccount.admin']}</f:facet>
+                        <h:selectBooleanCheckbox id="Admin" value="#{account.admin}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">#{language['verifyAccount.operation']}</f:facet>
+                        <h:commandButton value="#{language['verifyAccount.verifyButton']}"
+                                         action="#{verifyAccountController.verify(account)}"/>
+                        <h:commandButton value="#{language['verifyAccount.deleteButton']}"
+                                         action="#{verifyAccountController.delete(account)}"/>
+                    </h:column>
+                </h:dataTable>
+            </h:form>
+            <h:panelGroup layout="block" rendered="#{verifyAccountController.unverifiedAccounts.size() eq 0}">
+                <h1>#{language['verifyAccount.noUnverifiedAccounts']}</h1>
+            </h:panelGroup>
         </ui:define>
     </ui:composition>
 </h:body>

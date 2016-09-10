@@ -15,7 +15,8 @@ import java.io.IOException;
  * @author Johan Gustafsson
  * @since 2016-09-08.
  */
-@WebFilter(urlPatterns = {"/faces/admin/*"})
+// TODO(Johan): This disables the admin check, enable before release.
+//@WebFilter(urlPatterns = {"/faces/admin/*"})
 public class AdminAccessFilter implements Filter {
     @Inject
     LoginController loginController;

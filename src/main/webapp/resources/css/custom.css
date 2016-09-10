@@ -79,82 +79,55 @@ body {
     color: #999;
 }
 
-.forumTable {
+.table {
     border-collapse: collapse;
-    width: 600px;
 }
 
-.forumTableHeader {
+.table>tbody>tr>td {
+    vertical-align: middle;
+}
+
+.tableHeader {
     text-align: left;
+    vertical-align: middle;
     background: none repeat scroll 0 0 #428bca;
     border-bottom: 1px solid #000000;
     color: white;
     padding: 4px;
-    font-size: 1.1em;
 }
 
-.adminTableHeader {
+.tableOddRow {
     text-align: left;
-    background: none repeat scroll 0 0 #ca2e33;
-    border-bottom: 1px solid #000000;
-    color: white;
-    padding: 4px;
-    font-size: 1.1em;
+    background-color: #FFFFFF;
 }
 
-.forumTableOddRow {
+.tableEvenRow {
     text-align: left;
-    background: none repeat scroll 0 0 #FFFFFF;
-    padding: 1em;
+    background-color: #D3D3D3;
 }
 
-.forumTableEvenRow {
-    text-align: left;
-    background: none repeat scroll 0 0 #D3D3D3;
-    padding: 1em;
+.column75 {
+    width: 75px;
 }
 
-.forumTable td {
-    padding: 0.4em;
+.column100 {
+    width: 100px;
 }
 
-.forumTopic {
+.column200 {
+    width: 200px;
+}
+
+.column250 {
+    width: 250px;
+}
+
+.topic {
     background: #428bca;
     color: white;
     font-size: 2em;
     padding: 0.1em 0.3em;
     width: 600px;
-}
-
-.forumList {
-    margin-left: 1.5em;
-}
-
-.forumPost {
-    margin-bottom: 0.5em;
-    width: 600px;
-}
-
-.forumHeader {
-    background: #428bca;
-    color: white;
-    padding: 0.1em 0.3em;
-    font-size: 0.9em;
-}
-
-.forumBody {
-    background: white;
-    padding: 0.3em;
-    min-height: 75px;
-}
-
-.forumOptions {
-    float: right;
-
-}
-
-.forumOptions a {
-    color: inherit;
 }
 
 .message {

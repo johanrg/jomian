@@ -14,8 +14,10 @@
                     <h:panelGroup layout="block" styleClass="dropdown" rendered="#{loginController.account.admin}">
                         <button class="dropbtn">#{language['menu.admin']}</button>
                         <h:panelGroup layout="block" styleClass="dropdown-content">
-                            <h:link value="#{language['menu.admin.verifyAccount']}" outcome="/admin/verifyAccount" styleClass="dropdown-link"/>
-                            <h:link value="#{language['menu.admin.addAccount']}" outcome="/login" styleClass="dropdown-link"/>
+                            <h:link value="#{language['menu.admin.verifyAccount']}" outcome="/admin/verifyAccount"
+                                    styleClass="dropdown-link"/>
+                            <h:link value="#{language['menu.admin.addCourse']}" outcome="/admin/addCourse"
+                                    styleClass="dropdown-link"/>
                         </h:panelGroup>
                     </h:panelGroup>
                     <h:link styleClass="nav-item" value="#{language['menu.home']}" outcome="/restricted/index"

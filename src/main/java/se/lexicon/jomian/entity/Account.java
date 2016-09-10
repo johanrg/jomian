@@ -3,7 +3,9 @@ package se.lexicon.jomian.entity;
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -28,6 +30,7 @@ public class Account {
     private boolean student;
     private boolean teacher;
     private boolean admin;
+    public Timestamp timestamp;
     private List<AccountCourse> accountCourses = new ArrayList<>();
 
     @Id
@@ -104,6 +107,17 @@ public class Account {
 
     public void setAdmin(boolean admin) {
         this.admin = admin;
+    }
+
+    private String personalNumber;
+
+    @Column(nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    public Timestamp getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Timestamp timestamp) {
+        this.timestamp = timestamp;
     }
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "account", orphanRemoval = true)

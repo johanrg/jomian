@@ -30,6 +30,10 @@ public class AccountService {
      * @throws ServiceException if the e-mail is already used by another account.
      */
     public void createAccount(Account account) throws ServiceException {
+        if (account == null) {
+            throw new ServiceException(Language.getMessage("error.unexpectedError"));
+        }
+
         if (findByEmail(account.getEmail()) == null) {
             account.setPassword(BCrypt.hashpw(account.getPassword(), BCrypt.gensalt(12)));
 
@@ -58,6 +62,15 @@ public class AccountService {
         throw new ServiceException(Language.getMessage("login.invalidAccount"));
     }
 
+    public void verifyAccount(Account account) {
+        account.setVerified(true);
+        em.merge(account);
+    }
+
+    public void deleteAccount(Account account) {
+        em.remove(em.merge(account));
+    }
+
     /**
      * Finds and returns the account holding the specified id.
      *
@@ -79,12 +92,8 @@ public class AccountService {
     }
 
     public List<Account> getUnverifiedAccounts() {
-        try {
-            return em.createNamedQuery("Account.NotVerified", Account.class)
-                    .getResultList();
-        } catch (NoResultException e) {
-            return null;
-        }
+        return em.createNamedQuery("Account.NotVerified", Account.class)
+                .getResultList();
     }
 
     /**
@@ -109,4 +118,5 @@ public class AccountService {
         query.select(criteriaBuilder.count(query.from(Account.class)));
         return em.createQuery(query).getSingleResult();
     }
+
 }

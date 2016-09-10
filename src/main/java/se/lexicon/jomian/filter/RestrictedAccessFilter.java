@@ -16,7 +16,8 @@ import java.io.IOException;
  * @author Johan Gustafsson
  * @since 2016-09-08.
  */
-@WebFilter(urlPatterns = {"/faces/restricted/*"})
+// TODO(Johan): This disables the login check, enable before release.
+//@WebFilter(urlPatterns = {"/faces/restricted/*"})
 public class RestrictedAccessFilter implements Filter {
     @Inject
     LoginController loginController;

@@ -13,6 +13,9 @@ import java.util.List;
  * @since 2016-09-01.
  */
 @Entity
+@NamedQueries({
+    @NamedQuery(name = "Course.FindByCourseName", query = "SELECT c FROM Course c WHERE c.name = :name")
+})
 public class Course {
     private Long id;
     private String name;
