@@ -23,6 +23,10 @@ body {
     background: #EEEEEE; !important;
 }
 
+.row {
+    margin-top: 50px;
+}
+
 /*
  * Masthead for nav
  */
@@ -180,4 +184,16 @@ body {
 /* Change the background color of the dropdown button when the dropdown content is shown */
 .dropdown:hover .dropbtn {
     background-color: #3e8e41;
+}
+
+.forms {
+    background-color: white;
+    border-spacing: 10px;
+}
+
+.forms>*>tr,
+.forms>*>tr>td.ui-panelgrid-cell{
+    padding: 5px;
+    border: none;
+    background-color: white;
 }

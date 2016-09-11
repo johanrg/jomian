@@ -5,7 +5,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 /**
- * This returns the message from the language key so we can have programmatically defined error message where
+ * This returns the message from the language key so we can have programmatically defined message message where
  * EL expressions are not available.
  *
  * @author Johan Gustafsson

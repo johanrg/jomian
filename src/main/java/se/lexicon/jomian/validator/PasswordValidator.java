@@ -15,7 +15,7 @@ import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
-@FacesValidator("passwordValidator")
+@FacesValidator(value = "passwordValidator")
 public class PasswordValidator implements Validator {
 
     @Override

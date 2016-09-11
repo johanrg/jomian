@@ -4,31 +4,30 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
 <h:body>
-    <ui:composition template="/template/default/layout.xhtml">
+    <ui:composition template="/WEB-INF/template/default/layout.xhtml">
         <ui:define name="content">
 
             <h1>#{language['login.header']}</h1>
 
             <h:form id="loginForm">
-                <h:message for="loginForm" styleClass="message"/>
-
-                <h:panelGrid columns="3" id="loginPanel">
-                    <h:outputLabel for="email" value="#{language['login.emailLabel']}"/>
-                    <h:inputText id="email" value="#{loginController.account.email}" required="true"
+                <p:growl id="messages"/>
+                <p:panelGrid columns="2" id="loginPanel" styleClass="forms">
+                    <p:outputLabel for="email" value="#{language['login.emailLabel']}"/>
+                    <p:inputText id="email" value="#{loginController.account.email}" required="true"
                                  requiredMessage="#{language['login.emailRequired']}">
-                    </h:inputText>
-                    <h:message for="email" styleClass="message"/>
+                    </p:inputText>
 
                     <h:outputLabel for="password" value="#{language['login.passwordLabel']}"/>
-                    <h:inputSecret id="password" value="#{loginController.account.password}" required="true"
-                                   requiredMessage="#{language['login.passwordRequired']}">
-                    </h:inputSecret>
-                    <h:message for="password" styleClass="message"/>
-                </h:panelGrid>
+                    <p:password id="password" value="#{loginController.account.password}" required="true"
+                                requiredMessage="#{language['login.passwordRequired']}">
+                    </p:password>
 
-                <h:commandButton action="#{loginController.submit}" value="#{language['login.buttonLogin']}"/>
+                    <p:commandButton value="#{language['login.buttonLogin']}" update="messages"
+                                     action="#{loginController.login}" ajax="false"/>
+                </p:panelGrid>
             </h:form>
         </ui:define>
     </ui:composition>

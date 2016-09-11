@@ -81,6 +81,17 @@ public class AccountService {
         return em.find(Account.class, id);
     }
 
+    public Account findByIdAndPass(Long id, String password) {
+        try {
+            return em.createNamedQuery("Account.FindByIdAndPass", Account.class)
+                    .setParameter("id", id)
+                    .setParameter("password", password)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
     public Account findByEmail(String email) {
         try {
             return em.createNamedQuery("Account.FindByEmail", Account.class)

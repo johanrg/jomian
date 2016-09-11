@@ -3,11 +3,9 @@ package se.lexicon.jomian.controller;
 import se.lexicon.jomian.entity.Account;
 import se.lexicon.jomian.service.AccountService;
 import se.lexicon.jomian.service.ServiceException;
+import se.lexicon.jomian.util.CurrentContext;
 
 import javax.enterprise.context.SessionScoped;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.IOException;
@@ -23,17 +21,27 @@ public class LoginController implements Serializable {
     @Inject
     private AccountService accountService;
     private Account account = new Account();
-    private boolean loggedIn = false;
+    private Account loggedInAccount;
+    private final String USER_SESSION_ID = "user.session.id";
+    private final String USER_SESSION_HASH = "user.session.hash";
 
-    public String submit() {
+    public String login() {
         try {
-            account = accountService.loginAccount(account);
-            loggedIn = true;
-            return "faces/restricted/index.xhtml?faces-redirect=true";
+            loggedInAccount = accountService.loginAccount(account);
+            CurrentContext.getSessionMap().put(USER_SESSION_ID, loggedInAccount.getId());
+            CurrentContext.getSessionMap().put(USER_SESSION_HASH, loggedInAccount.getPassword());
+            return "/restricted/index.xhtml?faces-redirect=true";
         } catch (ServiceException e) {
-            FacesContext.getCurrentInstance().addMessage("loginForm", new FacesMessage(e.getMessage()));
+            CurrentContext.message("loginForm", e.getMessage());
         }
         return null;
+    }
+
+    public void logout() throws IOException {
+        loggedInAccount = null;
+        CurrentContext.getSessionMap().remove(USER_SESSION_ID);
+        CurrentContext.getSessionMap().remove(USER_SESSION_HASH);
+        CurrentContext.redirect("/login.xhtml");
     }
 
     public Account getAccount() {
@@ -44,14 +52,25 @@ public class LoginController implements Serializable {
         this.account = account;
     }
 
-    public boolean isLoggedIn() {
-        return loggedIn;
+    public Account getLoggedInAccount() {
+        return loggedInAccount;
     }
 
-    public void logout() throws IOException {
-        loggedIn = false;
-        account = new Account();
-        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-        externalContext.redirect(externalContext.getRequestContextPath() + "/faces/login.xhtml");
+    public boolean isLoggedIn() {
+        if (loggedInAccount != null) {
+            return true;
+        } else {
+            Long id = (Long) CurrentContext.getSessionMap().get(USER_SESSION_ID);
+            String password = (String) CurrentContext.getSessionMap().get(USER_SESSION_HASH);
+            if (id == null || password == null) {
+                return false;
+            } else {
+                loggedInAccount = accountService.findByIdAndPass(id, password);
+                if (loggedInAccount != null) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

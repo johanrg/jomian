@@ -3,10 +3,9 @@ package se.lexicon.jomian.controller;
 import se.lexicon.jomian.entity.Account;
 import se.lexicon.jomian.service.AccountService;
 import se.lexicon.jomian.service.ServiceException;
+import se.lexicon.jomian.util.CurrentContext;
 
 import javax.enterprise.context.RequestScoped;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -33,8 +32,7 @@ public class RegisterController {
             }
             return String.format("thankyou?faces-redirect=true&username=%s", account.getName());
         } catch (ServiceException e) {
-            FacesContext.getCurrentInstance()
-                    .addMessage("registerForm:email", new FacesMessage(e.getMessage()));
+            CurrentContext.message("registerForm:email", e.getMessage());
         }
         return null;
     }

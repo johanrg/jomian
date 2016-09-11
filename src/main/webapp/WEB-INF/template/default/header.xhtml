@@ -4,19 +4,20 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
-<body>
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
 <ui:composition>
     <h:form>
         <div class="jomian-masthead">
             <div class="container">
                 <div class="blog-nav">
-                    <h:panelGroup layout="block" styleClass="dropdown" rendered="#{loginController.account.admin}">
+                    <h:panelGroup layout="block" styleClass="dropdown"
+                                  rendered="#{loginController.loggedInAccount.admin}">
                         <button class="dropbtn">#{language['menu.admin']}</button>
                         <h:panelGroup layout="block" styleClass="dropdown-content">
                             <h:link value="#{language['menu.admin.verifyAccount']}" outcome="/admin/verifyAccount"
                                     styleClass="dropdown-link"/>
-                            <h:link value="#{language['menu.admin.addCourse']}" outcome="/admin/addCourse"
+                            <h:link value="#{language['menu.admin.manageCourse']}" outcome="/admin/manageCourses"
                                     styleClass="dropdown-link"/>
                         </h:panelGroup>
                     </h:panelGroup>
@@ -26,7 +27,7 @@
                         <h:commandLink styleClass="nav-item nav-item-right" value="#{language['menu.logout']}"
                                        action="#{loginController.logout}"/>
                         <h:panelGroup styleClass="nav-item nav-item-right"
-                                      rendered="#{loginController.loggedIn}">#{loginController.account.name}
+                                      rendered="#{loginController.loggedIn}">#{loginController.loggedInAccount.name}
                         </h:panelGroup>
                     </h:panelGroup>
                     <h:panelGroup rendered="#{!loginController.loggedIn}">
@@ -40,5 +41,4 @@
         </div>
     </h:form>
 </ui:composition>
-</body>
 </html>

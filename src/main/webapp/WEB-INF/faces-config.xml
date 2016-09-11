@@ -12,7 +12,6 @@
             <base-name>language</base-name>
             <var>language</var>
         </resource-bundle>
-
     </application>
 
 </faces-config>

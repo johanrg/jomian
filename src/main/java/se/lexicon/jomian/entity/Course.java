@@ -19,6 +19,7 @@ import java.util.List;
 public class Course {
     private Long id;
     private String name;
+    private String description;
     private Date startDate;
     private Date endDate;
     private List<AccountCourse> accountCourses = new ArrayList<>();
@@ -42,6 +43,16 @@ public class Course {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Column(columnDefinition = "TEXT")
+    @Size(max = 4096)
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Column(nullable = false)

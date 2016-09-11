@@ -7,6 +7,8 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaQuery;
+import java.util.List;
 
 /**
  * @author Johan Gustafsson
@@ -37,5 +39,11 @@ public class CourseService {
         } catch (NoResultException e) {
             return null;
         }
+    }
+
+    public List<Course> getAll() {
+        CriteriaQuery<Course> criteriaQuery = em.getCriteriaBuilder().createQuery(Course.class);
+        criteriaQuery.select(criteriaQuery.from(Course.class));
+        return em.createQuery(criteriaQuery).getResultList();
     }
 }

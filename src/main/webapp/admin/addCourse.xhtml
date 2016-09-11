@@ -4,11 +4,37 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
-<ui:composition template="/template/default/layout.xhtml">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/template/default/layout.xhtml">
     <ui:define name="content">
-        <h:form id="addCourseForm">
 
+        <h1>#{language['addCourse.header']}</h1>
+        <h:form id="addCourseForm">
+            <p:growl id="messages"/>
+            <p:panelGrid columns="2" styleClass="forms">
+                <p:outputLabel for="name" value="#{language['addCourse.nameLabel']}"/>
+                <p:inputText id="name" value="#{courseController.course.name}"
+                             required="true" requiredMessage="#{language['addCourse.nameRequired']}" />
+
+                <p:outputLabel for="description" value="#{language['addCourse.descriptionLabel']}"/>
+                <p:inputTextarea id="description" value="#{courseController.course.description}" />
+
+                <p:outputLabel for="startDate" value="#{language['addCourse.startDateLabel']}"/>
+                <p:calendar id="startDate" value="#{courseController.course.startDate}" mode="popup" showOn="button"
+                            placeholder="yyyy-mm-dd"
+                            required="true" requiredMessage="#{language['addCourse.startDateRequired']}" />
+
+                <p:outputLabel for="endDate" value="#{language['addCourse.endDateLabel']}"/>
+                <p:calendar id="endDate" value="#{courseController.course.endDate}" mode="popup" showOn="button"
+                            placeholder="yyyy-mm-dd"
+                            required="true" requiredMessage="#{language['addCourse.endDateRequired']}" >
+                    <f:convertDateTime pattern="yyyy-MM-dd"/>
+                </p:calendar>
+
+                <p:commandButton value="#{language['addCourse.addCourseButton']}" update="messages"
+                                 actionListener="#{courseController.addCourse}" ajax="false"/>
+            </p:panelGrid>
         </h:form>
     </ui:define>
 </ui:composition>
