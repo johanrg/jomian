@@ -4,10 +4,12 @@ import se.lexicon.jomian.entity.Course;
 import se.lexicon.jomian.util.Language;
 
 import javax.ejb.Stateless;
+import javax.naming.ServiceUnavailableException;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaQuery;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -15,7 +17,7 @@ import java.util.List;
  * @since 2016-09-01.
  */
 @Stateless
-public class CourseService {
+public class CourseService implements Serializable {
     @PersistenceContext
     private EntityManager em;
 
@@ -29,6 +31,23 @@ public class CourseService {
         } else {
             throw new ServiceException(Language.getMessage("addCourse.courseAlreadyExist"));
         }
+    }
+
+    public void editCourse(Course course) throws ServiceException {
+        if (course == null) {
+            throw new ServiceException(Language.getMessage("error.unexpectedError"));
+        }
+        em.merge(course);
+    }
+
+    /**
+     * Finds and returns the account holding the specified id.
+     *
+     * @param id the account id.
+     * @return Account entity.
+     */
+    public Course findById(Long id) {
+        return em.find(Course.class, id);
     }
 
     public Course findByCourseName(String name) {

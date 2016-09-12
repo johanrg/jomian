@@ -197,3 +197,11 @@ body {
     border: none;
     background-color: white;
 }
+
+.links {
+    text-decoration: underline;
+}
+
+.links:hover {
+    color: blue;
+}

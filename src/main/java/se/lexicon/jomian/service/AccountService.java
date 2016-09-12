@@ -10,6 +10,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -19,7 +20,7 @@ import java.util.List;
  * @since 2016-09-01.
  */
 @Stateless
-public class AccountService {
+public class AccountService implements Serializable {
     @PersistenceContext
     private EntityManager em;
 

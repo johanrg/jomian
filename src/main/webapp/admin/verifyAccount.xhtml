@@ -9,12 +9,15 @@
 <h:body>
     <ui:composition template="/WEB-INF/template/default/layout.xhtml">
         <ui:define name="content">
-            <h:form>
-                <p:dataTable value="#{verifyAccountController.unverifiedAccounts}" var="account">
-                    <p:column width="250" headerText="#{language['verifyAccount.name']}">
+            <h1>#{language['verifyAccount.header']}</h1>
+            <h:form id="verifyAccountForm">
+                <p:dataTable id="accountDT" value="#{verifyAccountController.unverifiedAccounts}" var="account"
+                             rowKey="#{account.id}" selection="#{verifyAccountController.selectedAccounts}">
+                    <p:column width="38" selectionMode="multiple"/>
+                    <p:column width="30%" headerText="#{language['verifyAccount.name']}">
                         #{account.name}
                     </p:column>
-                    <p:column width="250" headerText="#{language['verifyAccount.email']}">
+                    <p:column width="30%" headerText="#{language['verifyAccount.email']}">
                         #{account.email}
                     </p:column>
                     <p:column width="70" headerText="#{language['verifyAccount.student']}">
@@ -26,18 +29,28 @@
                     <p:column width="70" headerText="#{language['verifyAccount.admin']}">
                         <p:selectBooleanCheckbox id="Admin" value="#{account.admin}"/>
                     </p:column>
-                    <p:column headerText="#{language['verifyAccount.operation']}">
-                        <h:commandButton value="#{language['verifyAccount.verifyButton']}"
-                                         action="#{verifyAccountController.verify(account)}"/>
-                        &nbsp;
-                        <h:commandButton value="#{language['verifyAccount.deleteButton']}"
-                                         action="#{verifyAccountController.delete(account)}"/>
+                    <p:column width="70" headerText="#{language['verifyAccount.operation']}">
+                        <p:commandButton icon="ui-icon-trash" action="#{verifyAccountController.delete(account)}">
+                            <p:confirm header="Confirmation"
+                                       message="#{language['verifyAccount.verifyAccountDeletion']}"
+                                       icon="ui-icon-alert"/>
+                        </p:commandButton>
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                            <p:commandButton value="#{language['general.yes']}" type="button"
+                                             styleClass="ui-confirmdialog-yes"
+                                             icon="ui-icon-check"/>
+                            <p:commandButton value="#{language['general.no']}" type="button"
+                                             styleClass="ui-confirmdialog-no"
+                                             icon="ui-icon-close"/>
+                        </p:confirmDialog>
                     </p:column>
+                    <f:facet name="footer">
+                        <p:commandButton process="accountDT" update="verifyAccountForm"
+                                         value="#{language['verifyAccount.verifyButton']}"
+                                         action="#{verifyAccountController.verify}"/>
+                    </f:facet>
                 </p:dataTable>
             </h:form>
-            <h:panelGroup layout="block" rendered="#{verifyAccountController.unverifiedAccounts.size() eq 0}">
-                <h3>#{language['verifyAccount.noUnverifiedAccounts']}</h3>
-            </h:panelGroup>
         </ui:define>
     </ui:composition>
 </h:body>
