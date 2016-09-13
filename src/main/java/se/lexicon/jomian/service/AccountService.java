@@ -51,6 +51,19 @@ public class AccountService implements Serializable {
         }
     }
 
+    public void editAccount(Account account) {
+        em.merge(account);
+    }
+
+    public void verifyAccount(Account account) {
+        account.setVerified(true);
+        em.merge(account);
+    }
+
+    public void deleteAccount(Account account) {
+        em.remove(em.merge(account));
+    }
+
     public Account loginAccount(Account account) throws ServiceException {
         Account dbAccount = findByEmail(account.getEmail());
         if (dbAccount != null) {
@@ -61,15 +74,6 @@ public class AccountService implements Serializable {
             }
         }
         throw new ServiceException(Language.getMessage("login.invalidAccount"));
-    }
-
-    public void verifyAccount(Account account) {
-        account.setVerified(true);
-        em.merge(account);
-    }
-
-    public void deleteAccount(Account account) {
-        em.remove(em.merge(account));
     }
 
     /**

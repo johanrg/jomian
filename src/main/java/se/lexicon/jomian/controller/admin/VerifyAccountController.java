@@ -36,7 +36,7 @@ public class VerifyAccountController {
 
     public void delete(Account account) throws IOException {
         accountService.deleteAccount(account);
-        CurrentContext.redirect("/admin/verifyAccount.xhtml");
+        CurrentContext.redirect("/admin/batchVerifyAccount.xhtml");
     }
 
     public List<Account> getSelectedAccounts() {

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<f:metadata>
+    <f:viewParam name="accountId" value="#{editAccountController.accountId}"/>
+</f:metadata>
+<ui:composition template="/WEB-INF/template/default/layout.xhtml">
+    <ui:define name="content">
+        <h1>#{language['editAccount.header']}</h1>
+        <h:form id="editAccountForm">
+            <p:panelGrid columns="2" styleClass="forms">
+                <p:outputLabel for="name" value="#{language['editAccount.nameLabel']}"/>
+                <p:inputText id="name" value="#{editAccountController.account.name}"/>
+
+                <p:outputLabel for="email" value="#{language['editAccount.emailLabel']}"/>
+                <p:inputText id="email" value="#{editAccountController.account.email}"/>
+
+                <p:outputLabel for="student" value="#{language['editAccount.studentLabel']}"/>
+                <p:selectBooleanCheckbox id="student" value="#{editAccountController.account.student}"/>
+
+                <p:outputLabel for="teacher" value="#{language['editAccount.teacherLabel']}"/>
+                <p:selectBooleanCheckbox id="teacher" value="#{editAccountController.account.teacher}"/>
+
+                <p:outputLabel for="admin" value="#{language['editAccount.adminLabel']}"/>
+                <p:selectBooleanCheckbox id="admin" value="#{editAccountController.account.admin}"/>
+
+                <p:outputLabel for="verify" value="#{language['editAccount.verifyLabel']}"/>
+                <p:selectBooleanCheckbox id="verify" value="#{editAccountController.account.verified}"/>
+                <p:commandButton value="#{language['editAccount.editButton']}" action="#{editAccountController.editAccount}"/>
+            </p:panelGrid>
+        </h:form>
+    </ui:define>
+</ui:composition>
+</html>
