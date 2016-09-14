@@ -60,6 +60,12 @@ public class CourseService implements Serializable {
         }
     }
 
+    public List<Course> findLikeName(String name) {
+        return em.createNamedQuery("Course.FindLikeName", Course.class)
+                .setParameter("name", "%" + name + "%")
+                .getResultList();
+    }
+
     public List<Course> getAll() {
         CriteriaQuery<Course> criteriaQuery = em.getCriteriaBuilder().createQuery(Course.class);
         criteriaQuery.select(criteriaQuery.from(Course.class));

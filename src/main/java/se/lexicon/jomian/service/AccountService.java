@@ -107,6 +107,12 @@ public class AccountService implements Serializable {
         }
     }
 
+    public List<Account> findLikeName(String name) {
+        return em.createNamedQuery("Account.FindLikeName", Account.class)
+                .setParameter("name", "%" + name + "%")
+                .getResultList();
+    }
+
     public List<Account> getUnverifiedAccounts() {
         return em.createNamedQuery("Account.NotVerified", Account.class)
                 .getResultList();

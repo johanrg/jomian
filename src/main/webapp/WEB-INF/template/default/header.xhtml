@@ -15,6 +15,8 @@
                                   rendered="#{loginController.loggedInAccount.admin}">
                         <button class="dropbtn">#{language['menu.admin']}</button>
                         <h:panelGroup layout="block" styleClass="dropdown-content">
+                            <h:link value="#{language['menu.admin.search']}" outcome="/admin/search"
+                                    styleClass="dropdown-link"/>
                             <h:link value="#{language['menu.admin.verifyAccount']}" outcome="/admin/batchVerifyAccount"
                                     styleClass="dropdown-link"/>
                             <h:link value="#{language['menu.admin.manageCourse']}" outcome="/admin/manageCourses"
