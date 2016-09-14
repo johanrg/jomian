@@ -15,6 +15,7 @@
             <p:column width="60%" headerText="#{language['manageCourses.name']}">
                 <p:link value="#{course.name}" outcome="editCourse">
                     <f:param name="courseId" value="#{course.id}"/>
+                    <f:param name="/admin/manageCourses"/>
                 </p:link>
             </p:column>
             <p:column headerText="#{language['manageCourses.startDate']}">

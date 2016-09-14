@@ -18,6 +18,7 @@
                     <p:column width="30%" headerText="#{language['batchVerifyAccount.name']}">
                         <p:link value="#{account.name}" outcome="/admin/editAccount">
                             <f:param name="accountId" value="#{account.id}"/>
+                            <f:param name="from" value="/admin/batchVerifyAccount"/>
                         </p:link>
                     </p:column>
                     <p:column width="30%" headerText="#{language['batchVerifyAccount.email']}">

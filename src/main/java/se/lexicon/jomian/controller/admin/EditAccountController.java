@@ -17,12 +17,14 @@ import java.io.Serializable;
 public class EditAccountController implements Serializable {
     @Inject
     private AccountService accountService;
-    private Long accountId;
     private Account account = new Account();
+    private Long accountId;
+    private String from = "/restricted";
 
     public String editAccount() {
         accountService.editAccount(account);
-        return "/admin/batchVerifyAccount?faces-redirect=true";
+        return from + "?faces-redirect=true";
+//        return "/admin/batchVerifyAccount?faces-redirect=true";
     }
 
     public Long getAccountId() {
@@ -40,5 +42,13 @@ public class EditAccountController implements Serializable {
 
     public void setAccount(Account account) {
         this.account = account;
+    }
+
+    public String getFrom() {
+        return from;
+    }
+
+    public void setFrom(String from) {
+        this.from = from;
     }
 }

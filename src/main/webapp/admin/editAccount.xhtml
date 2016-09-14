@@ -8,11 +8,13 @@
       xmlns:p="http://primefaces.org/ui">
 <f:metadata>
     <f:viewParam name="accountId" value="#{editAccountController.accountId}"/>
+    <f:viewParam name="from" value="#{editAccountController.from}"/>
 </f:metadata>
 <ui:composition template="/WEB-INF/template/default/layout.xhtml">
     <ui:define name="content">
         <h1>#{language['editAccount.header']}</h1>
         <h:form id="editAccountForm">
+            <h:inputHidden id="from" value="#{editAccountController.from}"/>
             <p:panelGrid columns="2" styleClass="forms">
                 <p:outputLabel for="name" value="#{language['editAccount.nameLabel']}"/>
                 <p:inputText id="name" value="#{editAccountController.account.name}"/>
@@ -31,7 +33,8 @@
 
                 <p:outputLabel for="verify" value="#{language['editAccount.verifyLabel']}"/>
                 <p:selectBooleanCheckbox id="verify" value="#{editAccountController.account.verified}"/>
-                <p:commandButton value="#{language['editAccount.editButton']}" action="#{editAccountController.editAccount}"/>
+                <p:commandButton value="#{language['editAccount.editButton']}"
+                                 action="#{editAccountController.editAccount}"/>
             </p:panelGrid>
         </h:form>
     </ui:define>

@@ -6,12 +6,9 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
-<f:metadata>
-    <f:viewParam name="keepSearch" value="#{searchController.keepSearch}"/>
-    <f:viewAction action="#{searchController.clear()}"/>
-</f:metadata>
 <ui:composition template="/WEB-INF/template/default/layout.xhtml">
     <ui:define name="content">
+        <f:event type="preRenderView" listener="#{searchController.initConversation}"/>
         <h1>#{language['search.header']}</h1>
         <h:form>
             <p:panelGrid columns="2" styleClass="forms">
@@ -35,6 +32,7 @@
                     <p:column headerText="#{language['search.nameHeader']}">
                         <p:link value="#{account.name}" outcome="/admin/editAccount">
                             <f:param name="accountId" value="#{account.id}"/>
+                            <f:param name="from" value="/admin/search"/>
                         </p:link>
                     </p:column>
                     <p:column headerText="#{language['search.emailHeader']}">
@@ -50,6 +48,7 @@
                     <p:column headerText="#{language['search.nameHeader']}">
                         <p:link value="#{course.name}" outcome="/admin/editCourse">
                             <f:param name="courseId" value="#{course.id}"/>
+                            <f:param name="from" value="/admin/search"/>
                         </p:link>
                     </p:column>
                 </p:dataTable>
