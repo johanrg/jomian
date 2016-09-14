@@ -10,24 +10,24 @@
     <ui:composition template="/WEB-INF/template/default/layout.xhtml">
         <ui:define name="content">
 
-            <h1>#{language['login.header']}</h1>
-
             <h:form id="loginForm">
-                <p:growl id="messages"/>
-                <p:panelGrid columns="2" id="loginPanel" styleClass="forms">
-                    <p:outputLabel for="email" value="#{language['login.emailLabel']}"/>
-                    <p:inputText id="email" value="#{loginController.account.email}" required="true"
-                                 requiredMessage="#{language['login.emailRequired']}">
-                    </p:inputText>
+                <p:panel header="#{language['login.header']}">
+                    <p:growl id="messages"/>
+                    <p:panelGrid columns="2" id="loginPanel" styleClass="forms">
+                        <p:outputLabel for="email" value="#{language['login.emailLabel']}"/>
+                        <p:inputText id="email" value="#{loginController.account.email}" required="true"
+                                     requiredMessage="#{language['login.emailRequired']}">
+                        </p:inputText>
 
-                    <h:outputLabel for="password" value="#{language['login.passwordLabel']}"/>
-                    <p:password id="password" value="#{loginController.account.password}" required="true"
-                                requiredMessage="#{language['login.passwordRequired']}">
-                    </p:password>
+                        <p:outputLabel for="password" value="#{language['login.passwordLabel']}"/>
+                        <p:password id="password" value="#{loginController.account.password}" required="true"
+                                    requiredMessage="#{language['login.passwordRequired']}">
+                        </p:password>
 
-                    <p:commandButton value="#{language['login.buttonLogin']}" update="messages"
-                                     action="#{loginController.login}" ajax="false"/>
-                </p:panelGrid>
+                        <p:commandButton value="#{language['login.buttonLogin']}" update="messages"
+                                         action="#{loginController.login}" ajax="false"/>
+                    </p:panelGrid>
+                </p:panel>
             </h:form>
         </ui:define>
     </ui:composition>
