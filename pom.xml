@@ -21,11 +21,10 @@
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.primefaces.extensions/all-themes -->
         <dependency>
-            <groupId>org.primefaces.themes</groupId>
-            <artifactId>bootstrap</artifactId>
+            <groupId>org.primefaces.extensions</groupId>
+            <artifactId>all-themes</artifactId>
             <version>1.0.8</version>
         </dependency>
-
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
