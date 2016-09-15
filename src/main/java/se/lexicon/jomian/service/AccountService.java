@@ -2,6 +2,8 @@ package se.lexicon.jomian.service;
 
 import org.mindrot.jbcrypt.BCrypt;
 import se.lexicon.jomian.entity.Account;
+import se.lexicon.jomian.entity.AccountCourse;
+import se.lexicon.jomian.entity.Course;
 import se.lexicon.jomian.util.Language;
 
 import javax.ejb.Stateless;
@@ -51,17 +53,41 @@ public class AccountService implements Serializable {
         }
     }
 
-    public void editAccount(Account account) {
+    public void editAccount(Account account) throws ServiceException {
+        if (account == null) {
+            throw new ServiceException(Language.getMessage("error.unexpectedError"));
+        }
         em.merge(account);
     }
 
-    public void verifyAccount(Account account) {
+    public void verifyAccount(Account account) throws ServiceException {
+        if (account == null) {
+            throw new ServiceException(Language.getMessage("error.unexpectedError"));
+        }
         account.setVerified(true);
         em.merge(account);
     }
 
-    public void deleteAccount(Account account) {
+    public void deleteAccount(Account account) throws ServiceException {
+        if (account == null) {
+            throw new ServiceException(Language.getMessage("error.unexpectedError"));
+        }
         em.remove(em.merge(account));
+    }
+
+    public void addAccountToCourse(Account account, Course course, boolean asTeacher) {
+        AccountCourse accountCourse = new AccountCourse();
+        accountCourse.setAccount(account);
+        accountCourse.setCourse(course);
+        if (asTeacher) {
+            accountCourse.setTeacher(true);
+        } else {
+            accountCourse.setStudent(true);
+        }
+        account.getAccountCourses().add(accountCourse);
+        course.getAccountCourses().add(accountCourse);
+        em.merge(account);
+        em.merge(course);
     }
 
     public Account loginAccount(Account account) throws ServiceException {
@@ -111,6 +137,12 @@ public class AccountService implements Serializable {
         return em.createNamedQuery("Account.FindLikeName", Account.class)
                 .setParameter("name", "%" + name + "%")
                 .getResultList();
+    }
+
+    public List<Account> getAllTeachers() {
+        List<Account> list =  em.createNamedQuery("Account.GetAllTeachers", Account.class)
+                .getResultList();
+        return list;
     }
 
     public List<Account> getUnverifiedAccounts() {

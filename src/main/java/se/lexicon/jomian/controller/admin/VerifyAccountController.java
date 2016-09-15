@@ -2,6 +2,7 @@ package se.lexicon.jomian.controller.admin;
 
 import se.lexicon.jomian.entity.Account;
 import se.lexicon.jomian.service.AccountService;
+import se.lexicon.jomian.service.ServiceException;
 import se.lexicon.jomian.util.CurrentContext;
 
 import javax.enterprise.context.RequestScoped;
@@ -28,14 +29,22 @@ public class VerifyAccountController {
         return accountService.getUnverifiedAccounts();
     }
 
-    public void verify() {
-        for(Account account : selectedAccounts) {
-            accountService.verifyAccount(account);
+    public void verifyAccount() {
+        try {
+            for (Account account : selectedAccounts) {
+                accountService.verifyAccount(account);
+            }
+        } catch (ServiceException e) {
+            CurrentContext.message("batchVerifyAccountForm:messages", e.getMessage());
         }
     }
 
-    public void delete(Account account) throws IOException {
-        accountService.deleteAccount(account);
+    public void deleteAccount(Account account) throws IOException {
+        try {
+            accountService.deleteAccount(account);
+        } catch (ServiceException e) {
+            CurrentContext.message("batchVerifyAccountForm:messages", e.getMessage());
+        }
         CurrentContext.redirect("/admin/batchVerifyAccount.xhtml");
     }
 

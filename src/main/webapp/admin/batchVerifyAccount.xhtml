@@ -10,6 +10,7 @@
     <ui:composition template="/WEB-INF/template/default/layout.xhtml">
         <ui:define name="content">
             <h:form id="batchVerifyAccountForm">
+                <p:growl id="messages"/>
                 <p:panel header="#{language['batchVerifyAccount.header']}">
                     <h:outputText value="#{language['batchVerifyAccount.explanation']}"/>
                     <p:dataTable id="accountDT" value="#{verifyAccountController.unverifiedAccounts}" var="account"
@@ -24,8 +25,8 @@
                         <p:column width="40%" headerText="#{language['batchVerifyAccount.email']}">
                             #{account.email}
                         </p:column>
-                        <p:column width="65" headerText="#{language['batchVerifyAccount.operation']}">
-                            <p:commandButton icon="ui-icon-trash" action="#{verifyAccountController.delete(account)}">
+                        <p:column width="60">
+                            <p:commandButton icon="ui-icon-trash" action="#{verifyAccountController.deleteAccount(account)}">
                                 <p:confirm header="Confirmation"
                                            message="#{language['batchVerifyAccount.verifyAccountDeletion']}"
                                            icon="ui-icon-alert"/>
@@ -42,7 +43,7 @@
                         <f:facet name="footer">
                             <p:commandButton process="accountDT" update="batchVerifyAccountForm"
                                              value="#{language['batchVerifyAccount.verifyButton']}"
-                                             action="#{verifyAccountController.verify}"/>
+                                             action="#{verifyAccountController.verifyAccount}"/>
                         </f:facet>
                     </p:dataTable>
                 </p:panel>

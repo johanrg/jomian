@@ -4,6 +4,8 @@ import se.lexicon.jomian.entity.Account;
 import se.lexicon.jomian.entity.Course;
 import se.lexicon.jomian.service.AccountService;
 import se.lexicon.jomian.service.CourseService;
+import se.lexicon.jomian.service.ServiceException;
+import se.lexicon.jomian.util.CurrentContext;
 import se.lexicon.jomian.util.Language;
 import se.lexicon.jomian.util.SearchOption;
 
@@ -68,6 +70,26 @@ public class SearchController implements Serializable {
                 courses = courseService.findLikeName(searchFor);
             }
             accounts.clear();
+        }
+        return "/admin/search.xhtml?faces-redirect=true";
+    }
+
+    public String deleteAccount(Account account) {
+        try {
+            accountService.deleteAccount(account);
+            search();
+        } catch (ServiceException e) {
+            CurrentContext.message("searchForm:messages", e.getMessage());
+        }
+        return "/admin/search.xhtml?faces-redirect=true";
+    }
+
+    public String deleteCourse(Course course) {
+        try {
+            courseService.deleteCourse(course);
+            search();
+        } catch (ServiceException e) {
+            CurrentContext.message("searchForm:messages", e.getMessage());
         }
         return "/admin/search.xhtml?faces-redirect=true";
     }

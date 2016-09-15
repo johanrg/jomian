@@ -13,6 +13,7 @@
 <ui:composition template="/WEB-INF/template/default/layout.xhtml">
     <ui:define name="content">
         <h:form id="editAccountForm">
+            <p:growl id="messages"/>
             <p:panel header="#{language['editAccount.header']}">
                 <h:inputHidden id="from" value="#{editAccountController.from}"/>
                 <p:panelGrid columns="2" styleClass="forms">

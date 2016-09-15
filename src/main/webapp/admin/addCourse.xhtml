@@ -33,9 +33,17 @@
                         <f:convertDateTime pattern="yyyy-MM-dd"/>
                     </p:calendar>
 
-                    <p:commandButton value="#{language['addCourse.addCourseButton']}" update="messages"
-                                     action="#{courseController.addCourse}" ajax="false"/>
+                   <p:outputLabel for="teacherDT" value="Lärare"/>
+                    <p:dataTable id="teacherDT" value="#{courseController.allTeachers}" var="teacher"
+                                 rowKey="#{teacher.id}" selection="#{courseController.selectedTeachers}">
+                        <p:column width="40" selectionMode="multiple"/>
+                        <p:column>
+                            #{teacher.name}
+                        </p:column>
+                    </p:dataTable>
                 </p:panelGrid>
+                <p:commandButton value="#{language['addCourse.addCourseButton']}" update="messages"
+                                 action="#{courseController.addCourse}" ajax="false"/>
             </p:panel>
         </h:form>
     </ui:define>

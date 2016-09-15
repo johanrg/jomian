@@ -2,6 +2,8 @@ package se.lexicon.jomian.controller.admin;
 
 import se.lexicon.jomian.entity.Account;
 import se.lexicon.jomian.service.AccountService;
+import se.lexicon.jomian.service.ServiceException;
+import se.lexicon.jomian.util.CurrentContext;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -22,9 +24,12 @@ public class EditAccountController implements Serializable {
     private String from = "/restricted";
 
     public String editAccount() {
-        accountService.editAccount(account);
+        try {
+            accountService.editAccount(account);
+        } catch (ServiceException e) {
+            CurrentContext.message("editAccountForm:messages", e.getMessage());
+        }
         return from + "?faces-redirect=true";
-//        return "/admin/batchVerifyAccount?faces-redirect=true";
     }
 
     public Long getAccountId() {

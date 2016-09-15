@@ -9,27 +9,46 @@
 <ui:composition template="/WEB-INF/template/default/layout.xhtml">
     <ui:define name="content">
 
-        <p:panel header="#{language['manageCourses.header']}">
-            <p:link value="#{language['manageCourses.addCourseLink']}" outcome="/admin/addCourse.xhtml"/>
-            <p:dataTable value="#{courseController.allCourses}" var="course">
-                <p:column width="60%" headerText="#{language['manageCourses.name']}">
-                    <p:link value="#{course.name}" outcome="editCourse">
-                        <f:param name="courseId" value="#{course.id}"/>
-                        <f:param name="/admin/manageCourses"/>
-                    </p:link>
-                </p:column>
-                <p:column headerText="#{language['manageCourses.startDate']}">
-                    <h:outputText value="#{course.startDate}">
-                        <f:convertDateTime pattern="yyyy-MM-dd"/>
-                    </h:outputText>
-                </p:column>
-                <p:column headerText="#{language['manageCourses.endDate']}">
-                    <h:outputText value="#{course.endDate}">
-                        <f:convertDateTime pattern="yyyy-MM-dd"/>
-                    </h:outputText>
-                </p:column>
-            </p:dataTable>
-        </p:panel>
+        <h:form id="manageCoursesForm">
+            <p:growl id="messages"/>
+            <p:panel header="#{language['manageCourses.header']}">
+                <p:commandButton value="#{language['manageCourses.addCourseLink']}" action="/admin/addCourse.xhtml"/>
+                <br/><br/>
+                <p:dataTable id="courseDT" value="#{courseController.allCourses}" var="course">
+                    <p:column width="50%" headerText="#{language['manageCourses.name']}">
+                        <p:link value="#{course.name}" outcome="editCourse">
+                            <f:param name="courseId" value="#{course.id}"/>
+                            <f:param name="/admin/manageCourses"/>
+                        </p:link>
+                    </p:column>
+                    <p:column headerText="#{language['manageCourses.startDate']}">
+                        <h:outputText value="#{course.startDate}">
+                            <f:convertDateTime pattern="yyyy-MM-dd"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{language['manageCourses.endDate']}">
+                        <h:outputText value="#{course.endDate}">
+                            <f:convertDateTime pattern="yyyy-MM-dd"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column width="55">
+                        <p:commandButton icon="ui-icon-trash" action="#{courseController.deleteCourse(course)}">
+                            <p:confirm header="Confirmation"
+                                       message="#{language['manageCourse.verifyCourseDeletion']}"
+                                       icon="ui-icon-alert"/>
+                        </p:commandButton>
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                            <p:commandButton value="#{language['general.yes']}" type="button"
+                                             styleClass="ui-confirmdialog-yes"
+                                             icon="ui-icon-check"/>
+                            <p:commandButton value="#{language['general.no']}" type="button"
+                                             styleClass="ui-confirmdialog-no"
+                                             icon="ui-icon-close"/>
+                        </p:confirmDialog>
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+        </h:form>
     </ui:define>
 </ui:composition>
 </html>

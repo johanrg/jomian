@@ -10,7 +10,8 @@
     <ui:define name="content">
         <f:event type="preRenderView" listener="#{searchController.initConversation}"/>
 
-        <h:form>
+        <h:form id="searchForm">
+            <p:growl id="messages"/>
             <p:panel header="#{language['search.header']}">
                 <p:panelGrid columns="2" styleClass="forms">
                     <p:outputLabel for="searchOption" value="#{language['search.searchOptionLabel']}"/>
@@ -39,6 +40,21 @@
                         <p:column headerText="#{language['search.emailHeader']}">
                             #{account.email}
                         </p:column>
+                        <p:column width="55">
+                            <p:commandButton icon="ui-icon-trash" action="#{searchController.deleteAccount(account)}">
+                                <p:confirm header="Confirmation"
+                                           message="#{language['batchVerifyAccount.verifyAccountDeletion']}"
+                                           icon="ui-icon-alert"/>
+                            </p:commandButton>
+                            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                <p:commandButton value="#{language['general.yes']}" type="button"
+                                                 styleClass="ui-confirmdialog-yes"
+                                                 icon="ui-icon-check"/>
+                                <p:commandButton value="#{language['general.no']}" type="button"
+                                                 styleClass="ui-confirmdialog-no"
+                                                 icon="ui-icon-close"/>
+                            </p:confirmDialog>
+                        </p:column>
                     </p:dataTable>
                 </h:panelGroup>
                 <h:panelGroup rendered="#{searchController.courses.size() ne 0}">
@@ -51,6 +67,21 @@
                                 <f:param name="courseId" value="#{course.id}"/>
                                 <f:param name="from" value="/admin/search"/>
                             </p:link>
+                        </p:column>
+                        <p:column width="55">
+                            <p:commandButton icon="ui-icon-trash" action="#{searchController.deleteCourse(course)}">
+                                <p:confirm header="Confirmation"
+                                           message="#{language['manageCourse.verifyCourseDeletion']}"
+                                           icon="ui-icon-alert"/>
+                            </p:commandButton>
+                            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                <p:commandButton value="#{language['general.yes']}" type="button"
+                                                 styleClass="ui-confirmdialog-yes"
+                                                 icon="ui-icon-check"/>
+                                <p:commandButton value="#{language['general.no']}" type="button"
+                                                 styleClass="ui-confirmdialog-no"
+                                                 icon="ui-icon-close"/>
+                            </p:confirmDialog>
                         </p:column>
                     </p:dataTable>
                 </h:panelGroup>
