@@ -14,28 +14,28 @@
                 <p:growl id="messages"/>
                 <p:panelGrid columns="2" styleClass="forms">
                     <p:outputLabel for="name" value="#{language['addCourse.nameLabel']}"/>
-                    <p:inputText id="name" value="#{courseController.course.name}"
+                    <p:inputText id="name" value="#{addCourseController.course.name}"
                                  required="true" requiredMessage="#{language['addCourse.nameRequired']}" size="50"/>
 
                     <p:outputLabel for="description" value="#{language['addCourse.descriptionLabel']}"/>
-                    <p:inputTextarea id="description" value="#{courseController.course.description}" rows="8"
+                    <p:inputTextarea id="description" value="#{addCourseController.course.description}" rows="8"
                                      cols="50"/>
 
                     <p:outputLabel for="startDate" value="#{language['addCourse.startDateLabel']}"/>
-                    <p:calendar id="startDate" value="#{courseController.course.startDate}" mode="popup" showOn="button"
+                    <p:calendar id="startDate" value="#{addCourseController.course.startDate}" mode="popup" showOn="button"
                                 placeholder="yyyy-mm-dd"
                                 required="true" requiredMessage="#{language['addCourse.startDateRequired']}"/>
 
                     <p:outputLabel for="endDate" value="#{language['addCourse.endDateLabel']}"/>
-                    <p:calendar id="endDate" value="#{courseController.course.endDate}" mode="popup" showOn="button"
+                    <p:calendar id="endDate" value="#{addCourseController.course.endDate}" mode="popup" showOn="button"
                                 placeholder="yyyy-mm-dd"
                                 required="true" requiredMessage="#{language['addCourse.endDateRequired']}">
                         <f:convertDateTime pattern="yyyy-MM-dd"/>
                     </p:calendar>
 
                    <p:outputLabel for="teacherDT" value="Lärare"/>
-                    <p:dataTable id="teacherDT" value="#{courseController.allTeachers}" var="teacher"
-                                 rowKey="#{teacher.id}" selection="#{courseController.selectedTeachers}">
+                    <p:dataTable id="teacherDT" value="#{addCourseController.allTeachers}" var="teacher"
+                                 rowKey="#{teacher.id}" selection="#{addCourseController.selectedTeachers}">
                         <p:column width="40" selectionMode="multiple"/>
                         <p:column>
                             #{teacher.name}
@@ -43,7 +43,7 @@
                     </p:dataTable>
                 </p:panelGrid>
                 <p:commandButton value="#{language['addCourse.addCourseButton']}" update="messages"
-                                 action="#{courseController.addCourse}" ajax="false"/>
+                                 action="#{addCourseController.createCourse}" ajax="false"/>
             </p:panel>
         </h:form>
     </ui:define>

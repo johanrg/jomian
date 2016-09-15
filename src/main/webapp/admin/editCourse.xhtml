@@ -8,39 +8,52 @@
       xmlns:p="http://primefaces.org/ui">
 
 <f:metadata>
-    <f:viewParam name="courseId" value="#{courseController.courseId}"/>
-    <f:viewParam name="from" value="#{courseController.from}"/>
+    <f:viewParam name="courseId" value="#{editCourseController.courseId}"/>
+    <f:viewParam name="from" value="#{editCourseController.from}"/>
 </f:metadata>
 <ui:composition template="/WEB-INF/template/default/layout.xhtml">
     <ui:define name="content">
+        <f:event type="preRenderView" listener="#{editCourseController.initView}"/>
+
         <h:form id="editCourseForm">
             <p:panel header="#{language['editCourse.header']}">
                 <p:growl id="messages"/>
-                <h:inputHidden id="from" value="#{courseController.from}"/>
+                <h:inputHidden id="from" value="#{editCourseController.from}"/>
+                <h:inputHidden id="id" value="#{editCourseController.course.id}"/>
+
                 <p:panelGrid columns="2" styleClass="forms">
                     <p:outputLabel for="name" value="#{language['editCourse.nameLabel']}"/>
-                    <p:inputText id="name" value="#{courseController.course.name}"
+                    <p:inputText id="name" value="#{editCourseController.course.name}"
                                  required="true" requiredMessage="#{language['editCourse.nameRequired']}" size="50"/>
 
                     <p:outputLabel for="description" value="#{language['editCourse.descriptionLabel']}"/>
-                    <p:inputTextarea id="description" value="#{courseController.course.description}" rows="8"
+                    <p:inputTextarea id="description" value="#{editCourseController.course.description}" rows="8"
                                      cols="50"/>
 
                     <p:outputLabel for="startDate" value="#{language['editCourse.startDateLabel']}"/>
-                    <p:calendar id="startDate" value="#{courseController.course.startDate}" mode="popup" showOn="button"
+                    <p:calendar id="startDate" value="#{editCourseController.course.startDate}" mode="popup" showOn="button"
                                 placeholder="yyyy-mm-dd"
                                 required="true" requiredMessage="#{language['editCourse.startDateRequired']}"/>
 
                     <p:outputLabel for="endDate" value="#{language['editCourse.endDateLabel']}"/>
-                    <p:calendar id="endDate" value="#{courseController.course.endDate}" mode="popup" showOn="button"
+                    <p:calendar id="endDate" value="#{editCourseController.course.endDate}" mode="popup" showOn="button"
                                 placeholder="yyyy-mm-dd"
                                 required="true" requiredMessage="#{language['editCourse.endDateRequired']}">
                         <f:convertDateTime pattern="yyyy-MM-dd"/>
                     </p:calendar>
 
-                    <p:commandButton value="#{language['editCourse.editCourseButton']}" update="messages"
-                                     action="#{courseController.editCourse}" ajax="false"/>
+                    <p:outputLabel for="teacherDT" value="Lärare"/>
+                    <p:dataTable id="teacherDT" value="#{editCourseController.allTeachers}" var="teacher"
+                                 rowKey="#{teacher.id}" selection="#{editCourseController.selectedTeachers}">
+                        <p:column width="40" selectionMode="multiple"/>
+                        <p:column>
+                            #{teacher.name}
+                        </p:column>
+                    </p:dataTable>
+
                 </p:panelGrid>
+                <p:commandButton value="#{language['editCourse.editCourseButton']}" update="messages"
+                                 action="#{editCourseController.editCourse}" ajax="false"/>
             </p:panel>
         </h:form>
     </ui:define>

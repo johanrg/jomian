@@ -75,21 +75,6 @@ public class AccountService implements Serializable {
         em.remove(em.merge(account));
     }
 
-    public void addAccountToCourse(Account account, Course course, boolean asTeacher) {
-        AccountCourse accountCourse = new AccountCourse();
-        accountCourse.setAccount(account);
-        accountCourse.setCourse(course);
-        if (asTeacher) {
-            accountCourse.setTeacher(true);
-        } else {
-            accountCourse.setStudent(true);
-        }
-        account.getAccountCourses().add(accountCourse);
-        course.getAccountCourses().add(accountCourse);
-        em.merge(account);
-        em.merge(course);
-    }
-
     public Account loginAccount(Account account) throws ServiceException {
         Account dbAccount = findByEmail(account.getEmail());
         if (dbAccount != null) {

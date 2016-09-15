@@ -10,51 +10,28 @@ import se.lexicon.jomian.util.CurrentContext;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.security.auth.login.AccountNotFoundException;
-import javax.xml.ws.Service;
 import java.util.List;
 
 /**
  * @author Johan Gustafsson
- * @since 2016-09-10.
+ * @since 2016-09-15.
  */
 @Named
 @RequestScoped
-public class CourseController {
+public class addCourseController {
     @Inject
     private CourseService courseService;
     @Inject
     private AccountService accountService;
     private Course course = new Course();
-    private Long courseId;
-    private String from;
     private List<Account> selectedTeachers;
 
-    public String addCourse() {
+    public String createCourse() {
         try {
             courseService.createCourse(course, selectedTeachers);
         } catch (ServiceException e) {
             CurrentContext.message("addCourseForm:name", e.getMessage());
             return null;
-        }
-        return "/admin/manageCourses.xhtml";
-    }
-
-    public String editCourse() {
-        try {
-            courseService.editCourse(course);
-        } catch (ServiceException e) {
-            CurrentContext.message("editCourse", e.getMessage());
-            return null;
-        }
-        return from + "?faces-redirect=true";
-    }
-
-    public String deleteCourse(Course course) {
-        try {
-            courseService.deleteCourse(course);
-        } catch (ServiceException e) {
-            CurrentContext.message("manageCoursesForm:messages", e.getMessage());
         }
         return "/admin/manageCourses.xhtml?faces-redirect=true";
     }
@@ -63,34 +40,12 @@ public class CourseController {
         return accountService.getAllTeachers();
     }
 
-    public List<Course> getAllCourses() {
-        return courseService.getAll();
-    }
-
     public Course getCourse() {
         return course;
     }
 
     public void setCourse(Course course) {
         this.course = course;
-    }
-
-    public Long getCourseId() {
-        return courseId;
-    }
-
-    public void setCourseId(Long courseId) {
-        course = courseService.findById(courseId);
-        selectedTeachers = courseService.findTeachers(courseId);
-        this.courseId = courseId;
-    }
-
-    public String getFrom() {
-        return from;
-    }
-
-    public void setFrom(String from) {
-        this.from = from;
     }
 
     public List<Account> getSelectedTeachers() {

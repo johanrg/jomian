@@ -37,7 +37,7 @@ public class LoginController implements Serializable {
         return null;
     }
 
-    public void logout() throws IOException {
+    public void logout() {
         loggedInAccount = null;
         CurrentContext.getSessionMap().remove(USER_SESSION_ID);
         CurrentContext.getSessionMap().remove(USER_SESSION_HASH);

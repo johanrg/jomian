@@ -12,6 +12,8 @@
 </f:metadata>
 <ui:composition template="/WEB-INF/template/default/layout.xhtml">
     <ui:define name="content">
+        <f:event type="preRenderView" listener="#{editAccountController.initView}"/>
+
         <h:form id="editAccountForm">
             <p:growl id="messages"/>
             <p:panel header="#{language['editAccount.header']}">

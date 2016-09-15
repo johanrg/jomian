@@ -14,6 +14,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaQuery;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -24,8 +25,6 @@ import java.util.List;
 public class CourseService implements Serializable {
     @PersistenceContext
     private EntityManager em;
-    @Inject
-    AccountService accountService;
 
     public void createCourse(Course course, List<Account> teachers) throws ServiceException {
         if (course == null) {
@@ -35,19 +34,59 @@ public class CourseService implements Serializable {
         if (findByCourseName(course.getName()) == null) {
             em.persist(course);
 
-            if (teachers != null && teachers.size() > 0) {
-                for (Account teacher : teachers) {
-                    accountService.addAccountToCourse(teacher, course, true);
-                }
+            for (Account teacher : teachers) {
+                addAccountToCourse(course, teacher, true);
             }
         } else {
             throw new ServiceException(Language.getMessage("addCourse.courseAlreadyExist"));
         }
     }
 
-    public void editCourse(Course course) throws ServiceException {
+    public void editCourse(Course course, List<Account> teachers) throws ServiceException {
         if (course == null) {
             throw new ServiceException(Language.getMessage("error.unexpectedError"));
+        }
+
+        boolean equal = false;
+        if (course.getAccountCourses().size() == teachers.size()) {
+            equal = true;
+            for (AccountCourse accountCourse : course.getAccountCourses()) {
+                if (teachers.indexOf(accountCourse.getAccount()) == -1) {
+                    equal = false;
+                }
+            }
+        }
+
+        if (!equal) {
+            Iterator<AccountCourse> accountCourses = course.getAccountCourses().iterator();
+            while (accountCourses.hasNext()) {
+                AccountCourse accountCourse = accountCourses.next();
+                Account account = accountCourse.getAccount();
+                if (account.isTeacher() && teachers.indexOf(account) == -1) {
+                    account.getAccountCourses().remove(accountCourse);
+                    accountCourses.remove();
+                    em.merge(account);
+                }
+            }
+
+            for (Account teacher : teachers) {
+                boolean found = false;
+                for (AccountCourse accountCourse : course.getAccountCourses()) {
+                    if (accountCourse.getAccount().equals(teacher)) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    AccountCourse accountCourse = new AccountCourse();
+                    accountCourse.setTeacher(true);
+                    accountCourse.setAccount(teacher);
+                    accountCourse.setCourse(course);
+                    teacher.getAccountCourses().add(accountCourse);
+                    course.getAccountCourses().add(accountCourse);
+                    em.merge(teacher);
+                }
+            }
         }
         em.merge(course);
     }
@@ -57,6 +96,21 @@ public class CourseService implements Serializable {
             throw new ServiceException(Language.getMessage("error.unexpectedError"));
         }
         em.remove(em.merge(course));
+    }
+
+    public void addAccountToCourse(Course course, Account account, boolean asTeacher) {
+        AccountCourse accountCourse = new AccountCourse();
+        accountCourse.setAccount(account);
+        accountCourse.setCourse(course);
+        if (asTeacher) {
+            accountCourse.setTeacher(true);
+        } else {
+            accountCourse.setStudent(true);
+        }
+        account.getAccountCourses().add(accountCourse);
+        course.getAccountCourses().add(accountCourse);
+        em.merge(account);
+        em.merge(course);
     }
 
     public List<Account> findTeachers(Long courseId) {
@@ -101,4 +155,6 @@ public class CourseService implements Serializable {
         criteriaQuery.select(criteriaQuery.from(Course.class));
         return em.createQuery(criteriaQuery).getResultList();
     }
+
+
 }

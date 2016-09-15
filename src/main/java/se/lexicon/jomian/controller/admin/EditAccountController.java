@@ -5,7 +5,10 @@ import se.lexicon.jomian.service.AccountService;
 import se.lexicon.jomian.service.ServiceException;
 import se.lexicon.jomian.util.CurrentContext;
 
+import javax.enterprise.context.Conversation;
+import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -15,13 +18,29 @@ import java.io.Serializable;
  * @since 2016-09-13.
  */
 @Named
-@RequestScoped
+@ConversationScoped
 public class EditAccountController implements Serializable {
+    @Inject
+    Conversation conversation;
     @Inject
     private AccountService accountService;
     private Account account = new Account();
     private Long accountId;
-    private String from = "/restricted";
+    private String from;
+
+    public void initView() {
+        if (!FacesContext.getCurrentInstance().isPostback() && conversation.isTransient()) {
+            conversation.begin();
+        }
+        if (accountId == null || accountId == 0) {
+            CurrentContext.redirect("/WEB-INF/errorpage/404.xhtml");
+        } else {
+            account = accountService.findById(accountId);
+            if (from == null || from.equals("")) {
+                from = "/restricted";
+            }
+        }
+    }
 
     public String editAccount() {
         try {
@@ -29,6 +48,7 @@ public class EditAccountController implements Serializable {
         } catch (ServiceException e) {
             CurrentContext.message("editAccountForm:messages", e.getMessage());
         }
+        conversation.end();
         return from + "?faces-redirect=true";
     }
 
@@ -37,7 +57,6 @@ public class EditAccountController implements Serializable {
     }
 
     public void setAccountId(Long accountId) {
-        account = accountService.findById(accountId);
         this.accountId = accountId;
     }
 

@@ -15,9 +15,13 @@ public class CurrentContext {
         FacesContext.getCurrentInstance().addMessage(id, new FacesMessage(message));
     }
 
-    public static void redirect(String url) throws IOException {
+    public static void redirect(String url) {
+        try {
             ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
             externalContext.redirect(externalContext.getRequestContextPath() + url);
+        } catch (IOException e) {
+            // yeah I don't really care that much in this case, just shut up.
+        }
     }
 
     public static Map<String, Object> getSessionMap() {

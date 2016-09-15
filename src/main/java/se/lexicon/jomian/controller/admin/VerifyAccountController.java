@@ -39,7 +39,7 @@ public class VerifyAccountController {
         }
     }
 
-    public void deleteAccount(Account account) throws IOException {
+    public void deleteAccount(Account account) {
         try {
             accountService.deleteAccount(account);
         } catch (ServiceException e) {
