@@ -205,3 +205,8 @@ body {
 .links:hover {
     color: blue;
 }
+
+.ui-widget-content .ui-state-error, .ui-widget-header .ui-state-error {
+    color: #333333;
+    background: #eeffff;
+}

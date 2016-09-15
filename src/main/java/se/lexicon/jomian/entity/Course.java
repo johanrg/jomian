@@ -14,7 +14,8 @@ import java.util.List;
  */
 @Entity
 @NamedQueries({
-    @NamedQuery(name = "Course.FindByCourseName", query = "SELECT c FROM Course c WHERE c.name = :name")
+        @NamedQuery(name = "Course.FindByCourseName", query = "SELECT c FROM Course c WHERE c.name = :name"),
+        @NamedQuery(name = "Course.FindLikeName", query = "SELECT c FROM Course c WHERE UPPER(c.name) LIKE UPPER(:name)")
 })
 public class Course {
     private Long id;

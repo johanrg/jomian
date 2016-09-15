@@ -22,6 +22,7 @@ public class CourseController {
     private CourseService courseService;
     private Course course = new Course();
     private Long courseId;
+    private String from;
 
     public String addCourse() {
         try {
@@ -40,7 +41,8 @@ public class CourseController {
             CurrentContext.message("editCourse", e.getMessage());
             return null;
         }
-        return "/admin/manageCourses.xhtml";
+        return from + "?faces-redirect=true";
+        //return "/admin/manageCourses.xhtml";
     }
 
     public List<Course> getAllCourses() {
@@ -62,5 +64,13 @@ public class CourseController {
     public void setCourseId(Long courseId) {
         course = courseService.findById(courseId);
         this.courseId = courseId;
+    }
+
+    public String getFrom() {
+        return from;
+    }
+
+    public void setFrom(String from) {
+        this.from = from;
     }
 }

@@ -9,25 +9,27 @@
 <ui:composition template="/WEB-INF/template/default/layout.xhtml">
     <ui:define name="content">
 
-        <h1>#{language['manageCourses.header']}</h1>
-        <p:link value="#{language['manageCourses.addCourseLink']}" outcome="/admin/addCourse.xhtml"/>
-        <p:dataTable value="#{courseController.allCourses}" var="course">
-            <p:column width="60%" headerText="#{language['manageCourses.name']}">
-                <p:link value="#{course.name}" outcome="editCourse">
-                    <f:param name="courseId" value="#{course.id}"/>
-                </p:link>
-            </p:column>
-            <p:column headerText="#{language['manageCourses.startDate']}">
-                <h:outputText value="#{course.startDate}">
-                    <f:convertDateTime pattern="yyyy-MM-dd"/>
-                </h:outputText>
-            </p:column>
-            <p:column headerText="#{language['manageCourses.endDate']}">
-                <h:outputText value="#{course.endDate}">
-                    <f:convertDateTime pattern="yyyy-MM-dd"/>
-                </h:outputText>
-            </p:column>
-        </p:dataTable>
+        <p:panel header="#{language['manageCourses.header']}">
+            <p:link value="#{language['manageCourses.addCourseLink']}" outcome="/admin/addCourse.xhtml"/>
+            <p:dataTable value="#{courseController.allCourses}" var="course">
+                <p:column width="60%" headerText="#{language['manageCourses.name']}">
+                    <p:link value="#{course.name}" outcome="editCourse">
+                        <f:param name="courseId" value="#{course.id}"/>
+                        <f:param name="/admin/manageCourses"/>
+                    </p:link>
+                </p:column>
+                <p:column headerText="#{language['manageCourses.startDate']}">
+                    <h:outputText value="#{course.startDate}">
+                        <f:convertDateTime pattern="yyyy-MM-dd"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{language['manageCourses.endDate']}">
+                    <h:outputText value="#{course.endDate}">
+                        <f:convertDateTime pattern="yyyy-MM-dd"/>
+                    </h:outputText>
+                </p:column>
+            </p:dataTable>
+        </p:panel>
     </ui:define>
 </ui:composition>
 </html>
