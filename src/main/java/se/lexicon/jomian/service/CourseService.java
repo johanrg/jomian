@@ -35,7 +35,7 @@ public class CourseService implements Serializable {
             em.persist(course);
 
             for (Account teacher : teachers) {
-                addAccountToCourse(course, teacher, true);
+                addAccountToCourse(course, teacher, AccountCourse.Status.TEACHER);
             }
         } else {
             throw new ServiceException(Language.getMessage("addCourse.courseAlreadyExist"));
@@ -79,7 +79,7 @@ public class CourseService implements Serializable {
                 }
                 if (!found) {
                     AccountCourse accountCourse = new AccountCourse();
-                    accountCourse.setTeacher(true);
+                    accountCourse.setStatus(AccountCourse.Status.TEACHER);
                     accountCourse.setAccount(teacher);
                     accountCourse.setCourse(course);
                     teacher.getAccountCourses().add(accountCourse);
@@ -98,15 +98,11 @@ public class CourseService implements Serializable {
         em.remove(em.merge(course));
     }
 
-    public void addAccountToCourse(Course course, Account account, boolean asTeacher) {
+    public void addAccountToCourse(Course course, Account account, AccountCourse.Status status) {
         AccountCourse accountCourse = new AccountCourse();
         accountCourse.setAccount(account);
         accountCourse.setCourse(course);
-        if (asTeacher) {
-            accountCourse.setTeacher(true);
-        } else {
-            accountCourse.setStudent(true);
-        }
+        accountCourse.setStatus(status);
         account.getAccountCourses().add(accountCourse);
         course.getAccountCourses().add(accountCourse);
         em.merge(account);

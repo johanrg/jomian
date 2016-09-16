@@ -1,5 +1,7 @@
 package se.lexicon.jomian.entity;
 
+import jdk.nashorn.internal.ir.annotations.Ignore;
+
 import javax.persistence.*;
 
 /**
@@ -13,9 +15,26 @@ import javax.persistence.*;
  */
 @Entity
 public class AccountCourse {
+    public enum Status {
+        REGISTER(1),
+        DROPOUT(2),
+        STUDENT(3),
+        TEACHER(4);
+
+        private int value;
+
+        public int getValue() {
+            return value;
+        }
+
+        Status(int value) {
+            this.value = value;
+        }
+
+    }
+
     private Long id;
-    private boolean student;
-    private boolean teacher;
+    private Status status;
     private Course course;
     private Account account;
 
@@ -29,22 +48,12 @@ public class AccountCourse {
         this.id = id;
     }
 
-    @Column(nullable = false)
-    public boolean isStudent() {
-        return student;
+    public Status getStatus() {
+        return status;
     }
 
-    public void setStudent(boolean student) {
-        this.student = student;
-    }
-
-    @Column(nullable = false)
-    public boolean isTeacher() {
-        return teacher;
-    }
-
-    public void setTeacher(boolean teacher) {
-        this.teacher = teacher;
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})

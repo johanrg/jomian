@@ -11,25 +11,32 @@
         <div class="jomian-masthead">
             <div class="container">
                 <div class="blog-nav">
-                    <h:panelGroup layout="block" styleClass="dropdown"
-                                  rendered="#{loginController.loggedInAccount.admin}">
-                        <button class="dropbtn">#{language['menu.admin']}</button>
-                        <h:panelGroup layout="block" styleClass="dropdown-content">
-                            <h:link value="#{language['menu.admin.search']}" outcome="/admin/search"
-                                    styleClass="dropdown-link"/>
-                            <h:link value="#{language['menu.admin.verifyAccount']}" outcome="/admin/batchVerifyAccount"
-                                    styleClass="dropdown-link"/>
-                            <h:link value="#{language['menu.admin.manageCourse']}" outcome="/admin/manageCourses"
-                                    styleClass="dropdown-link"/>
-                        </h:panelGroup>
-                    </h:panelGroup>
-                    <h:link styleClass="nav-item" value="#{language['menu.home']}" outcome="/restricted/index"
-                            rendered="#{loginController.loggedIn}"/>
                     <h:panelGroup rendered="#{loginController.loggedIn}">
-                        <h:commandLink styleClass="nav-item nav-item-right" value="#{language['menu.logout']}"
-                                       action="#{loginController.logout}"/>
-                        <h:panelGroup styleClass="nav-item nav-item-right"
-                                      rendered="#{loginController.loggedIn}">#{loginController.loggedInAccount.name}
+                        <h:panelGroup layout="block" styleClass="dropdown"
+                                      rendered="#{loginController.loggedInAccount.admin}">
+                            <button class="dropbtn">#{language['menu.admin']}</button>
+                            <h:panelGroup layout="block" styleClass="dropdown-content">
+                                <h:link value="#{language['menu.admin.search']}" outcome="/admin/search"
+                                        styleClass="dropdown-link"/>
+                                <h:link value="#{language['menu.admin.verifyAccount']}"
+                                        outcome="/admin/batchVerifyAccount"
+                                        styleClass="dropdown-link"/>
+                                <h:link value="#{language['menu.admin.manageCourse']}" outcome="/admin/manageCourses"
+                                        styleClass="dropdown-link"/>
+                            </h:panelGroup>
+                        </h:panelGroup>
+                        <h:link styleClass="nav-item" value="#{language['menu.home']}" outcome="/restricted/index"/>
+                        <h:link styleClass="nav-item" value="#{language['menu.availableCourses']}"
+                                outcome="/restricted/availableCourses"/>
+                        <h:panelGroup rendered="#{loginController.loggedIn}">
+                            <h:commandLink styleClass="nav-item nav-item-right" value="#{language['menu.logout']}"
+                                           action="#{loginController.logout}"/>
+                            <h:panelGroup styleClass="nav-item nav-item-right"
+                                          rendered="#{loginController.loggedIn}">#{loginController.loggedInAccount.name}
+                            </h:panelGroup>
+                            <button class="dropbtn">#{loginController.loggedInAccount.name}</button>
+                            <h:panelGroup layout="block" styleClass="dropdown-content">
+                            </h:panelGroup>
                         </h:panelGroup>
                     </h:panelGroup>
                     <h:panelGroup rendered="#{!loginController.loggedIn}">
