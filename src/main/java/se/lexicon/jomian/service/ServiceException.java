@@ -1,7 +1,7 @@
 package se.lexicon.jomian.service;
 
 /**
- * This exception is used to pass through errors from managers to the calling JSF bean.
+ * This exception is used to send errors back from the service to the calling JSF bean.
  *
  * @author Johan Gustafsson
  * @since 2016-09-01.

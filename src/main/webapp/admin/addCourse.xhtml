@@ -8,32 +8,40 @@
       xmlns:p="http://primefaces.org/ui">
 <ui:composition template="/WEB-INF/template/default/layout.xhtml">
     <ui:define name="content">
-
         <h:form id="addCourseForm">
             <p:panel header="#{language['addCourse.header']}">
                 <p:growl id="messages"/>
                 <p:panelGrid columns="2" styleClass="forms">
-                    <p:outputLabel for="name" value="#{language['addCourse.nameLabel']}"/>
+                    <p:outputLabel for="name" value="#{language['course.nameLabel']}"/>
                     <p:inputText id="name" value="#{addCourseController.course.name}"
-                                 required="true" requiredMessage="#{language['addCourse.nameRequired']}" size="50"/>
+                                 required="true" requiredMessage="#{language['course.nameRequired']}" size="50"/>
 
-                    <p:outputLabel for="description" value="#{language['addCourse.descriptionLabel']}"/>
+                    <p:outputLabel for="description" value="#{language['course.descriptionLabel']}"/>
                     <p:inputTextarea id="description" value="#{addCourseController.course.description}" rows="8"
                                      cols="50"/>
 
-                    <p:outputLabel for="startDate" value="#{language['addCourse.startDateLabel']}"/>
-                    <p:calendar id="startDate" value="#{addCourseController.course.startDate}" mode="popup" showOn="button"
-                                placeholder="yyyy-mm-dd"
-                                required="true" requiredMessage="#{language['addCourse.startDateRequired']}"/>
+                    <p:outputLabel for="maxStudents" value="#{language['course.maxStudentsLabel']}"/>
+                    <p:inputText id="maxStudents" value="#{addCourseController.course.maxStudents}"
+                                 required="true" requiredMessage="#{language['course.maxStudentsRequired']}">
+                        <f:convertNumber integerOnly="true" type="number"/>
+                    </p:inputText>
 
-                    <p:outputLabel for="endDate" value="#{language['addCourse.endDateLabel']}"/>
-                    <p:calendar id="endDate" value="#{addCourseController.course.endDate}" mode="popup" showOn="button"
+                    <p:outputLabel for="startDate" value="#{language['course.startDateLabel']}"/>
+                    <p:calendar id="startDate" value="#{addCourseController.course.startDate}" mode="popup"
+                                showOn="button"
                                 placeholder="yyyy-mm-dd"
-                                required="true" requiredMessage="#{language['addCourse.endDateRequired']}">
+                                required="true" requiredMessage="#{language['course.startDateRequired']}">
                         <f:convertDateTime pattern="yyyy-MM-dd"/>
                     </p:calendar>
 
-                   <p:outputLabel for="teacherDT" value="Lärare"/>
+                    <p:outputLabel for="endDate" value="#{language['course.endDateLabel']}"/>
+                    <p:calendar id="endDate" value="#{addCourseController.course.endDate}" mode="popup" showOn="button"
+                                placeholder="yyyy-mm-dd"
+                                required="true" requiredMessage="#{language['course.endDateRequired']}">
+                        <f:convertDateTime pattern="yyyy-MM-dd"/>
+                    </p:calendar>
+
+                    <p:outputLabel for="teacherDT" value="Lärare"/>
                     <p:dataTable id="teacherDT" value="#{addCourseController.allTeachers}" var="teacher"
                                  rowKey="#{teacher.id}" selection="#{addCourseController.selectedTeachers}">
                         <p:column width="40" selectionMode="multiple"/>

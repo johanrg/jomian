@@ -2,6 +2,7 @@ package se.lexicon.jomian.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
 
@@ -14,7 +15,7 @@ import java.sql.Timestamp;
 @Entity
 public class CourseSession {
     private Long id;
-    private Timestamp currentTime;
+    private Date createdAt;
     private Course course;
 
     @Id
@@ -27,13 +28,13 @@ public class CourseSession {
         this.id = id;
     }
 
-    @Column(nullable = false)
-    public Timestamp getCurrentTime() {
-        return currentTime;
+    @Column(nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCurrentTime(Timestamp currentTime) {
-        this.currentTime = currentTime;
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})

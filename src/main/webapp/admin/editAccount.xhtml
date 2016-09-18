@@ -19,24 +19,24 @@
             <p:panel header="#{language['editAccount.header']}">
                 <h:inputHidden id="from" value="#{editAccountController.from}"/>
                 <p:panelGrid columns="2" styleClass="forms">
-                    <p:outputLabel for="name" value="#{language['editAccount.nameLabel']}"/>
+                    <p:outputLabel for="name" value="#{language['account.nameLabel']}"/>
                     <p:inputText id="name" value="#{editAccountController.account.name}"/>
 
-                    <p:outputLabel for="email" value="#{language['editAccount.emailLabel']}"/>
+                    <p:outputLabel for="email" value="#{language['account.emailLabel']}"/>
                     <p:inputText id="email" value="#{editAccountController.account.email}"/>
 
-                    <p:outputLabel for="student" value="#{language['editAccount.studentLabel']}"/>
+                    <p:outputLabel for="student" value="#{language['account.studentLabel']}"/>
                     <p:selectBooleanCheckbox id="student" value="#{editAccountController.account.student}"/>
 
-                    <p:outputLabel for="teacher" value="#{language['editAccount.teacherLabel']}"/>
+                    <p:outputLabel for="teacher" value="#{language['account.teacherLabel']}"/>
                     <p:selectBooleanCheckbox id="teacher" value="#{editAccountController.account.teacher}"/>
 
-                    <p:outputLabel for="admin" value="#{language['editAccount.adminLabel']}"/>
+                    <p:outputLabel for="admin" value="#{language['account.adminLabel']}"/>
                     <p:selectBooleanCheckbox id="admin" value="#{editAccountController.account.admin}"/>
 
-                    <p:outputLabel for="verify" value="#{language['editAccount.verifyLabel']}"/>
+                    <p:outputLabel for="verify" value="#{language['account.verifyLabel']}"/>
                     <p:selectBooleanCheckbox id="verify" value="#{editAccountController.account.verified}"/>
-                    <p:commandButton value="#{language['editAccount.editButton']}"
+                    <p:commandButton value="#{language['general.save']}"
                                      action="#{editAccountController.editAccount}"/>
                 </p:panelGrid>
             </p:panel>

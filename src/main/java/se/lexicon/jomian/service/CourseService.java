@@ -6,14 +6,13 @@ import se.lexicon.jomian.entity.Course;
 import se.lexicon.jomian.util.Language;
 
 import javax.ejb.Stateless;
-import javax.inject.Inject;
-import javax.naming.ServiceUnavailableException;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaQuery;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -26,117 +25,116 @@ public class CourseService implements Serializable {
     @PersistenceContext
     private EntityManager em;
 
-    public void createCourse(Course course, List<Account> teachers) throws ServiceException {
-        if (course == null) {
-            throw new ServiceException(Language.getMessage("error.unexpectedError"));
-        }
-
-        if (findByCourseName(course.getName()) == null) {
+    public void create(Course course, List<Account> teachers) throws ServiceException {
+        try {
+            findByCourseName(course.getName());
+            throw new ServiceException(Language.getMessage("course.courseAlreadyExist"));
+        } catch (NoResultException e) {
+            for (Account teacher : teachers) {
+                addAccountToCourse(course, teacher, AccountCourse.Role.TEACHER);
+            }
             em.persist(course);
-
-            for (Account teacher : teachers) {
-                addAccountToCourse(course, teacher, AccountCourse.Status.TEACHER);
-            }
-        } else {
-            throw new ServiceException(Language.getMessage("addCourse.courseAlreadyExist"));
         }
     }
 
-    public void editCourse(Course course, List<Account> teachers) throws ServiceException {
-        if (course == null) {
-            throw new ServiceException(Language.getMessage("error.unexpectedError"));
+    public void edit(Course course, List<Account> updatedTeacherList) throws ServiceException {
+        if (teachersHaveChanged(course, updatedTeacherList)) {
+            removeTeachersNotInUpdatedList(course, updatedTeacherList);
+            addTeachersFromUpdatedList(course, updatedTeacherList);
+            em.merge(course);
         }
-
-        boolean equal = false;
-        if (course.getAccountCourses().size() == teachers.size()) {
-            equal = true;
-            for (AccountCourse accountCourse : course.getAccountCourses()) {
-                if (teachers.indexOf(accountCourse.getAccount()) == -1) {
-                    equal = false;
-                }
-            }
-        }
-
-        if (!equal) {
-            Iterator<AccountCourse> accountCourses = course.getAccountCourses().iterator();
-            while (accountCourses.hasNext()) {
-                AccountCourse accountCourse = accountCourses.next();
-                Account account = accountCourse.getAccount();
-                if (account.isTeacher() && teachers.indexOf(account) == -1) {
-                    account.getAccountCourses().remove(accountCourse);
-                    accountCourses.remove();
-                    em.merge(account);
-                }
-            }
-
-            for (Account teacher : teachers) {
-                boolean found = false;
-                for (AccountCourse accountCourse : course.getAccountCourses()) {
-                    if (accountCourse.getAccount().equals(teacher)) {
-                        found = true;
-                        break;
-                    }
-                }
-                if (!found) {
-                    AccountCourse accountCourse = new AccountCourse();
-                    accountCourse.setStatus(AccountCourse.Status.TEACHER);
-                    accountCourse.setAccount(teacher);
-                    accountCourse.setCourse(course);
-                    teacher.getAccountCourses().add(accountCourse);
-                    course.getAccountCourses().add(accountCourse);
-                    em.merge(teacher);
-                }
-            }
-        }
-        em.merge(course);
     }
 
-    public void deleteCourse(Course course) throws ServiceException {
-        if (course == null) {
-            throw new ServiceException(Language.getMessage("error.unexpectedError"));
-        }
+    public void delete(Course course) throws ServiceException {
         em.remove(em.merge(course));
     }
 
-    public void addAccountToCourse(Course course, Account account, AccountCourse.Status status) {
+    private boolean teachersHaveChanged(Course course, List<Account> updatedTeacherList) {
+        if (course.getAccountCourses().size() == updatedTeacherList.size()) {
+            for (AccountCourse accountCourse : course.getAccountCourses()) {
+                if (updatedTeacherList.indexOf(accountCourse.getAccount()) == -1) {
+                    return true;
+                }
+            }
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    private void removeTeachersNotInUpdatedList(Course course, List<Account> updatedTeacherList) {
+        Iterator<AccountCourse> accountCourses = course.getAccountCourses().iterator();
+        while (accountCourses.hasNext()) {
+            AccountCourse accountCourse = accountCourses.next();
+            Account account = accountCourse.getAccount();
+            if (account.isTeacher() && updatedTeacherList.indexOf(account) == -1) {
+                account.getAccountCourses().remove(accountCourse);
+                accountCourses.remove();
+                em.merge(account);
+            }
+        }
+    }
+
+    private void addTeachersFromUpdatedList(Course course, List<Account> updatedTeacherList) {
+        for (Account teacher : updatedTeacherList) {
+            boolean found = false;
+            for (AccountCourse accountCourse : course.getAccountCourses()) {
+                if (accountCourse.getAccount().equals(teacher)) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                addAccountToCourse(course, teacher, AccountCourse.Role.TEACHER);
+            }
+        }
+    }
+
+    public void addAccountToCourse(Course course, Account account, AccountCourse.Role role) {
         AccountCourse accountCourse = new AccountCourse();
         accountCourse.setAccount(account);
         accountCourse.setCourse(course);
-        accountCourse.setStatus(status);
+        accountCourse.setRole(role);
         account.getAccountCourses().add(accountCourse);
         course.getAccountCourses().add(accountCourse);
         em.merge(account);
-        em.merge(course);
     }
 
-    public List<Account> findTeachers(Long courseId) {
-        List<Account> teachers = new ArrayList<>();
-        Course course = findById(courseId);
-        for (AccountCourse accountCourse : course.getAccountCourses()) {
-            if (accountCourse.getAccount().isTeacher()) {
-                teachers.add(accountCourse.getAccount());
+    public List<Account> findTeachersForCourse(Long courseId) {
+        try {
+            Course course = findById(courseId);
+            List<Account> teachers = new ArrayList<>();
+            for (AccountCourse accountCourse : course.getAccountCourses()) {
+                if (accountCourse.getAccount().isTeacher()) {
+                    teachers.add(accountCourse.getAccount());
+                }
             }
+            return teachers;
+        } catch (ServiceException e) {
+            return Collections.emptyList();
         }
-        return teachers;
     }
 
-    /**
-     * Finds and returns the account holding the specified id.
-     *
-     * @param id the account id.
-     * @return Account entity.
-     */
-    public Course findById(Long id) {
-        return em.find(Course.class, id);
+    public List<Course> getComingCourses() {
+        return em.createNamedQuery("Course.FindComingCourses", Course.class)
+                .getResultList();
     }
 
-    public Course findByCourseName(String name) {
+    public Course findById(Long id) throws ServiceException {
+        Course result = em.find(Course.class, id);
+        if (result == null) {
+            throw new NoResultException("findById");
+        }
+        return result;
+    }
+
+    public Course findByCourseName(String name) throws ServiceException {
         try {
             return em.createNamedQuery("Course.FindByCourseName", Course.class)
                     .setParameter("name", name)
                     .getSingleResult();
         } catch (NoResultException e) {
-            return null;
+            throw new NoResultException("findByCourseName");
         }
     }
 

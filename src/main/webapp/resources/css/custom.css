@@ -140,11 +140,26 @@ body {
 
 /* Style The Dropdown Button */
 .dropbtn {
-    background-color: #4CAF50;
     color: white;
     padding: 12px;
     border: none;
     cursor: pointer;
+}
+
+.dropbtn-admin {
+    background-color: #4CAF50;
+}
+
+.dropbtn-admin:hover {
+    background-color: #51cd55;
+}
+
+.dropbtn-normal {
+    background-color: #428bca;
+}
+
+.dropbtn-normal:hover {
+   background-color: #4498d9;
 }
 
 /* The container <div> - needed to position the dropdown content */
@@ -179,11 +194,6 @@ body {
 /* Show the dropdown menu on hover */
 .dropdown:hover .dropdown-content {
     display: block;
-}
-
-/* Change the background color of the dropdown button when the dropdown content is shown */
-.dropdown:hover .dropbtn {
-    background-color: #3e8e41;
 }
 
 .forms {

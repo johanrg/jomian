@@ -1,19 +1,16 @@
 package se.lexicon.jomian.controller.admin;
 
 import se.lexicon.jomian.entity.Account;
-import se.lexicon.jomian.entity.AccountCourse;
 import se.lexicon.jomian.entity.Course;
 import se.lexicon.jomian.service.AccountService;
 import se.lexicon.jomian.service.CourseService;
 import se.lexicon.jomian.service.ServiceException;
 import se.lexicon.jomian.util.CurrentContext;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Johan Gustafsson
@@ -31,7 +28,7 @@ public class addCourseController {
 
     public String createCourse() {
         try {
-            courseService.createCourse(course, selectedTeachers);
+            courseService.create(course, selectedTeachers);
         } catch (ServiceException e) {
             CurrentContext.message("addCourseForm:name", e.getMessage());
             return null;

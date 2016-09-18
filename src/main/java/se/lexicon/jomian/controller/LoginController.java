@@ -8,7 +8,7 @@ import se.lexicon.jomian.util.CurrentContext;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.io.IOException;
+import javax.persistence.NoResultException;
 import java.io.Serializable;
 
 /**
@@ -24,10 +24,12 @@ public class LoginController implements Serializable {
     private Account loggedInAccount;
     private final String USER_SESSION_ID = "user.session.id";
     private final String USER_SESSION_HASH = "user.session.hash";
+    private boolean isLoggedIn = false;
 
     public String login() {
         try {
-            loggedInAccount = accountService.loginAccount(account);
+            loggedInAccount = accountService.returnAccountWithMatchingCredentials(account.getEmail(), account.getPassword());
+            isLoggedIn = true;
             CurrentContext.getSessionMap().put(USER_SESSION_ID, loggedInAccount.getId());
             CurrentContext.getSessionMap().put(USER_SESSION_HASH, loggedInAccount.getPassword());
             return "/restricted/index.xhtml?faces-redirect=true";
@@ -38,7 +40,7 @@ public class LoginController implements Serializable {
     }
 
     public void logout() {
-        loggedInAccount = null;
+        isLoggedIn = false;
         CurrentContext.getSessionMap().remove(USER_SESSION_ID);
         CurrentContext.getSessionMap().remove(USER_SESSION_HASH);
         CurrentContext.redirect("/login.xhtml");
@@ -57,20 +59,27 @@ public class LoginController implements Serializable {
     }
 
     public boolean isLoggedIn() {
-        if (loggedInAccount != null) {
+        if (isLoggedIn) {
             return true;
         } else {
-            Long id = (Long) CurrentContext.getSessionMap().get(USER_SESSION_ID);
-            String password = (String) CurrentContext.getSessionMap().get(USER_SESSION_HASH);
-            if (id == null || password == null) {
-                return false;
-            } else {
-                loggedInAccount = accountService.findByIdAndPass(id, password);
-                if (loggedInAccount != null) {
-                    return true;
-                }
-            }
+            tryToLogIn();
         }
         return false;
+    }
+
+    private void tryToLogIn() {
+        Long id = (Long) CurrentContext.getSessionMap().get(USER_SESSION_ID);
+        String password = (String) CurrentContext.getSessionMap().get(USER_SESSION_HASH);
+        if (id == null || password == null) {
+            return;
+        }
+
+        try {
+            loggedInAccount = accountService.findByIdAndPass(id, password);
+            isLoggedIn = true;
+        } catch (NoResultException e) {
+            isLoggedIn = false;
+        }
+
     }
 }

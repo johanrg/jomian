@@ -1,5 +1,6 @@
 package se.lexicon.jomian.controller.admin;
 
+import org.primefaces.event.SelectEvent;
 import se.lexicon.jomian.entity.Account;
 import se.lexicon.jomian.service.AccountService;
 import se.lexicon.jomian.service.ServiceException;
@@ -8,9 +9,6 @@ import se.lexicon.jomian.util.CurrentContext;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.io.IOException;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,22 +27,21 @@ public class VerifyAccountController {
         return accountService.getUnverifiedAccounts();
     }
 
+    public void onRowSelect(SelectEvent event) {
+        CurrentContext.redirect("/admin/editAccount.xhtml?accountId="
+                + ((Account) event.getObject()).getId()
+                + "&from=/admin/batchVerifyAccount");
+    }
+
     public void verifyAccount() {
-        try {
-            for (Account account : selectedAccounts) {
-                accountService.verifyAccount(account);
-            }
-        } catch (ServiceException e) {
-            CurrentContext.message("batchVerifyAccountForm:messages", e.getMessage());
+        for (Account account : selectedAccounts) {
+            account.setVerified(true);
+            accountService.update(account);
         }
     }
 
     public void deleteAccount(Account account) {
-        try {
-            accountService.deleteAccount(account);
-        } catch (ServiceException e) {
-            CurrentContext.message("batchVerifyAccountForm:messages", e.getMessage());
-        }
+        accountService.delete(account);
         CurrentContext.redirect("/admin/batchVerifyAccount.xhtml");
     }
 

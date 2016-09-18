@@ -14,7 +14,7 @@
                     <h:panelGroup rendered="#{loginController.loggedIn}">
                         <h:panelGroup layout="block" styleClass="dropdown"
                                       rendered="#{loginController.loggedInAccount.admin}">
-                            <button class="dropbtn">#{language['menu.admin']}</button>
+                            <button class="dropbtn dropbtn-admin">#{language['menu.admin']}</button>
                             <h:panelGroup layout="block" styleClass="dropdown-content">
                                 <h:link value="#{language['menu.admin.search']}" outcome="/admin/search"
                                         styleClass="dropdown-link"/>
@@ -25,20 +25,22 @@
                                         styleClass="dropdown-link"/>
                             </h:panelGroup>
                         </h:panelGroup>
+
                         <h:link styleClass="nav-item" value="#{language['menu.home']}" outcome="/restricted/index"/>
-                        <h:link styleClass="nav-item" value="#{language['menu.availableCourses']}"
-                                outcome="/restricted/availableCourses"/>
-                        <h:panelGroup rendered="#{loginController.loggedIn}">
-                            <h:commandLink styleClass="nav-item nav-item-right" value="#{language['menu.logout']}"
-                                           action="#{loginController.logout}"/>
-                            <h:panelGroup styleClass="nav-item nav-item-right"
-                                          rendered="#{loginController.loggedIn}">#{loginController.loggedInAccount.name}
-                            </h:panelGroup>
-                            <button class="dropbtn">#{loginController.loggedInAccount.name}</button>
+                        <h:link styleClass="nav-item" value="#{language['menu.comingCourses']}"
+                                outcome="/restricted/comingCourses"/>
+
+                        <h:panelGroup rendered="#{loginController.loggedIn}" styleClass="dropdown nav-item-right">
+                            <button class="dropbtn dropbtn-normal">#{loginController.loggedInAccount.name}</button>
                             <h:panelGroup layout="block" styleClass="dropdown-content">
+                                <h:link value="#{language['menu.student.myCourses']}"
+                                        outcome="/restricted/myCourses" styleClass="dropdown-link"/>
+                                <h:commandLink styleClass="dropdown-link" value="#{language['menu.logout']}"
+                                               action="#{loginController.logout}"/>
                             </h:panelGroup>
                         </h:panelGroup>
                     </h:panelGroup>
+
                     <h:panelGroup rendered="#{!loginController.loggedIn}">
                         <h:link styleClass="nav-item nav-item-right" value="#{language['menu.login']}"
                                 outcome="/login?faces-redirect=true"/>

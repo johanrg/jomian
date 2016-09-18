@@ -24,6 +24,10 @@ public class CurrentContext {
         }
     }
 
+    public static void redirect404() {
+        redirect("/WEB-INF/errorpage/404.xml");
+    }
+
     public static Map<String, Object> getSessionMap() {
         return FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
     }

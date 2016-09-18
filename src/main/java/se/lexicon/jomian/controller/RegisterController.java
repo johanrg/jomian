@@ -25,12 +25,12 @@ public class RegisterController {
      */
     public String submit() {
         try {
-            accountService.createAccount(account);
+            accountService.create(account);
 
             if (account.isAdmin()) {
                 return String.format("welcomeAdmin?faces-redirect=true&username=%s", account.getName());
             }
-            return String.format("thankyou?faces-redirect=true&username=%s", account.getName());
+            return String.format("thankYou?faces-redirect=true&username=%s", account.getName());
         } catch (ServiceException e) {
             CurrentContext.message("registerForm:email", e.getMessage());
         }

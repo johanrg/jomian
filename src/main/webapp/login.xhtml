@@ -6,30 +6,28 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
-<h:body>
-    <ui:composition template="/WEB-INF/template/default/layout.xhtml">
-        <ui:define name="content">
+<ui:composition template="/WEB-INF/template/default/layout.xhtml">
+    <ui:define name="content">
 
-            <h:form id="loginForm">
-                <p:panel header="#{language['login.header']}">
-                    <p:growl id="messages"/>
-                    <p:panelGrid columns="2" id="loginPanel" styleClass="forms">
-                        <p:outputLabel for="email" value="#{language['login.emailLabel']}"/>
-                        <p:inputText id="email" value="#{loginController.account.email}" required="true"
-                                     requiredMessage="#{language['login.emailRequired']}">
-                        </p:inputText>
+        <h:form id="loginForm">
+            <p:panel header="#{language['login.header']}">
+                <p:growl id="messages"/>
+                <p:panelGrid columns="2" id="loginPanel" styleClass="forms">
+                    <p:outputLabel for="email" value="#{language['account.emailLabel']}"/>
+                    <p:inputText id="email" value="#{loginController.account.email}" required="true"
+                                 requiredMessage="#{language['account.emailRequired']}">
+                    </p:inputText>
 
-                        <p:outputLabel for="password" value="#{language['login.passwordLabel']}"/>
-                        <p:password id="password" value="#{loginController.account.password}" required="true"
-                                    requiredMessage="#{language['login.passwordRequired']}">
-                        </p:password>
+                    <p:outputLabel for="password" value="#{language['account.passwordLabel']}"/>
+                    <p:password id="password" value="#{loginController.account.password}" required="true"
+                                requiredMessage="#{language['account.passwordRequired']}">
+                    </p:password>
 
-                        <p:commandButton value="#{language['login.buttonLogin']}" update="messages"
-                                         action="#{loginController.login}" ajax="false"/>
-                    </p:panelGrid>
-                </p:panel>
-            </h:form>
-        </ui:define>
-    </ui:composition>
-</h:body>
+                    <p:commandButton value="#{language['login.buttonLogin']}" update="messages"
+                                     action="#{loginController.login}" ajax="false"/>
+                </p:panelGrid>
+            </p:panel>
+        </h:form>
+    </ui:define>
+</ui:composition>
 </html>

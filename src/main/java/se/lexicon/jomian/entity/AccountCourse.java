@@ -1,8 +1,7 @@
 package se.lexicon.jomian.entity;
 
-import jdk.nashorn.internal.ir.annotations.Ignore;
-
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * Many to many glue between an Account and a Course, the reason for doing it this way instead of a manytomany is so
@@ -15,11 +14,12 @@ import javax.persistence.*;
  */
 @Entity
 public class AccountCourse {
-    public enum Status {
-        REGISTER(1),
-        DROPOUT(2),
-        STUDENT(3),
-        TEACHER(4);
+    public enum Role {
+        APPLICATION(1),
+        RESERVE(2),
+        DROPOUT(3),
+        STUDENT(4),
+        TEACHER(5);
 
         private int value;
 
@@ -27,14 +27,15 @@ public class AccountCourse {
             return value;
         }
 
-        Status(int value) {
+        Role(int value) {
             this.value = value;
         }
 
     }
 
     private Long id;
-    private Status status;
+    private Role role;
+    private Date createdAt;
     private Course course;
     private Account account;
 
@@ -48,12 +49,22 @@ public class AccountCourse {
         this.id = id;
     }
 
-    public Status getStatus() {
-        return status;
+    @Column(nullable = false)
+    public Role getRole() {
+        return role;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    @Column(nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})

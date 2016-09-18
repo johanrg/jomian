@@ -9,7 +9,6 @@ import se.lexicon.jomian.util.CurrentContext;
 
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -35,25 +34,31 @@ public class editCourseController implements Serializable {
     private String from;
 
     public void initView() {
-        if (!FacesContext.getCurrentInstance().isPostback() && conversation.isTransient()) {
-            conversation.begin();
-        }
         if (courseId == null || courseId == 0) {
-            CurrentContext.redirect("/WEB-INF/errorpage/404.xhtml");
-        } else {
+            CurrentContext.redirect404();
+            return;
+        }
+
+        if (from == null || from.equals("")) {
+            from = "/restricted/index.xhtml?faces-redirect=true";
+        }
+
+        try {
             course = courseService.findById(courseId);
-            selectedTeachers = courseService.findTeachers(courseId);
-            if (from == null || from.equals("")) {
-                from = "/restricted/index.xhtml?faces-redirect=true";
+            selectedTeachers = courseService.findTeachersForCourse(courseId);
+            if (!FacesContext.getCurrentInstance().isPostback() && conversation.isTransient()) {
+                conversation.begin();
             }
+        } catch (ServiceException e) {
+            CurrentContext.redirect404();
         }
     }
 
     public String editCourse() {
         try {
-            courseService.editCourse(course, selectedTeachers);
+            courseService.edit(course, selectedTeachers);
         } catch (ServiceException e) {
-            CurrentContext.message("editCourse:messages", e.getMessage());
+            CurrentContext.message("edit:messages", e.getMessage());
             return null;
         }
         conversation.end();

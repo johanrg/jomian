@@ -6,49 +6,46 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
-<h:body>
-    <ui:composition template="/WEB-INF/template/default/layout.xhtml">
-        <ui:define name="content">
-            <h:form id="batchVerifyAccountForm">
-                <p:growl id="messages"/>
-                <p:panel header="#{language['batchVerifyAccount.header']}">
-                    <h:outputText value="#{language['batchVerifyAccount.explanation']}"/>
-                    <p:dataTable id="accountDT" value="#{verifyAccountController.unverifiedAccounts}" var="account"
-                                 rowKey="#{account.id}" selection="#{verifyAccountController.selectedAccounts}">
-                        <p:column width="30" selectionMode="multiple"/>
-                        <p:column width="45%" headerText="#{language['batchVerifyAccount.name']}">
-                            <p:link value="#{account.name}" outcome="/admin/editAccount">
-                                <f:param name="accountId" value="#{account.id}"/>
-                                <f:param name="from" value="/admin/batchVerifyAccount"/>
-                            </p:link>
-                        </p:column>
-                        <p:column width="40%" headerText="#{language['batchVerifyAccount.email']}">
-                            #{account.email}
-                        </p:column>
-                        <p:column width="60">
-                            <p:commandButton icon="ui-icon-trash" action="#{verifyAccountController.deleteAccount(account)}">
-                                <p:confirm header="Confirmation"
-                                           message="#{language['batchVerifyAccount.verifyAccountDeletion']}"
-                                           icon="ui-icon-alert"/>
-                            </p:commandButton>
-                            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                                <p:commandButton value="#{language['general.yes']}" type="button"
-                                                 styleClass="ui-confirmdialog-yes"
-                                                 icon="ui-icon-check"/>
-                                <p:commandButton value="#{language['general.no']}" type="button"
-                                                 styleClass="ui-confirmdialog-no"
-                                                 icon="ui-icon-close"/>
-                            </p:confirmDialog>
-                        </p:column>
-                        <f:facet name="footer">
-                            <p:commandButton process="accountDT" update="batchVerifyAccountForm"
-                                             value="#{language['batchVerifyAccount.verifyButton']}"
-                                             action="#{verifyAccountController.verifyAccount}"/>
-                        </f:facet>
-                    </p:dataTable>
-                </p:panel>
-            </h:form>
-        </ui:define>
-    </ui:composition>
-</h:body>
+<ui:composition template="/WEB-INF/template/default/layout.xhtml">
+    <ui:define name="content">
+        <h:form id="batchVerifyAccountForm">
+            <p:growl id="messages"/>
+            <p:panel header="#{language['batchVerifyAccount.header']}">
+                <h:outputText value="#{language['batchVerifyAccount.explanation']}"/>
+                <p:dataTable id="accountDT" value="#{verifyAccountController.unverifiedAccounts}" var="account"
+                             rowKey="#{account.id}" selection="#{verifyAccountController.selectedAccounts}">
+                    <p:ajax event="rowSelect" listener="#{verifyAccountController.onRowSelect}"/>
+                    <p:column width="30" selectionMode="multiple"/>
+                    <p:column width="50%" headerText="#{language['account.nameHeader']}">
+                        #{account.name}
+                    </p:column>
+                    <p:column width="40%" headerText="#{language['account.emailHeader']}">
+                        #{account.email}
+                    </p:column>
+                    <p:column width="55">
+                        <p:commandButton icon="ui-icon-trash"
+                                         action="#{verifyAccountController.deleteAccount(account)}">
+                            <p:confirm header="Confirmation"
+                                       message="#{language['account.verifyAccountDeletion']}"
+                                       icon="ui-icon-alert"/>
+                        </p:commandButton>
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                            <p:commandButton value="#{language['general.yes']}" type="button"
+                                             styleClass="ui-confirmdialog-yes"
+                                             icon="ui-icon-check"/>
+                            <p:commandButton value="#{language['general.no']}" type="button"
+                                             styleClass="ui-confirmdialog-no"
+                                             icon="ui-icon-close"/>
+                        </p:confirmDialog>
+                    </p:column>
+                    <f:facet name="footer">
+                        <p:commandButton process="accountDT" update="batchVerifyAccountForm"
+                                         value="#{language['batchVerifyAccount.verifyButton']}"
+                                         action="#{verifyAccountController.verifyAccount}"/>
+                    </f:facet>
+                </p:dataTable>
+            </p:panel>
+        </h:form>
+    </ui:define>
+</ui:composition>
 </html>

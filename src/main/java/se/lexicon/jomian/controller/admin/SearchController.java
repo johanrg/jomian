@@ -1,5 +1,6 @@
 package se.lexicon.jomian.controller.admin;
 
+import org.primefaces.event.SelectEvent;
 import se.lexicon.jomian.entity.Account;
 import se.lexicon.jomian.entity.Course;
 import se.lexicon.jomian.service.AccountService;
@@ -12,17 +13,13 @@ import se.lexicon.jomian.util.SearchOption;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
-import javax.enterprise.context.SessionScoped;
-import javax.faces.component.FacesComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author Johan Gustafsson
@@ -42,6 +39,7 @@ public class SearchController implements Serializable {
     private SearchOption searchOption = SearchOption.ACCOUNT;
     private List<Account> accounts = new ArrayList<>();
     private List<Course> courses = new ArrayList<>();
+    private Account selectedAccount;
 
     @PostConstruct
     public void init() {
@@ -53,6 +51,16 @@ public class SearchController implements Serializable {
         if (!FacesContext.getCurrentInstance().isPostback() && conversation.isTransient()) {
             conversation.begin();
         }
+    }
+
+    public void onAccountRowSelect(SelectEvent event) {
+        CurrentContext.redirect("/admin/editAccount.xhtml?from=/admin/search&accountId="
+                + ((Account) event.getObject()).getId());
+    }
+
+    public void onCourseRowSelect(SelectEvent event) {
+        CurrentContext.redirect("/admin/editCourse.xhtml?from=/admin/search&courseId="
+                + ((Course) event.getObject()).getId());
     }
 
     public String search() {
@@ -75,18 +83,14 @@ public class SearchController implements Serializable {
     }
 
     public String deleteAccount(Account account) {
-        try {
-            accountService.deleteAccount(account);
-            search();
-        } catch (ServiceException e) {
-            CurrentContext.message("searchForm:messages", e.getMessage());
-        }
+        accountService.delete(account);
+        search();
         return "/admin/search.xhtml?faces-redirect=true";
     }
 
     public String deleteCourse(Course course) {
         try {
-            courseService.deleteCourse(course);
+            courseService.delete(course);
             search();
         } catch (ServiceException e) {
             CurrentContext.message("searchForm:messages", e.getMessage());
@@ -98,16 +102,10 @@ public class SearchController implements Serializable {
         List<String> result = new ArrayList<>();
         if (searchOption == SearchOption.ACCOUNT) {
             List<Account> accounts = accountService.findLikeName(query);
-            for (Account account : accounts) {
-                result.add(account.getName());
-            }
+            result = accounts.stream().map(Account::getName).collect(Collectors.toList());
         } else if (searchOption == SearchOption.COURSE) {
             List<Course> courses = courseService.findLikeName(query);
-            for (Course course : courses) {
-                result.add(course.getName());
-            }
-        } else {
-            result.add("Select search option");
+            result = courses.stream().map(Course::getName).collect(Collectors.toList());
         }
         return result;
     }
@@ -154,5 +152,13 @@ public class SearchController implements Serializable {
 
     public void setCourses(List<Course> courses) {
         this.courses = courses;
+    }
+
+    public Account getSelectedAccount() {
+        return selectedAccount;
+    }
+
+    public void setSelectedAccount(Account selectedAccount) {
+        this.selectedAccount = selectedAccount;
     }
 }

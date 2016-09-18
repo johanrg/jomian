@@ -8,25 +8,23 @@
       xmlns:p="http://primefaces.org/ui">
 <ui:composition template="/WEB-INF/template/default/layout.xhtml">
     <ui:define name="content">
-
         <h:form id="manageCoursesForm">
             <p:growl id="messages"/>
             <p:panel header="#{language['manageCourses.header']}">
                 <p:commandButton value="#{language['manageCourses.addCourseLink']}" action="/admin/addCourse.xhtml"/>
                 <br/><br/>
-                <p:dataTable id="courseDT" value="#{manageCoursesController.allCourses}" var="course">
-                    <p:column width="50%" headerText="#{language['manageCourses.name']}">
-                        <p:link value="#{course.name}" outcome="editCourse">
-                            <f:param name="courseId" value="#{course.id}"/>
-                            <f:param name="from" value="/admin/manageCourses"/>
-                        </p:link>
+                <p:dataTable id="courseDT" value="#{manageCoursesController.allCourses}" var="course"
+                             selectionMode="single" rowKey="#{course.id}">
+                    <p:ajax event="rowSelect" listener="#{manageCoursesController.onCourseRowSelect}"/>
+                    <p:column width="50%" headerText="#{language['courses.nameHeader']}">
+                        #{course.name}
                     </p:column>
-                    <p:column headerText="#{language['manageCourses.startDate']}">
+                    <p:column headerText="#{language['courses.startDateHeader']}">
                         <h:outputText value="#{course.startDate}">
                             <f:convertDateTime pattern="yyyy-MM-dd"/>
                         </h:outputText>
                     </p:column>
-                    <p:column headerText="#{language['manageCourses.endDate']}">
+                    <p:column headerText="#{language['courses.endDateHeader']}">
                         <h:outputText value="#{course.endDate}">
                             <f:convertDateTime pattern="yyyy-MM-dd"/>
                         </h:outputText>
@@ -34,7 +32,7 @@
                     <p:column width="55">
                         <p:commandButton icon="ui-icon-trash" action="#{manageCoursesController.deleteCourse(course)}">
                             <p:confirm header="Confirmation"
-                                       message="#{language['manageCourse.verifyCourseDeletion']}"
+                                       message="#{language['course.verifyCourseDeletion']}"
                                        icon="ui-icon-alert"/>
                         </p:commandButton>
                         <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">

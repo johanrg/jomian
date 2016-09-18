@@ -34,7 +34,7 @@ public class Account {
     private boolean student;
     private boolean teacher;
     private boolean admin;
-    public Timestamp timestamp;
+    public Date createdAt;
     private List<AccountCourse> accountCourses = new ArrayList<>();
 
     @Id
@@ -113,15 +113,13 @@ public class Account {
         this.admin = admin;
     }
 
-    private String personalNumber;
-
     @Column(nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    public Timestamp getTimestamp() {
-        return timestamp;
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
-    public void setTimestamp(Timestamp timestamp) {
-        this.timestamp = timestamp;
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "account", orphanRemoval = true)

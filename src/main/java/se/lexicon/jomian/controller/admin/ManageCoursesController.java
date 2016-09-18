@@ -1,6 +1,6 @@
 package se.lexicon.jomian.controller.admin;
 
-import se.lexicon.jomian.entity.Account;
+import org.primefaces.event.SelectEvent;
 import se.lexicon.jomian.entity.Course;
 import se.lexicon.jomian.service.AccountService;
 import se.lexicon.jomian.service.CourseService;
@@ -10,8 +10,6 @@ import se.lexicon.jomian.util.CurrentContext;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.security.auth.login.AccountNotFoundException;
-import javax.xml.ws.Service;
 import java.util.List;
 
 /**
@@ -26,13 +24,18 @@ public class ManageCoursesController {
     @Inject
     private AccountService accountService;
 
+    public void onCourseRowSelect(SelectEvent event) {
+        CurrentContext.redirect("/admin/editCourse.xhtml?from=/admin/manageCourses&courseId="
+                + ((Course) event.getObject()).getId());
+    }
+
     public String deleteCourse(Course course) {
         try {
-            courseService.deleteCourse(course);
+            courseService.delete(course);
         } catch (ServiceException e) {
             CurrentContext.message("manageCoursesForm:messages", e.getMessage());
         }
-        return "/admin/manageCourses.xhtml?faces-redirect=true";
+        return "/admin/manageCourses.xhtml";
     }
 
     public List<Course> getAllCourses() {

@@ -1,6 +1,7 @@
 package se.lexicon.jomian.entity;
 
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * This is the glue between the account and the CourseSession table. At every CourseSession we set a timestamp,
@@ -14,6 +15,7 @@ import javax.persistence.*;
 public class Attendance {
     private Long id;
     private boolean present;
+    private Date createdAt;
     private Account account;
     private CourseSession courseSession;
 
@@ -34,6 +36,15 @@ public class Attendance {
 
     public void setPresent(boolean present) {
         this.present = present;
+    }
+
+    @Column(nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})

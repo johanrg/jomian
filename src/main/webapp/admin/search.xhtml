@@ -27,23 +27,22 @@
                 </p:panelGrid>
                 <p:spacer height="30"/>
                 <h:panelGroup rendered="#{searchController.accounts.size() ne 0}">
-                    <p:dataTable id="accountDT" value="#{searchController.accounts}" var="account">
+                    <p:dataTable id="accountDT" value="#{searchController.accounts}" var="account"
+                                 selectionMode="single" rowKey="#{account.id}">
+                        <p:ajax event="rowSelect" listener="#{searchController.onAccountRowSelect}"/>
                         <f:facet name="header">
-                            #{language['search.accountsHeader']}
+                            #{language['account.accountsHeader']}
                         </f:facet>
-                        <p:column headerText="#{language['search.nameHeader']}">
-                            <p:link value="#{account.name}" outcome="/admin/editAccount">
-                                <f:param name="accountId" value="#{account.id}"/>
-                                <f:param name="from" value="/admin/search"/>
-                            </p:link>
+                        <p:column headerText="#{language['account.nameHeader']}">
+                            #{account.name}
                         </p:column>
-                        <p:column headerText="#{language['search.emailHeader']}">
+                        <p:column headerText="#{language['account.emailHeader']}">
                             #{account.email}
                         </p:column>
                         <p:column width="55">
                             <p:commandButton icon="ui-icon-trash" action="#{searchController.deleteAccount(account)}">
                                 <p:confirm header="Confirmation"
-                                           message="#{language['batchVerifyAccount.verifyAccountDeletion']}"
+                                           message="#{language['account.verifyAccountDeletion']}"
                                            icon="ui-icon-alert"/>
                             </p:commandButton>
                             <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
@@ -58,20 +57,19 @@
                     </p:dataTable>
                 </h:panelGroup>
                 <h:panelGroup rendered="#{searchController.courses.size() ne 0}">
-                    <p:dataTable id="courseDT" value="#{searchController.courses}" var="course">
+                    <p:dataTable id="courseDT" value="#{searchController.courses}" var="course"
+                                 selectionMode="single" rowKey="#{course.id}">
+                        <p:ajax event="rowSelect" listener="#{searchController.onCourseRowSelect}"/>
                         <f:facet name="header">
-                            #{language['search.coursesHeader']}
+                            #{language['course.coursesHeader']}
                         </f:facet>
-                        <p:column headerText="#{language['search.nameHeader']}">
-                            <p:link value="#{course.name}" outcome="/admin/editCourse">
-                                <f:param name="courseId" value="#{course.id}"/>
-                                <f:param name="from" value="/admin/search"/>
-                            </p:link>
+                        <p:column headerText="#{language['courses.nameHeader']}">
+                            #{course.name}
                         </p:column>
                         <p:column width="55">
                             <p:commandButton icon="ui-icon-trash" action="#{searchController.deleteCourse(course)}">
                                 <p:confirm header="Confirmation"
-                                           message="#{language['manageCourse.verifyCourseDeletion']}"
+                                           message="#{language['course.verifyCourseDeletion']}"
                                            icon="ui-icon-alert"/>
                             </p:commandButton>
                             <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">

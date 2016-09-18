@@ -28,25 +28,28 @@ public class EditAccountController implements Serializable {
     private String from;
 
     public void initView() {
+        if (accountId == null) {
+            CurrentContext.redirect404();
+            return;
+        }
+
+        account = accountService.findById(accountId);
+        if (account == null) {
+            CurrentContext.redirect404();
+            return;
+        }
+
+        if (from == null || from.equals("")) {
+            from = "/restricted";
+        }
+
         if (!FacesContext.getCurrentInstance().isPostback() && conversation.isTransient()) {
             conversation.begin();
-        }
-        if (accountId == null || accountId == 0) {
-            CurrentContext.redirect("/WEB-INF/errorpage/404.xhtml");
-        } else {
-            account = accountService.findById(accountId);
-            if (from == null || from.equals("")) {
-                from = "/restricted";
-            }
         }
     }
 
     public String editAccount() {
-        try {
-            accountService.editAccount(account);
-        } catch (ServiceException e) {
-            CurrentContext.message("editAccountForm:messages", e.getMessage());
-        }
+        accountService.update(account);
         conversation.end();
         return from + "?faces-redirect=true";
     }
