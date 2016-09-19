@@ -23,7 +23,7 @@ import java.util.List;
  */
 @Named
 @ConversationScoped
-public class editCourseController implements Serializable {
+public class EditCourseController implements Serializable {
     @Inject
     Conversation conversation;
     @Inject

@@ -13,6 +13,7 @@ import java.util.Date;
  * @since 2016-09-01.
  */
 @Entity
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"course_id", "account_id"})})
 public class AccountCourse {
     public enum Role {
         APPLICATION(1),

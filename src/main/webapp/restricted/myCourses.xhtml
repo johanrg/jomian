@@ -9,7 +9,51 @@
 <ui:composition template="/WEB-INF/template/default/layout.xhtml">
     <ui:define name="content">
         <p:panel header="#{language['myCourses.header']}">
-
+            <h:panelGroup rendered="#{myCoursesController.coursesAppliedTo.size() != 0}">
+                <p:dataTable value="#{myCoursesController.coursesAppliedTo}" var="course"
+                             selectionMode="single" rowKey="#{course.id}">
+                    <p:ajax event="rowSelect" listener="#{myCoursesController.onCourseRowSelect}"/>
+                    <f:facet name="header">
+                        #{language['myCourses.appliedToCoursesHeader']}
+                    </f:facet>
+                    <p:column headerText="#{language['course.nameHeader']}">
+                        #{course.name}
+                    </p:column>
+                    <p:column headerText="#{language['course.startDateHeader']}">
+                        <h:outputText value="#{course.startDate}">
+                            <f:convertDateTime pattern="yyyy-MM-dd"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{language['course.endDateHeader']}">
+                        <h:outputText value="#{course.endDate}">
+                            <f:convertDateTime pattern="yyyy-MM-dd"/>
+                        </h:outputText>
+                    </p:column>
+                </p:dataTable>
+            </h:panelGroup>
+            <br/>
+            <h:panelGroup rendered="#{myCoursesController.coursesAcceptedTo.size() != 0}">
+                <p:dataTable value="#{myCoursesController.coursesAcceptedTo}" var="course"
+                             selectionMode="single" rowKey="#{course.id}">
+                    <p:ajax event="rowSelect" listener="#{myCoursesController.onCourseRowSelect}"/>
+                    <f:facet name="header">
+                        #{language['myCourses.acceptedToCoursesHeader']}
+                    </f:facet>
+                    <p:column headerText="#{language['course.nameHeader']}">
+                        #{course.name}
+                    </p:column>
+                    <p:column headerText="#{language['course.startDateHeader']}">
+                        <h:outputText value="#{course.startDate}">
+                            <f:convertDateTime pattern="yyyy-MM-dd"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{language['course.endDateHeader']}">
+                        <h:outputText value="#{course.endDate}">
+                            <f:convertDateTime pattern="yyyy-MM-dd"/>
+                        </h:outputText>
+                    </p:column>
+                </p:dataTable>
+            </h:panelGroup>
         </p:panel>
     </ui:define>
 </ui:composition>

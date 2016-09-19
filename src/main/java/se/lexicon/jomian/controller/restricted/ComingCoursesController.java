@@ -22,31 +22,14 @@ public class ComingCoursesController {
     private CourseService courseService;
     @Inject
     private CourseDAO courseDAO;
-    private List<Course> selectedCourses;
 
     public void onCourseRowSelect(SelectEvent event) {
-        CurrentContext.redirect("/restricted/showCourse.xhtml?courseId="
+        CurrentContext.redirect("/restricted/applyToCourse.xhtml?courseId="
                 + ((Course) event.getObject()).getId());
     }
 
-    public String signup() {
-        return null;
-    }
-
-    public int registeredStudents() {
-
-        return 0;
-    }
 
     public List<Course> getAllCourses() {
         return courseDAO.findComingCourses();
-    }
-
-    public List<Course> getSelectedCourses() {
-        return selectedCourses;
-    }
-
-    public void setSelectedCourses(List<Course> selectedCourses) {
-        this.selectedCourses = selectedCourses;
     }
 }

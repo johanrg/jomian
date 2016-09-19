@@ -18,7 +18,7 @@ import java.util.List;
  */
 @Named
 @RequestScoped
-public class addCourseController {
+public class AddCourseController {
     @Inject
     private CourseService courseService;
     @Inject

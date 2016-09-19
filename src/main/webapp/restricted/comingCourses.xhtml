@@ -13,15 +13,15 @@
                 <p:dataTable id="courseDT" value="#{comingCoursesController.allCourses}" var="course"
                              selectionMode="single" rowKey="#{course.id}">
                     <p:ajax event="rowSelect" listener="#{comingCoursesController.onCourseRowSelect}"/>
-                    <p:column headerText="#{language['courses.nameHeader']}">
+                    <p:column headerText="#{language['course.nameHeader']}">
                         #{course.name}
                     </p:column>
-                    <p:column headerText="#{language['courses.startDateHeader']}">
+                    <p:column headerText="#{language['course.startDateHeader']}">
                         <h:outputText value="#{course.startDate}">
                             <f:convertDateTime pattern="yyyy-MM-dd"/>
                         </h:outputText>
                     </p:column>
-                    <p:column headerText="#{language['courses.endDateHeader']}">
+                    <p:column headerText="#{language['course.endDateHeader']}">
                         <h:outputText value="#{course.endDate}">
                             <f:convertDateTime pattern="yyyy-MM-dd"/>
                         </h:outputText>

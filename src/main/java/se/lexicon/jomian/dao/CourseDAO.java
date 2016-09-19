@@ -59,10 +59,6 @@ public class CourseDAO implements Serializable {
         return em.find(Course.class, id);
     }
 
-    public long getNumberOfStudentApplicationsForCourse(Course course) {
-        return course.getAccountCourses().stream().map(a -> a.getRole() == AccountCourse.Role.APPLICATION).count();
-    }
-
     public Course findByCourseName(String name) {
         try {
             return em.createNamedQuery("Course.FindByCourseName", Course.class)

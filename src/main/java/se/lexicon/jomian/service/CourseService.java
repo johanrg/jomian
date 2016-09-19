@@ -12,6 +12,7 @@ import javax.inject.Inject;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 /**
@@ -85,6 +86,31 @@ public class CourseService implements Serializable {
         }
     }
 
+    public boolean hasStudentAlreadyApplied(Course course, Account account) {
+        for (AccountCourse accountCourse : course.getAccountCourses()) {
+            if (account.getId().equals(accountCourse.getAccount().getId())
+                    && accountCourse.getRole() == AccountCourse.Role.APPLICATION) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isTeacherOfCourse(Course course, Account account) {
+        for (AccountCourse accountCourse : course.getAccountCourses()) {
+            if (account.getId().equals(accountCourse.getAccount().getId())
+                   && accountCourse.getRole() == AccountCourse.Role.TEACHER) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void applyStudentToCourse(Course course, Account account) {
+        addAccountToCourse(course, account, AccountCourse.Role.APPLICATION);
+        courseDAO.merge(course);
+    }
+
     public void addAccountToCourse(Course course, Account account, AccountCourse.Role role) {
         AccountCourse accountCourse = new AccountCourse();
         accountCourse.setAccount(account);
@@ -93,6 +119,21 @@ public class CourseService implements Serializable {
         account.getAccountCourses().add(accountCourse);
         course.getAccountCourses().add(accountCourse);
         accountDAO.merge(account);
+    }
+
+    public void removeAccountFromCourse(Course course, Account account) {
+        Iterator<AccountCourse> accountCourses = course.getAccountCourses().iterator();
+        while (accountCourses.hasNext()) {
+            AccountCourse accountCourse = accountCourses.next();
+            Account dbAccount = accountCourse.getAccount();
+            if (dbAccount.getId().equals(account.getId())) {
+                dbAccount.getAccountCourses().remove(accountCourse);
+                accountCourses.remove();
+                accountDAO.merge(account);
+                courseDAO.merge(course);
+                break;
+            }
+        }
     }
 
     public List<String> getCourseNamesLike(String query) {
@@ -106,5 +147,23 @@ public class CourseService implements Serializable {
         } else {
             return courseDAO.findLikeName(query);
         }
+    }
+
+    public long getNumberOfStudentApplicationsForCourse(Course course) {
+        return course.getAccountCourses().stream().filter(a -> a.getRole() == AccountCourse.Role.APPLICATION).count();
+    }
+
+    public List<Course> getCoursesAppliedTo(Account account) {
+        return account.getAccountCourses().stream()
+                .filter(ac -> ac.getRole() == AccountCourse.Role.APPLICATION)
+                .map(AccountCourse::getCourse)
+                .collect(Collectors.toList());
+    }
+
+    public List<Course> getCoursesAcceptedTo(Account account) {
+        return account.getAccountCourses().stream()
+                .filter(ac -> ac.getRole() == AccountCourse.Role.STUDENT)
+                .map(AccountCourse::getCourse)
+                .collect(Collectors.toList());
     }
 }

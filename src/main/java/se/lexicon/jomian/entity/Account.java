@@ -3,7 +3,6 @@ package se.lexicon.jomian.entity;
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -36,6 +35,7 @@ public class Account {
     private boolean admin;
     public Date createdAt;
     private List<AccountCourse> accountCourses = new ArrayList<>();
+    private List<Attendance> attendances = new ArrayList<>();
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -129,5 +129,14 @@ public class Account {
 
     public void setAccountCourses(List<AccountCourse> accountCourses) {
         this.accountCourses = accountCourses;
+    }
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "account", orphanRemoval = true)
+    public List<Attendance> getAttendances() {
+        return attendances;
+    }
+
+    public void setAttendances(List<Attendance> attendances) {
+       this.attendances = attendances;
     }
 }
