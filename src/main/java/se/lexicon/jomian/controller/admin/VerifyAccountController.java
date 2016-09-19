@@ -1,9 +1,8 @@
 package se.lexicon.jomian.controller.admin;
 
 import org.primefaces.event.SelectEvent;
+import se.lexicon.jomian.dao.AccountDAO;
 import se.lexicon.jomian.entity.Account;
-import se.lexicon.jomian.service.AccountService;
-import se.lexicon.jomian.service.ServiceException;
 import se.lexicon.jomian.util.CurrentContext;
 
 import javax.enterprise.context.RequestScoped;
@@ -20,11 +19,11 @@ import java.util.List;
 @RequestScoped
 public class VerifyAccountController {
     @Inject
-    private AccountService accountService;
+    private AccountDAO accountDAO;
     private List<Account> selectedAccounts = new ArrayList<>();
 
     public List<Account> getUnverifiedAccounts() {
-        return accountService.getUnverifiedAccounts();
+        return accountDAO.findUnverifiedAccounts();
     }
 
     public void onRowSelect(SelectEvent event) {
@@ -36,12 +35,12 @@ public class VerifyAccountController {
     public void verifyAccount() {
         for (Account account : selectedAccounts) {
             account.setVerified(true);
-            accountService.update(account);
+            accountDAO.merge(account);
         }
     }
 
     public void deleteAccount(Account account) {
-        accountService.delete(account);
+        accountDAO.remove(account);
         CurrentContext.redirect("/admin/batchVerifyAccount.xhtml");
     }
 

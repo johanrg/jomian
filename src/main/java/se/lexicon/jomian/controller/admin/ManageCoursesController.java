@@ -1,10 +1,8 @@
 package se.lexicon.jomian.controller.admin;
 
 import org.primefaces.event.SelectEvent;
+import se.lexicon.jomian.dao.CourseDAO;
 import se.lexicon.jomian.entity.Course;
-import se.lexicon.jomian.service.AccountService;
-import se.lexicon.jomian.service.CourseService;
-import se.lexicon.jomian.service.ServiceException;
 import se.lexicon.jomian.util.CurrentContext;
 
 import javax.enterprise.context.RequestScoped;
@@ -20,9 +18,7 @@ import java.util.List;
 @RequestScoped
 public class ManageCoursesController {
     @Inject
-    private CourseService courseService;
-    @Inject
-    private AccountService accountService;
+    private CourseDAO courseDAO;
 
     public void onCourseRowSelect(SelectEvent event) {
         CurrentContext.redirect("/admin/editCourse.xhtml?from=/admin/manageCourses&courseId="
@@ -30,15 +26,11 @@ public class ManageCoursesController {
     }
 
     public String deleteCourse(Course course) {
-        try {
-            courseService.delete(course);
-        } catch (ServiceException e) {
-            CurrentContext.message("manageCoursesForm:messages", e.getMessage());
-        }
+        courseDAO.remove(course);
         return "/admin/manageCourses.xhtml";
     }
 
     public List<Course> getAllCourses() {
-        return courseService.getAll();
+        return courseDAO.getAll();
     }
 }

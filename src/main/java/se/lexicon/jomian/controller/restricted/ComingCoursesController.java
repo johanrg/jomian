@@ -1,6 +1,7 @@
 package se.lexicon.jomian.controller.restricted;
 
 import org.primefaces.event.SelectEvent;
+import se.lexicon.jomian.dao.CourseDAO;
 import se.lexicon.jomian.entity.Course;
 import se.lexicon.jomian.service.CourseService;
 import se.lexicon.jomian.util.CurrentContext;
@@ -19,6 +20,8 @@ import java.util.List;
 public class ComingCoursesController {
     @Inject
     private CourseService courseService;
+    @Inject
+    private CourseDAO courseDAO;
     private List<Course> selectedCourses;
 
     public void onCourseRowSelect(SelectEvent event) {
@@ -30,8 +33,13 @@ public class ComingCoursesController {
         return null;
     }
 
+    public int registeredStudents() {
+
+        return 0;
+    }
+
     public List<Course> getAllCourses() {
-        return courseService.getComingCourses();
+        return courseDAO.findComingCourses();
     }
 
     public List<Course> getSelectedCourses() {

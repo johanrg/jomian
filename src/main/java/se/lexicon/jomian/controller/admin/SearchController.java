@@ -1,11 +1,12 @@
 package se.lexicon.jomian.controller.admin;
 
 import org.primefaces.event.SelectEvent;
+import se.lexicon.jomian.dao.AccountDAO;
+import se.lexicon.jomian.dao.CourseDAO;
 import se.lexicon.jomian.entity.Account;
 import se.lexicon.jomian.entity.Course;
 import se.lexicon.jomian.service.AccountService;
 import se.lexicon.jomian.service.CourseService;
-import se.lexicon.jomian.service.ServiceException;
 import se.lexicon.jomian.util.CurrentContext;
 import se.lexicon.jomian.util.Language;
 import se.lexicon.jomian.util.SearchOption;
@@ -19,7 +20,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * @author Johan Gustafsson
@@ -29,11 +29,15 @@ import java.util.stream.Collectors;
 @ConversationScoped
 public class SearchController implements Serializable {
     @Inject
-    Conversation conversation;
+    private Conversation conversation;
     @Inject
-    AccountService accountService;
+    private AccountService accountService;
     @Inject
-    CourseService courseService;
+    private AccountDAO accountDAO;
+    @Inject
+    private CourseDAO courseDAO;
+    @Inject
+    private CourseService courseService;
     private String searchFor;
     private Map<String, SearchOption> searchOptions = new HashMap<>();
     private SearchOption searchOption = SearchOption.ACCOUNT;
@@ -65,47 +69,33 @@ public class SearchController implements Serializable {
 
     public String search() {
         if (searchOption == SearchOption.ACCOUNT) {
-            if (searchFor == null || searchFor.equals("")) {
-                accounts = accountService.getAll();
-            } else {
-                accounts = accountService.findLikeName(searchFor);
-            }
+            accounts = accountService.getAccountsLike(searchFor);
             courses.clear();
         } else {
-            if (searchFor == null || searchFor.equals("")) {
-                courses = courseService.getAll();
-            } else {
-                courses = courseService.findLikeName(searchFor);
-            }
+            courses = courseService.getCoursesLike(searchFor);
             accounts.clear();
         }
         return "/admin/search.xhtml?faces-redirect=true";
     }
 
     public String deleteAccount(Account account) {
-        accountService.delete(account);
+        accountDAO.remove(account);
         search();
         return "/admin/search.xhtml?faces-redirect=true";
     }
 
     public String deleteCourse(Course course) {
-        try {
-            courseService.delete(course);
-            search();
-        } catch (ServiceException e) {
-            CurrentContext.message("searchForm:messages", e.getMessage());
-        }
+        courseDAO.remove(course);
+        search();
         return "/admin/search.xhtml?faces-redirect=true";
     }
 
     public List<String> getAutocompleteList(String query) {
         List<String> result = new ArrayList<>();
         if (searchOption == SearchOption.ACCOUNT) {
-            List<Account> accounts = accountService.findLikeName(query);
-            result = accounts.stream().map(Account::getName).collect(Collectors.toList());
+            accountService.getAccountNamesLike(query);
         } else if (searchOption == SearchOption.COURSE) {
-            List<Course> courses = courseService.findLikeName(query);
-            result = courses.stream().map(Course::getName).collect(Collectors.toList());
+            courseService.getCourseNamesLike(query);
         }
         return result;
     }

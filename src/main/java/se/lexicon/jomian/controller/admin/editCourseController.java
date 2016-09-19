@@ -1,8 +1,9 @@
 package se.lexicon.jomian.controller.admin;
 
+import se.lexicon.jomian.dao.AccountDAO;
+import se.lexicon.jomian.dao.CourseDAO;
 import se.lexicon.jomian.entity.Account;
 import se.lexicon.jomian.entity.Course;
-import se.lexicon.jomian.service.AccountService;
 import se.lexicon.jomian.service.CourseService;
 import se.lexicon.jomian.service.ServiceException;
 import se.lexicon.jomian.util.CurrentContext;
@@ -12,6 +13,7 @@ import javax.enterprise.context.ConversationScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.NoResultException;
 import java.io.Serializable;
 import java.util.List;
 
@@ -27,7 +29,9 @@ public class editCourseController implements Serializable {
     @Inject
     private CourseService courseService;
     @Inject
-    private AccountService accountService;
+    private CourseDAO courseDAO;
+    @Inject
+    private AccountDAO accountDAO;
     private Course course = new Course();
     private List<Account> selectedTeachers;
     private Long courseId;
@@ -44,12 +48,12 @@ public class editCourseController implements Serializable {
         }
 
         try {
-            course = courseService.findById(courseId);
-            selectedTeachers = courseService.findTeachersForCourse(courseId);
+            course = courseDAO.findById(courseId);
+            selectedTeachers = courseDAO.findTeachersForCourse(courseId);
             if (!FacesContext.getCurrentInstance().isPostback() && conversation.isTransient()) {
                 conversation.begin();
             }
-        } catch (ServiceException e) {
+        } catch (NoResultException e) {
             CurrentContext.redirect404();
         }
     }
@@ -74,7 +78,7 @@ public class editCourseController implements Serializable {
     }
 
     public List<Account> getAllTeachers() {
-        return accountService.getAllTeachers();
+        return accountDAO.findAllTeachers();
     }
 
     public List<Account> getSelectedTeachers() {

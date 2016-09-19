@@ -1,8 +1,8 @@
 package se.lexicon.jomian.controller.admin;
 
+import se.lexicon.jomian.dao.AccountDAO;
 import se.lexicon.jomian.entity.Account;
 import se.lexicon.jomian.entity.Course;
-import se.lexicon.jomian.service.AccountService;
 import se.lexicon.jomian.service.CourseService;
 import se.lexicon.jomian.service.ServiceException;
 import se.lexicon.jomian.util.CurrentContext;
@@ -22,7 +22,7 @@ public class addCourseController {
     @Inject
     private CourseService courseService;
     @Inject
-    private AccountService accountService;
+    private AccountDAO accountDAO;
     private Course course = new Course();
     private List<Account> selectedTeachers;
 
@@ -37,7 +37,7 @@ public class addCourseController {
     }
 
     public List<Account> getAllTeachers() {
-        return accountService.getAllTeachers();
+        return accountDAO.findAllTeachers();
     }
 
     public Course getCourse() {

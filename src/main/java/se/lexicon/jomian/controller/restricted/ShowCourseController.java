@@ -1,15 +1,16 @@
 package se.lexicon.jomian.controller.restricted;
 
+import se.lexicon.jomian.dao.CourseDAO;
 import se.lexicon.jomian.entity.Account;
 import se.lexicon.jomian.entity.AccountCourse;
 import se.lexicon.jomian.entity.Course;
 import se.lexicon.jomian.service.CourseService;
-import se.lexicon.jomian.service.ServiceException;
 import se.lexicon.jomian.util.CurrentContext;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.NoResultException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +23,8 @@ import java.util.List;
 public class ShowCourseController {
     @Inject
     CourseService courseService;
+    @Inject
+    private CourseDAO courseDAO;
     private Long courseId;
     private Course course;
     private List<Account> teachers = new ArrayList<>();
@@ -33,9 +36,9 @@ public class ShowCourseController {
         }
 
         try {
-            course = courseService.findById(courseId);
+            course = courseDAO.findById(courseId);
             populateListOfTeachers();
-        } catch (ServiceException e) {
+        } catch (NoResultException e) {
             CurrentContext.redirect404();
         }
     }

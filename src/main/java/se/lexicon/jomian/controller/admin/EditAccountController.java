@@ -1,8 +1,8 @@
 package se.lexicon.jomian.controller.admin;
 
+import se.lexicon.jomian.dao.AccountDAO;
 import se.lexicon.jomian.entity.Account;
 import se.lexicon.jomian.service.AccountService;
-import se.lexicon.jomian.service.ServiceException;
 import se.lexicon.jomian.util.CurrentContext;
 
 import javax.enterprise.context.Conversation;
@@ -23,6 +23,8 @@ public class EditAccountController implements Serializable {
     Conversation conversation;
     @Inject
     private AccountService accountService;
+    @Inject
+    private AccountDAO accountDAO;
     private Account account = new Account();
     private Long accountId;
     private String from;
@@ -33,7 +35,7 @@ public class EditAccountController implements Serializable {
             return;
         }
 
-        account = accountService.findById(accountId);
+        account = accountDAO.findById(accountId);
         if (account == null) {
             CurrentContext.redirect404();
             return;
@@ -49,7 +51,7 @@ public class EditAccountController implements Serializable {
     }
 
     public String editAccount() {
-        accountService.update(account);
+        accountDAO.merge(account);
         conversation.end();
         return from + "?faces-redirect=true";
     }

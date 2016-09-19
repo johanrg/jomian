@@ -1,5 +1,6 @@
 package se.lexicon.jomian.controller;
 
+import se.lexicon.jomian.dao.AccountDAO;
 import se.lexicon.jomian.entity.Account;
 import se.lexicon.jomian.service.AccountService;
 import se.lexicon.jomian.service.ServiceException;
@@ -8,7 +9,6 @@ import se.lexicon.jomian.util.CurrentContext;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.NoResultException;
 import java.io.Serializable;
 
 /**
@@ -20,6 +20,8 @@ import java.io.Serializable;
 public class LoginController implements Serializable {
     @Inject
     private AccountService accountService;
+    @Inject
+    private AccountDAO accountDAO;
     private Account account = new Account();
     private Account loggedInAccount;
     private final String USER_SESSION_ID = "user.session.id";
@@ -74,12 +76,7 @@ public class LoginController implements Serializable {
             return;
         }
 
-        try {
-            loggedInAccount = accountService.findByIdAndPass(id, password);
-            isLoggedIn = true;
-        } catch (NoResultException e) {
-            isLoggedIn = false;
-        }
-
+        loggedInAccount = accountDAO.findByIdAndPass(id, password);
+        isLoggedIn = loggedInAccount != null;
     }
 }
