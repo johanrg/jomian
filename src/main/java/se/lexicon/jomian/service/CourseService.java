@@ -1,5 +1,6 @@
 package se.lexicon.jomian.service;
 
+import se.lexicon.jomian.dao.AccountCourseDAO;
 import se.lexicon.jomian.dao.AccountDAO;
 import se.lexicon.jomian.dao.CourseDAO;
 import se.lexicon.jomian.entity.Account;
@@ -25,6 +26,8 @@ public class CourseService implements Serializable {
     CourseDAO courseDAO;
     @Inject
     AccountDAO accountDAO;
+    @Inject
+    AccountCourseDAO accountCourseDAO;
 
     public void create(Course course, List<Account> teachers) throws ServiceException {
         if (courseDAO.findByCourseName(course.getName()) != null) {
@@ -99,7 +102,7 @@ public class CourseService implements Serializable {
     public boolean isTeacherOfCourse(Course course, Account account) {
         for (AccountCourse accountCourse : course.getAccountCourses()) {
             if (account.getId().equals(accountCourse.getAccount().getId())
-                   && accountCourse.getRole() == AccountCourse.Role.TEACHER) {
+                    && accountCourse.getRole() == AccountCourse.Role.TEACHER) {
                 return true;
             }
         }
@@ -118,21 +121,25 @@ public class CourseService implements Serializable {
         accountCourse.setRole(role);
         account.getAccountCourses().add(accountCourse);
         course.getAccountCourses().add(accountCourse);
+        //accountCourseDAO.persist(accountCourse);
         accountDAO.merge(account);
     }
 
     public void removeAccountFromCourse(Course course, Account account) {
-        Iterator<AccountCourse> accountCourses = course.getAccountCourses().iterator();
-        while (accountCourses.hasNext()) {
-            AccountCourse accountCourse = accountCourses.next();
+        AccountCourse accountCourseToRemove = null;
+        for (AccountCourse accountCourse : course.getAccountCourses()) {
             Account dbAccount = accountCourse.getAccount();
             if (dbAccount.getId().equals(account.getId())) {
-                dbAccount.getAccountCourses().remove(accountCourse);
-                accountCourses.remove();
-                accountDAO.merge(account);
-                courseDAO.merge(course);
+                accountCourseToRemove = accountCourse;
                 break;
             }
+        }
+
+        if (accountCourseToRemove != null) {
+            account.getAccountCourses().remove(accountCourseToRemove);
+            course.getAccountCourses().remove(accountCourseToRemove);
+            courseDAO.merge(course);
+            accountDAO.merge(account);
         }
     }
 

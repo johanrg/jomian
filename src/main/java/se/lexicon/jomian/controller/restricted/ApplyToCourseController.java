@@ -39,6 +39,7 @@ public class ApplyToCourseController implements Serializable {
     private Course course;
     private List<Account> teachers = new ArrayList<>();
     private long studentsAppliedCount;
+    private String from;
 
     public void initView() {
         if (courseId == null || courseId == 0) {
@@ -53,6 +54,9 @@ public class ApplyToCourseController implements Serializable {
             CurrentContext.redirect404();
         }
 
+        if (from == null) {
+            from = "/restricted/index";
+        }
         studentsAppliedCount = courseService.getNumberOfStudentApplicationsForCourse(course);
         if (!FacesContext.getCurrentInstance().isPostback() && conversation.isTransient()) {
             conversation.begin();
@@ -73,14 +77,14 @@ public class ApplyToCourseController implements Serializable {
         Account account = loginController.getLoggedInAccount();
         courseService.applyStudentToCourse(course, account);
         conversation.end();
-        return "/restricted/comingCourses";
+        return from;
     }
 
     public String cancelApplication() {
         Account account = loginController.getLoggedInAccount();
         courseService.removeAccountFromCourse(course, account);
         conversation.end();
-        return "/restricted/comingCourses";
+        return from;
     }
 
     private void populateListOfTeachers() {
@@ -107,6 +111,14 @@ public class ApplyToCourseController implements Serializable {
 
     public void setCourseId(Long courseId) {
         this.courseId = courseId;
+    }
+
+    public String getFrom() {
+        return from;
+    }
+
+    public void setFrom(String from) {
+        this.from = from;
     }
 
     public Course getCourse() {

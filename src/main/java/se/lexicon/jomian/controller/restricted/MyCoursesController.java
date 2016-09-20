@@ -25,7 +25,7 @@ public class MyCoursesController {
 
     public void onCourseRowSelect(SelectEvent event) {
         CurrentContext.redirect("/restricted/applyToCourse.xhtml?courseId="
-                + ((Course) event.getObject()).getId());
+                + ((Course) event.getObject()).getId() + "&from=/restricted/myCourses");
     }
 
     public List<Course> getCoursesAppliedTo() {

@@ -17,10 +17,9 @@ import java.util.Date;
 public class AccountCourse {
     public enum Role {
         APPLICATION(1),
-        RESERVE(2),
-        DROPOUT(3),
-        STUDENT(4),
-        TEACHER(5);
+        DROPOUT(2),
+        STUDENT(3),
+        TEACHER(4);
 
         private int value;
 
@@ -31,7 +30,6 @@ public class AccountCourse {
         Role(int value) {
             this.value = value;
         }
-
     }
 
     private Long id;
@@ -68,7 +66,7 @@ public class AccountCourse {
         this.createdAt = createdAt;
     }
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne
     @JoinColumn(nullable = false)
     public Account getAccount() {
         return account;
@@ -78,7 +76,7 @@ public class AccountCourse {
         this.account = account;
     }
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne
     @JoinColumn(nullable = false)
     public Course getCourse() {
         return course;
@@ -86,5 +84,10 @@ public class AccountCourse {
 
     public void setCourse(Course course) {
         this.course = course;
+    }
+
+    @Override
+    public String toString() {
+       return "" + getId();
     }
 }

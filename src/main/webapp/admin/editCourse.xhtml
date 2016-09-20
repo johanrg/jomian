@@ -8,34 +8,34 @@
       xmlns:p="http://primefaces.org/ui">
 
 <f:metadata>
-    <f:viewParam name="courseId" value="#{EditCourseController.courseId}"/>
-    <f:viewParam name="from" value="#{EditCourseController.from}"/>
+    <f:viewParam name="courseId" value="#{editCourseController.courseId}"/>
+    <f:viewParam name="from" value="#{editCourseController.from}"/>
 </f:metadata>
 <ui:composition template="/WEB-INF/template/default/layout.xhtml">
     <ui:define name="content">
-        <f:event type="preRenderView" listener="#{EditCourseController.initView}"/>
+        <f:event type="preRenderView" listener="#{editCourseController.initView}"/>
 
         <h:form id="editCourseForm">
             <p:panel header="#{language['editCourse.header']}">
                 <p:growl id="messages"/>
-                <h:inputHidden id="from" value="#{EditCourseController.from}"/>
-                <h:inputHidden id="id" value="#{EditCourseController.course.id}"/>
+                <h:inputHidden id="from" value="#{editCourseController.from}"/>
+                <h:inputHidden id="id" value="#{editCourseController.course.id}"/>
 
                 <p:panelGrid columns="2" styleClass="forms">
                     <p:outputLabel for="name" value="#{language['course.nameLabel']}"/>
-                    <p:inputText id="name" value="#{EditCourseController.course.name}"
+                    <p:inputText id="name" value="#{editCourseController.course.name}"
                                  required="true" requiredMessage="#{language['course.nameRequired']}" size="50"/>
 
                     <p:outputLabel for="description" value="#{language['course.descriptionLabel']}"/>
-                    <p:inputTextarea id="description" value="#{EditCourseController.course.description}" rows="8"
+                    <p:inputTextarea id="description" value="#{editCourseController.course.description}" rows="8"
                                      cols="50"/>
 
                     <p:outputLabel for="maxStudents" value="#{language['course.maxStudentsLabel']}"/>
-                    <p:inputText id="maxStudents" value="#{EditCourseController.course.maxStudents}"
+                    <p:inputText id="maxStudents" value="#{editCourseController.course.maxStudents}"
                                  required="true" requiredMessage="#{course.maxStudentsRequired}"/>
 
                     <p:outputLabel for="startDate" value="#{language['course.startDateLabel']}"/>
-                    <p:calendar id="startDate" value="#{EditCourseController.course.startDate}" mode="popup"
+                    <p:calendar id="startDate" value="#{editCourseController.course.startDate}" mode="popup"
                                 showOn="button"
                                 placeholder="yyyy-mm-dd"
                                 required="true" requiredMessage="#{language['course.startDateRequired']}">
@@ -43,15 +43,15 @@
                     </p:calendar>
 
                     <p:outputLabel for="endDate" value="#{language['course.endDateLabel']}"/>
-                    <p:calendar id="endDate" value="#{EditCourseController.course.endDate}" mode="popup" showOn="button"
+                    <p:calendar id="endDate" value="#{editCourseController.course.endDate}" mode="popup" showOn="button"
                                 placeholder="yyyy-mm-dd"
                                 required="true" requiredMessage="#{language['course.endDateRequired']}">
                         <f:convertDateTime pattern="yyyy-MM-dd"/>
                     </p:calendar>
 
                     <p:outputLabel for="teacherDT" value="Lärare"/>
-                    <p:dataTable id="teacherDT" value="#{EditCourseController.allTeachers}" var="teacher"
-                                 rowKey="#{teacher.id}" selection="#{EditCourseController.selectedTeachers}">
+                    <p:dataTable id="teacherDT" value="#{editCourseController.allTeachers}" var="teacher"
+                                 rowKey="#{teacher.id}" selection="#{editCourseController.selectedTeachers}">
                         <p:column width="40" selectionMode="multiple"/>
                         <p:column>
                             #{teacher.name}
@@ -60,7 +60,7 @@
 
                 </p:panelGrid>
                 <p:commandButton value="#{language['general.save']}" update="messages"
-                                 action="#{EditCourseController.editCourse}" ajax="false"/>
+                                 action="#{editCourseController.editCourse}" ajax="false"/>
             </p:panel>
         </h:form>
     </ui:define>
