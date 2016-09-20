@@ -1,5 +1,6 @@
 package se.lexicon.jomian.entity;
 
+import javax.jws.soap.InitParam;
 import javax.persistence.*;
 import java.util.Date;
 
@@ -67,7 +68,7 @@ public class AccountCourse {
     }
 
     @ManyToOne
-    @JoinColumn(nullable = false)
+    @JoinColumn(name = "account_id")
     public Account getAccount() {
         return account;
     }
@@ -77,7 +78,7 @@ public class AccountCourse {
     }
 
     @ManyToOne
-    @JoinColumn(nullable = false)
+    @JoinColumn(name = "course_id")
     public Course getCourse() {
         return course;
     }

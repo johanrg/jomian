@@ -40,7 +40,7 @@ public class CourseSession {
         this.createdAt = createdAt;
     }
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne
     @JoinColumn(nullable = false)
     public Course getCourse() {
         return course;
@@ -50,7 +50,7 @@ public class CourseSession {
         this.course = course;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "courseSession", orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "courseSession", orphanRemoval = true)
     private List<Attendance> getAttendances() {
         return attendances;
     }

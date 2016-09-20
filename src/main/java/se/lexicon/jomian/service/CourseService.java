@@ -121,7 +121,7 @@ public class CourseService implements Serializable {
         accountCourse.setRole(role);
         account.getAccountCourses().add(accountCourse);
         course.getAccountCourses().add(accountCourse);
-        //accountCourseDAO.persist(accountCourse);
+        accountCourseDAO.persist(accountCourse);
         accountDAO.merge(account);
     }
 
@@ -138,6 +138,8 @@ public class CourseService implements Serializable {
         if (accountCourseToRemove != null) {
             account.getAccountCourses().remove(accountCourseToRemove);
             course.getAccountCourses().remove(accountCourseToRemove);
+            account.getAccountCourses().clear();
+            course.getAccountCourses().clear();
             courseDAO.merge(course);
             accountDAO.merge(account);
         }

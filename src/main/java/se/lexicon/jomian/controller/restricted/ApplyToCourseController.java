@@ -19,6 +19,7 @@ import javax.persistence.NoResultException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Johan Gustafsson
@@ -47,12 +48,12 @@ public class ApplyToCourseController implements Serializable {
             return;
         }
 
-        try {
-            course = courseDAO.findById(courseId);
-            populateListOfTeachers();
-        } catch (NoResultException e) {
+        course = courseDAO.findById(courseId);
+        if (course == null) {
             CurrentContext.redirect404();
+            return;
         }
+        populateListOfTeachers();
 
         if (from == null) {
             from = "/restricted/index";
@@ -130,7 +131,7 @@ public class ApplyToCourseController implements Serializable {
     }
 
     public List<Account> getTeachers() {
-        return teachers;
+        return courseDAO.findTeachersForCourse(courseId);
     }
 }
 

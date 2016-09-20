@@ -17,6 +17,9 @@ public class AccountCourseDAO {
         em.persist(accountCourse);
     }
 
+    public void merge(AccountCourse accountCourse) {
+        em.merge(accountCourse);
+    }
     public void remove(AccountCourse accountCourse) {
         em.remove(em.merge(accountCourse));
     }

@@ -97,7 +97,7 @@ public class Course {
         this.createdAt = createdAt;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "course", orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "course", orphanRemoval = true)
     public List<AccountCourse> getAccountCourses() {
         return accountCourses;
     }

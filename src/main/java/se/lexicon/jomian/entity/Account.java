@@ -131,17 +131,12 @@ public class Account {
         this.accountCourses = accountCourses;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "account", orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "account", orphanRemoval = true)
     public List<Attendance> getAttendances() {
         return attendances;
     }
 
     public void setAttendances(List<Attendance> attendances) {
-       this.attendances = attendances;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        return (getClass() != o.getClass()) && this.getId().equals(((Account)o).getId());
+        this.attendances = attendances;
     }
 }

@@ -47,7 +47,7 @@ public class Attendance {
         this.createdAt = createdAt;
     }
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne
     @JoinColumn(nullable = false)
     public Account getAccount() {
         return account;
@@ -57,7 +57,7 @@ public class Attendance {
         this.account = account;
     }
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @ManyToOne
     @JoinColumn(nullable = false)
     public CourseSession getCourseSession() {
         return courseSession;
