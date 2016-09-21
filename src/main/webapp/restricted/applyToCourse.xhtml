@@ -48,16 +48,20 @@
                     <p:inputText id="placesLeft" value="#{applyToCourseController.placesLeft}" readonly="true"/>
 
                 </p:panelGrid>
-                <h:panelGroup rendered="#{!applyToCourseController.teacherOfCourse}">
+                <h:panelGroup rendered="#{!applyToCourseController.teacherOfCourse and !applyToCourseController.hasStudentBeenApproved}">
                     <h:panelGroup rendered="#{applyToCourseController.hasStudentAlreadyApplied}">
                         <p:commandButton value="#{language['course.cancelApplication']}"
-                                         action="#{applyToCourseController.cancelApplication}" ajax="false"/>
+                                         action="#{applyToCourseController.removeFromCourse}" ajax="false"/>
                     </h:panelGroup>
                     <h:panelGroup
                             rendered="#{applyToCourseController.applicationStillOpen and !applyToCourseController.hasStudentAlreadyApplied}">
                         <p:commandButton value="#{language['course.applyToCourse']}"
                                          action="#{applyToCourseController.applyToCourse}" ajax="false"/>
                     </h:panelGroup>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{applyToCourseController.hasStudentBeenApproved}">
+                    <p:commandButton value="#{language['course.cancelCourse']}"
+                                     action="#{applyToCourseController.removeFromCourse}"/>
                 </h:panelGroup>
             </p:panel>
         </h:form>

@@ -26,7 +26,7 @@ import java.util.List;
                 query = "SELECT c FROM Course c WHERE c.startDate > CURRENT_DATE"),
         @NamedQuery(
                 name = "Course.FindAllStudentApplications",
-                query = "SELECT NEW se.lexicon.jomian.resultclass.AccountAndCourse(ac.id, c.name, ac.account.name) FROM Course c, AccountCourse ac WHERE ac MEMBER OF c.accountCourses AND ac.role = :role ORDER BY c.name")
+                query = "SELECT NEW se.lexicon.jomian.resultclass.AccountAndCourse(ac.id, ac.account.name, ac.account.email, c.name) FROM Course c, AccountCourse ac WHERE ac MEMBER OF c.accountCourses AND ac.role = :role ORDER BY c.name")
 })
 public class Course {
     private Long id;

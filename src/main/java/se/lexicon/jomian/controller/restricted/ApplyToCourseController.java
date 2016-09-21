@@ -1,25 +1,20 @@
 package se.lexicon.jomian.controller.restricted;
 
 import se.lexicon.jomian.controller.LoginController;
-import se.lexicon.jomian.dao.AccountDAO;
 import se.lexicon.jomian.dao.CourseDAO;
 import se.lexicon.jomian.entity.Account;
-import se.lexicon.jomian.entity.AccountCourse;
 import se.lexicon.jomian.entity.Course;
 import se.lexicon.jomian.service.CourseService;
 import se.lexicon.jomian.util.CurrentContext;
 
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.NoResultException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author Johan Gustafsson
@@ -53,7 +48,6 @@ public class ApplyToCourseController implements Serializable {
             CurrentContext.redirect404();
             return;
         }
-        populateListOfTeachers();
 
         if (from == null) {
             from = "/restricted/index";
@@ -64,38 +58,28 @@ public class ApplyToCourseController implements Serializable {
         }
     }
 
+    public String applyToCourse() {
+        courseService.applyStudentToCourse(course, loginController.getLoggedInAccount());
+        conversation.end();
+        return from;
+    }
+
+    public String removeFromCourse() {
+        courseService.removeAccountFromCourse(course, loginController.getLoggedInAccount());
+        conversation.end();
+        return from;
+    }
+
     public boolean getHasStudentAlreadyApplied() {
-        Account account = loginController.getLoggedInAccount();
-        return account != null && courseService.hasStudentAlreadyApplied(course, account);
+        return courseService.hasStudentApplied(course, loginController.getLoggedInAccount());
+    }
+
+    public boolean getHasStudentBeenApproved() {
+       return courseService.hasStudentBeenApproved(course, loginController.getLoggedInAccount());
     }
 
     public boolean isTeacherOfCourse() {
-        Account account = loginController.getLoggedInAccount();
-        return account != null && courseService.isTeacherOfCourse(course, account);
-    }
-
-    public String applyToCourse() {
-        Account account = loginController.getLoggedInAccount();
-        courseService.applyStudentToCourse(course, account);
-        conversation.end();
-        return from;
-    }
-
-    public String cancelApplication() {
-        Account account = loginController.getLoggedInAccount();
-        courseService.removeAccountFromCourse(course, account);
-        conversation.end();
-        return from;
-    }
-
-    private void populateListOfTeachers() {
-        teachers.clear();
-        course.getAccountCourses().forEach(a -> {
-            if (a.getRole() == AccountCourse.Role.TEACHER) {
-                Account teacher = a.getAccount();
-                teachers.add(teacher);
-            }
-        });
+        return courseService.isTeacherOfCourse(course, loginController.getLoggedInAccount());
     }
 
     public boolean isApplicationStillOpen() {

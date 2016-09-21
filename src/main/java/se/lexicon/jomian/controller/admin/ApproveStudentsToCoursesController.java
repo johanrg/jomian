@@ -1,9 +1,12 @@
 package se.lexicon.jomian.controller.admin;
 
 import se.lexicon.jomian.dao.CourseDAO;
+import se.lexicon.jomian.entity.AccountCourse;
 import se.lexicon.jomian.resultclass.AccountAndCourse;
+import se.lexicon.jomian.service.AccountCourseService;
+import se.lexicon.jomian.util.CurrentContext;
 
-import javax.faces.bean.RequestScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.List;
@@ -16,8 +19,22 @@ import java.util.List;
 @RequestScoped
 public class ApproveStudentsToCoursesController {
     @Inject
+    private AccountCourseService accountCourseService;
+    @Inject
     private CourseDAO courseDAO;
     private List<AccountAndCourse> selectedAccounts;
+
+    public String approveStudents() {
+        selectedAccounts.forEach(a -> {
+            accountCourseService.changeRole(a.getAccountCourseId(), AccountCourse.Role.STUDENT);
+        });
+        return "/admin/approveStudentsToCourses";
+    }
+
+    public void denyCourse(AccountAndCourse accountAndCourse) {
+        accountCourseService.removeAccountCourse(accountAndCourse.getAccountCourseId());
+        CurrentContext.redirect("/admin/approveStudentsToCourses.xhtml");
+    }
 
     public List<AccountAndCourse> getAllStudentApplications() {
         return courseDAO.findAllStudentApplications();

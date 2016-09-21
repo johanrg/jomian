@@ -5,22 +5,24 @@ package se.lexicon.jomian.resultclass;
  * @since 2016-09-21.
  */
 public class AccountAndCourse {
-    private Long accountAndCourseId;
+    private Long accountCourseId;
     private String accountName;
+    private String accountEmail;
     private String courseName;
 
-    public AccountAndCourse(Long accountAndCourseId, String accountName, String courseName) {
-        this.accountAndCourseId = accountAndCourseId;
+    public AccountAndCourse(Long accountCourseId, String accountName, String accountEmail, String courseName) {
+        this.accountCourseId = accountCourseId;
         this.accountName = accountName;
+        this.accountEmail = accountEmail;
         this.courseName = courseName;
     }
 
-    public Long getAccountAndCourseId() {
-        return accountAndCourseId;
+    public Long getAccountCourseId() {
+        return accountCourseId;
     }
 
-    public void setAccountAndCourseId(Long accountAndCourseId) {
-        this.accountAndCourseId = accountAndCourseId;
+    public void setAccountCourseId(Long accountCourseId) {
+        this.accountCourseId = accountCourseId;
     }
 
     public String getAccountName() {
@@ -29,6 +31,14 @@ public class AccountAndCourse {
 
     public void setAccountName(String accountName) {
         this.accountName = accountName;
+    }
+
+    public String getAccountEmail() {
+        return accountEmail;
+    }
+
+    public void setAccountEmail(String accountEmail) {
+        this.accountEmail = accountEmail;
     }
 
     public String getCourseName() {

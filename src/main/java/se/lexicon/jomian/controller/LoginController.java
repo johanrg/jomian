@@ -5,6 +5,7 @@ import se.lexicon.jomian.entity.Account;
 import se.lexicon.jomian.service.AccountService;
 import se.lexicon.jomian.service.ServiceException;
 import se.lexicon.jomian.util.CurrentContext;
+import se.lexicon.jomian.util.Language;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
@@ -31,10 +32,14 @@ public class LoginController implements Serializable {
     public String login() {
         try {
             loggedInAccount = accountService.returnAccountWithMatchingCredentials(account.getEmail(), account.getPassword());
-            isLoggedIn = true;
-            CurrentContext.getSessionMap().put(USER_SESSION_ID, loggedInAccount.getId());
-            CurrentContext.getSessionMap().put(USER_SESSION_HASH, loggedInAccount.getPassword());
-            return "/restricted/index.xhtml?faces-redirect=true";
+            if (loggedInAccount != null) {
+                isLoggedIn = true;
+                CurrentContext.getSessionMap().put(USER_SESSION_ID, loggedInAccount.getId());
+                CurrentContext.getSessionMap().put(USER_SESSION_HASH, loggedInAccount.getPassword());
+                return "/restricted/index.xhtml?faces-redirect=true";
+            } else {
+                CurrentContext.message("loginForm", Language.getMessage("account.incorrectEmailOrPassword"));
+            }
         } catch (ServiceException e) {
             CurrentContext.message("loginForm", e.getMessage());
         }

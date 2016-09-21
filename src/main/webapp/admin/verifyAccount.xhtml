@@ -10,8 +10,8 @@
     <ui:define name="content">
         <h:form id="batchVerifyAccountForm">
             <p:growl id="messages"/>
-            <p:panel header="#{language['batchVerifyAccount.header']}">
-                <h:outputText value="#{language['batchVerifyAccount.explanation']}"/>
+            <p:panel header="#{language['verifyAccount.header']}">
+                <h:outputText value="#{language['verifyAccount.explanation']}"/>
                 <p:dataTable id="accountDT" value="#{verifyAccountController.unverifiedAccounts}" var="account"
                              rowKey="#{account.id}" selection="#{verifyAccountController.selectedAccounts}">
                     <p:ajax event="rowSelect" listener="#{verifyAccountController.onRowSelect}"/>
@@ -40,8 +40,9 @@
                     </p:column>
                     <f:facet name="footer">
                         <p:commandButton process="accountDT" update="batchVerifyAccountForm"
-                                         value="#{language['batchVerifyAccount.verifyButton']}"
-                                         action="#{verifyAccountController.verifyAccount}"/>
+                                         value="#{language['verifyAccount.verifyButton']}"
+                                         action="#{verifyAccountController.verifyAccount}"
+                                         disabled="#{verifyAccountController.unverifiedAccounts.size() eq 0}"/>
                     </f:facet>
                 </p:dataTable>
             </p:panel>

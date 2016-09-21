@@ -24,4 +24,9 @@ public class AccountCourseDAO {
     public void remove(AccountCourse accountCourse) {
         em.remove(em.merge(accountCourse));
     }
+
+    public AccountCourse findById(Long id) {
+        return em.find(AccountCourse.class, id);
+    }
+
 }

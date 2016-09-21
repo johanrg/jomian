@@ -29,7 +29,7 @@ public class VerifyAccountController {
     public void onRowSelect(SelectEvent event) {
         CurrentContext.redirect("/admin/editAccount.xhtml?accountId="
                 + ((Account) event.getObject()).getId()
-                + "&from=/admin/batchVerifyAccount");
+                + "&from=/admin/verifyAccount");
     }
 
     public void verifyAccount() {
@@ -41,7 +41,7 @@ public class VerifyAccountController {
 
     public void deleteAccount(Account account) {
         accountDAO.remove(account);
-        CurrentContext.redirect("/admin/batchVerifyAccount.xhtml");
+        CurrentContext.redirect("/admin/verifyAccount.xhtml");
     }
 
     public List<Account> getSelectedAccounts() {

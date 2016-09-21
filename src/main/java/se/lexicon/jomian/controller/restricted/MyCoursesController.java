@@ -33,6 +33,6 @@ public class MyCoursesController {
     }
 
     public List<Course> getCoursesAcceptedTo() {
-        return courseService.getCoursesAcceptedTo(loginController.getLoggedInAccount());
+        return courseService.getStudentsAcceptedToCourses(loginController.getLoggedInAccount());
     }
 }

@@ -4,20 +4,48 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 <ui:composition template="/WEB-INF/template/default/layout.xhtml">
     <ui:define name="content">
         <h:form id="approveUserToCourseForm">
             <p:panel header="#{language['approveStudentsToCourses.header']}">
                 <p:dataTable value="#{approveStudentsToCoursesController.allStudentApplications}" var="accountAndCourse"
-                    rowKey="#{accountAndCourse.accountAndCourseId}" selection="#{approveStudentsToCoursesController.selectedAccounts}">
+                             rowKey="#{accountAndCourse.accountCourseId}"
+                             selection="#{approveStudentsToCoursesController.selectedAccounts}">
                     <p:column width="30" selectionMode="multiple"/>
-                    <p:column>
-                        #{accountAndCourse.accountName}
-                    </p:column>
-                    <p:column>
+                    <p:column width="30%" headerText="#{language['course.nameHeader']}">
                         #{accountAndCourse.courseName}
                     </p:column>
+                    <p:column width="30%" headerText="#{language['account.nameHeader']}">
+                        #{accountAndCourse.accountName}
+                    </p:column>
+                    <p:column width="30%" headerText="#{language['account.emailHeader']}">
+                        #{accountAndCourse.accountEmail}
+                    </p:column>
+                    <p:column>
+                        <p:column width="55">
+                            <p:commandButton icon="ui-icon-trash"
+                                             action="#{approveStudentsToCoursesController.denyCourse(accountAndCourse)}">
+                                <p:confirm header="#{language['general.confirmation']}"
+                                           message="#{language['approveStudentsToCourses.denyCourseConfirmation']}"
+                                           icon="ui-icon-alert"/>
+                            </p:commandButton>
+                            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                <p:commandButton value="#{language['general.yes']}" type="button"
+                                                 styleClass="ui-confirmdialog-yes"
+                                                 icon="ui-icon-check"/>
+                                <p:commandButton value="#{language['general.no']}" type="button"
+                                                 styleClass="ui-confirmdialog-no"
+                                                 icon="ui-icon-close"/>
+                            </p:confirmDialog>
+                        </p:column>
+                    </p:column>
+                    <f:facet name="footer">
+                        <p:commandButton value="#{language['approveStudentsToCourses.approveButton']}"
+                                         action="#{approveStudentsToCoursesController.approveStudents}" ajax="false"
+                                         disabled="#{approveStudentsToCoursesController.allStudentApplications.size() eq 0}"/>
+                    </f:facet>
                 </p:dataTable>
             </p:panel>
         </h:form>

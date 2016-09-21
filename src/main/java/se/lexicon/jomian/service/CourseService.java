@@ -89,10 +89,20 @@ public class CourseService implements Serializable {
         }
     }
 
-    public boolean hasStudentAlreadyApplied(Course course, Account account) {
+    public boolean hasStudentApplied(Course course, Account account) {
         for (AccountCourse accountCourse : course.getAccountCourses()) {
             if (account.getId().equals(accountCourse.getAccount().getId())
-                    && accountCourse.getRole() == AccountCourse.Role.APPLICATION) {
+                    && (accountCourse.getRole() == AccountCourse.Role.APPLICATION)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean hasStudentBeenApproved(Course course, Account account) {
+        for (AccountCourse accountCourse : course.getAccountCourses()) {
+            if (account.getId().equals(accountCourse.getAccount().getId())
+                    && (accountCourse.getRole() == AccountCourse.Role.STUDENT)) {
                 return true;
             }
         }
@@ -169,7 +179,7 @@ public class CourseService implements Serializable {
                 .collect(Collectors.toList());
     }
 
-    public List<Course> getCoursesAcceptedTo(Account account) {
+    public List<Course> getStudentsAcceptedToCourses(Account account) {
         return account.getAccountCourses().stream()
                 .filter(ac -> ac.getRole() == AccountCourse.Role.STUDENT)
                 .map(AccountCourse::getCourse)
