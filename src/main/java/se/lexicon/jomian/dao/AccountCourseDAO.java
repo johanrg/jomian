@@ -20,6 +20,7 @@ public class AccountCourseDAO {
     public void merge(AccountCourse accountCourse) {
         em.merge(accountCourse);
     }
+
     public void remove(AccountCourse accountCourse) {
         em.remove(em.merge(accountCourse));
     }

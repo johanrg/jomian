@@ -1,6 +1,7 @@
 package se.lexicon.jomian.dao;
 
 import se.lexicon.jomian.entity.Account;
+import se.lexicon.jomian.resultclass.AccountAndCourse;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;

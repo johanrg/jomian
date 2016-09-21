@@ -3,6 +3,7 @@ package se.lexicon.jomian.dao;
 import se.lexicon.jomian.entity.Account;
 import se.lexicon.jomian.entity.AccountCourse;
 import se.lexicon.jomian.entity.Course;
+import se.lexicon.jomian.resultclass.AccountAndCourse;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -67,6 +68,12 @@ public class CourseDAO implements Serializable {
         } catch (NoResultException e) {
             return null;
         }
+    }
+
+    public List<AccountAndCourse> findAllStudentApplications() {
+        return em.createNamedQuery("Course.FindAllStudentApplications", AccountAndCourse.class)
+                .setParameter("role", AccountCourse.Role.APPLICATION)
+                .getResultList();
     }
 
     public List<Course> findLikeName(String name) {
