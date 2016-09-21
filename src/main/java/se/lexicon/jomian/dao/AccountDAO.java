@@ -17,24 +17,17 @@ import java.util.List;
  * @since 2016-09-19.
  */
 @Stateless
-public class AccountDAO implements Serializable {
+public class AccountDAO extends AbstractDAO<Account> implements Serializable {
     @PersistenceContext
     private EntityManager em;
 
-    public void persist(Account account) {
-        em.persist(account);
+    public AccountDAO() {
+        super(Account.class);
     }
 
-    public void merge(Account account) {
-        em.merge(account);
-    }
-
-    public void remove(Account account) {
-        em.remove(em.merge(account));
-    }
-
-    public Account findById(Long id) {
-        return em.find(Account.class, id);
+    @Override
+    EntityManager getEntityManager() {
+        return em;
     }
 
     public Account findByIdAndPass(Long id, String password) throws NoResultException {
@@ -72,18 +65,5 @@ public class AccountDAO implements Serializable {
     public List<Account> findUnverifiedAccounts() {
         return em.createNamedQuery("Account.FindUnverifiedAccounts", Account.class)
                 .getResultList();
-    }
-
-    public List<Account> getAll() {
-        CriteriaQuery<Account> criteriaQuery = em.getCriteriaBuilder().createQuery(Account.class);
-        criteriaQuery.select(criteriaQuery.from(Account.class));
-        return em.createQuery(criteriaQuery).getResultList();
-    }
-
-    public Long count() {
-        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
-        CriteriaQuery<Long> query = criteriaBuilder.createQuery(Long.class);
-        query.select(criteriaBuilder.count(query.from(Account.class)));
-        return em.createQuery(query).getSingleResult();
     }
 }

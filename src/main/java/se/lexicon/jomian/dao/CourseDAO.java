@@ -20,9 +20,18 @@ import java.util.List;
  * @since 2016-09-19.
  */
 @Stateless
-public class CourseDAO implements Serializable {
+public class CourseDAO extends AbstractDAO<Course> implements Serializable {
     @PersistenceContext
     EntityManager em;
+
+    public CourseDAO() {
+        super(Course.class);
+    }
+
+    @Override
+    EntityManager getEntityManager() {
+        return em;
+    }
 
     public void persist(Course course) {
         em.persist(course);
@@ -38,7 +47,7 @@ public class CourseDAO implements Serializable {
 
     public List<Account> findTeachersForCourse(Long courseId) {
         try {
-            Course course = findById(courseId);
+            Course course = find(courseId);
             List<Account> teachers = new ArrayList<>();
             for (AccountCourse accountCourse : course.getAccountCourses()) {
                 if (accountCourse.getAccount().isTeacher()) {
@@ -54,10 +63,6 @@ public class CourseDAO implements Serializable {
     public List<Course> findComingCourses() {
         return em.createNamedQuery("Course.FindComingCourses", Course.class)
                 .getResultList();
-    }
-
-    public Course findById(Long id) {
-        return em.find(Course.class, id);
     }
 
     public Course findByCourseName(String name) {
@@ -80,11 +85,5 @@ public class CourseDAO implements Serializable {
         return em.createNamedQuery("Course.FindLikeName", Course.class)
                 .setParameter("name", "%" + name + "%")
                 .getResultList();
-    }
-
-    public List<Course> getAll() {
-        CriteriaQuery<Course> criteriaQuery = em.getCriteriaBuilder().createQuery(Course.class);
-        criteriaQuery.select(criteriaQuery.from(Course.class));
-        return em.createQuery(criteriaQuery).getResultList();
     }
 }

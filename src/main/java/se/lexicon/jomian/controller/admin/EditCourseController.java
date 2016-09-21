@@ -48,7 +48,7 @@ public class EditCourseController implements Serializable {
         }
 
         try {
-            course = courseDAO.findById(courseId);
+            course = courseDAO.find(courseId);
             selectedTeachers = courseDAO.findTeachersForCourse(courseId);
             if (!FacesContext.getCurrentInstance().isPostback() && conversation.isTransient()) {
                 conversation.begin();

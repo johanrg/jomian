@@ -43,7 +43,7 @@ public class ApplyToCourseController implements Serializable {
             return;
         }
 
-        course = courseDAO.findById(courseId);
+        course = courseDAO.find(courseId);
         if (course == null) {
             CurrentContext.redirect404();
             return;

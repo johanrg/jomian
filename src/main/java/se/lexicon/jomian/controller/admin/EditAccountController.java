@@ -35,7 +35,7 @@ public class EditAccountController implements Serializable {
             return;
         }
 
-        account = accountDAO.findById(accountId);
+        account = accountDAO.find(accountId);
         if (account == null) {
             CurrentContext.redirect404();
             return;
