@@ -1,9 +1,9 @@
 package se.lexicon.jomian.filter;
 
+
 import se.lexicon.jomian.controller.LoginController;
 
 import javax.inject.Inject;
-import javax.security.auth.login.LoginContext;
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
@@ -11,14 +11,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Only allow logged in users to access the restricted area.
- *
  * @author Johan Gustafsson
- * @since 2016-09-08.
+ * @since 2016-09-22.
  */
-// TODO(Johan): This disables the login check, enable before release.
-//@WebFilter(urlPatterns = {"/restricted/*"})
-public class RestrictedAccessFilter implements Filter {
+//@WebFilter(urlPatterns = {"/teacher/*"})
+public class TeacherAccessFilter implements Filter {
     @Inject
     LoginController loginController;
 
@@ -32,11 +29,12 @@ public class RestrictedAccessFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
-        if (!loginController.isLoggedIn()) {
-            response.sendRedirect(request.getContextPath() + "/faces/login.xhtml");
+        if (!loginController.isLoggedIn() || !loginController.getAccount().isTeacher()) {
+            response.sendRedirect(request.getContextPath() + "/faces/404.xhtml");
         }
 
         filterChain.doFilter(servletRequest, servletResponse);
+
     }
 
     @Override
@@ -44,3 +42,5 @@ public class RestrictedAccessFilter implements Filter {
 
     }
 }
+
+

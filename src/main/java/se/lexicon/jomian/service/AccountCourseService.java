@@ -25,13 +25,13 @@ public class AccountCourseService {
     private CourseDAO courseDAO;
 
     public void changeRole(Long id, AccountCourse.Role role) {
-        AccountCourse accountCourse = accountCourseDAO.findById(id);
+        AccountCourse accountCourse = accountCourseDAO.find(id);
         accountCourse.setRole(role);
         accountCourseDAO.merge(accountCourse);
     }
 
     public void removeAccountCourse(Long id) {
-        AccountCourse accountCourse = accountCourseDAO.findById(id);
+        AccountCourse accountCourse = accountCourseDAO.find(id);
         Account account = accountCourse.getAccount();
         Course course = accountCourse.getCourse();
         account.getAccountCourses().remove(accountCourse);

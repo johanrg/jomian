@@ -9,7 +9,22 @@
 <ui:composition template="/WEB-INF/template/default/layout.xhtml">
     <ui:define name="content">
         <p:panel header="#{language['myCourses.header']}">
+
+            <h:panelGroup rendered="#{myCoursesController.coursesAsTeacher.size() != 0}">
+                <p:dataTable value="#{myCoursesController.coursesAsTeacher}" var="course"
+                             selectionMode="single" rowKey="#{course.id}">
+                    <p:ajax event="rowSelect" listener="#{myCoursesController.onTeacherForCourseRowSelect}"/>
+                    <f:facet name="header">
+                        #{language['myCourses.coursesITeach']}
+                    </f:facet>
+                    <p:column headerText="#{language['course.nameHeader']}">
+                        #{course.name}
+                    </p:column>
+                </p:dataTable>
+            </h:panelGroup>
+
             <h:panelGroup rendered="#{myCoursesController.coursesAppliedTo.size() != 0}">
+                <br/>
                 <p:dataTable value="#{myCoursesController.coursesAppliedTo}" var="course"
                              selectionMode="single" rowKey="#{course.id}">
                     <p:ajax event="rowSelect" listener="#{myCoursesController.onCourseRowSelect}"/>
@@ -31,8 +46,8 @@
                     </p:column>
                 </p:dataTable>
             </h:panelGroup>
-            <br/>
             <h:panelGroup rendered="#{myCoursesController.coursesAcceptedTo.size() != 0}">
+                <br/>
                 <p:dataTable value="#{myCoursesController.coursesAcceptedTo}" var="course"
                              selectionMode="single" rowKey="#{course.id}">
                     <p:ajax event="rowSelect" listener="#{myCoursesController.onCourseRowSelect}"/>

@@ -58,4 +58,9 @@ public class CourseSession {
     private void setAttendances(List<Attendance> attendances) {
         this.attendances = attendances;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        return o != null && o instanceof CourseSession && getId().equals(((CourseSession)o).getId());
+    }
 }

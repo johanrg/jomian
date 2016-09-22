@@ -10,6 +10,7 @@ import se.lexicon.jomian.util.CurrentContext;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.IOException;
 import java.util.List;
 
 /**

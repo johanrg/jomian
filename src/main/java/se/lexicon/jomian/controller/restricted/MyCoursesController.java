@@ -23,16 +23,25 @@ public class MyCoursesController {
     @Inject
     CourseService courseService;
 
+    public void onTeacherForCourseRowSelect(SelectEvent event) {
+        CurrentContext.redirect("/teacher/manageCourse.xhtml?courseId="
+                + ((Course) event.getObject()).getId());
+    }
+
     public void onCourseRowSelect(SelectEvent event) {
         CurrentContext.redirect("/restricted/applyToCourse.xhtml?courseId="
                 + ((Course) event.getObject()).getId() + "&from=/restricted/myCourses");
     }
 
+    public List<Course> getCoursesAsTeacher() {
+        return courseService.getCoursesAsTeacher(loginController.getLoggedInAccount());
+    }
+
     public List<Course> getCoursesAppliedTo() {
-        return courseService.getCoursesAppliedTo(loginController.getLoggedInAccount());
+        return courseService.getCoursesStudentAppliedTo(loginController.getLoggedInAccount());
     }
 
     public List<Course> getCoursesAcceptedTo() {
-        return courseService.getStudentsAcceptedToCourses(loginController.getLoggedInAccount());
+        return courseService.getAcceptedCoursesForStudent(loginController.getLoggedInAccount());
     }
 }

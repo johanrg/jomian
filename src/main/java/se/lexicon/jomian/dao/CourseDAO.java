@@ -33,18 +33,6 @@ public class CourseDAO extends AbstractDAO<Course> implements Serializable {
         return em;
     }
 
-    public void persist(Course course) {
-        em.persist(course);
-    }
-
-    public void merge(Course course) {
-        em.merge(course);
-    }
-
-    public void remove(Course course) {
-        em.remove(em.merge(course));
-    }
-
     public List<Account> findTeachersForCourse(Long courseId) {
         try {
             Course course = find(courseId);

@@ -121,7 +121,6 @@ public class CourseService implements Serializable {
 
     public void applyStudentToCourse(Course course, Account account) {
         addAccountToCourse(course, account, AccountCourse.Role.APPLICATION);
-        courseDAO.merge(course);
     }
 
     public void addAccountToCourse(Course course, Account account, AccountCourse.Role role) {
@@ -133,23 +132,15 @@ public class CourseService implements Serializable {
         course.getAccountCourses().add(accountCourse);
         accountCourseDAO.persist(accountCourse);
         accountDAO.merge(account);
+        courseDAO.merge(course);
     }
 
     public void removeAccountFromCourse(Course course, Account account) {
-        AccountCourse accountCourseToRemove = null;
-        for (AccountCourse accountCourse : course.getAccountCourses()) {
-            Account dbAccount = accountCourse.getAccount();
-            if (dbAccount.getId().equals(account.getId())) {
-                accountCourseToRemove = accountCourse;
-                break;
-            }
-        }
+        AccountCourse accountCourseToRemove = accountCourseDAO.findByAccountAndCourseId(account.getId(), course.getId());
 
         if (accountCourseToRemove != null) {
             account.getAccountCourses().remove(accountCourseToRemove);
             course.getAccountCourses().remove(accountCourseToRemove);
-            account.getAccountCourses().clear();
-            course.getAccountCourses().clear();
             courseDAO.merge(course);
             accountDAO.merge(account);
         }
@@ -172,17 +163,31 @@ public class CourseService implements Serializable {
         return course.getAccountCourses().stream().filter(a -> a.getRole() == AccountCourse.Role.APPLICATION).count();
     }
 
-    public List<Course> getCoursesAppliedTo(Account account) {
+    public List<Course> getCoursesAsTeacher(Account account) {
+        return account.getAccountCourses().stream()
+                .filter(ac -> ac.getRole() == AccountCourse.Role.TEACHER)
+                .map(AccountCourse::getCourse)
+                .collect(Collectors.toList());
+    }
+
+    public List<Course> getCoursesStudentAppliedTo(Account account) {
         return account.getAccountCourses().stream()
                 .filter(ac -> ac.getRole() == AccountCourse.Role.APPLICATION)
                 .map(AccountCourse::getCourse)
                 .collect(Collectors.toList());
     }
 
-    public List<Course> getStudentsAcceptedToCourses(Account account) {
+    public List<Course> getAcceptedCoursesForStudent(Account account) {
         return account.getAccountCourses().stream()
                 .filter(ac -> ac.getRole() == AccountCourse.Role.STUDENT)
                 .map(AccountCourse::getCourse)
+                .collect(Collectors.toList());
+    }
+
+    public List<Account> getStudentsAcceptedToCourse(Course course) {
+        return course.getAccountCourses().stream()
+                .filter(ac -> ac.getRole() == AccountCourse.Role.STUDENT)
+                .map(AccountCourse::getAccount)
                 .collect(Collectors.toList());
     }
 }

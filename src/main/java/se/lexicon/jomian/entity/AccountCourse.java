@@ -15,6 +15,9 @@ import java.util.Date;
  */
 @Entity
 @Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"course_id", "account_id"})})
+@NamedQueries({
+        @NamedQuery(name = "AccountCourse.FindByAccountAndCourseId", query = "SELECT a FROM AccountCourse a WHERE a.account.id = :accountId AND a.course.id = :courseId")
+})
 public class AccountCourse {
     public enum Role {
         APPLICATION(1),
@@ -90,5 +93,10 @@ public class AccountCourse {
     @Override
     public String toString() {
        return "" + getId();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+       return o != null && o instanceof AccountCourse && getId().equals(((AccountCourse)o).getId());
     }
 }

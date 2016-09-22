@@ -25,7 +25,7 @@ import java.util.List;
 @ConversationScoped
 public class EditCourseController implements Serializable {
     @Inject
-    Conversation conversation;
+    private Conversation conversation;
     @Inject
     private CourseService courseService;
     @Inject
@@ -47,13 +47,14 @@ public class EditCourseController implements Serializable {
             from = "/restricted/index.xhtml?faces-redirect=true";
         }
 
-        try {
-            course = courseDAO.find(courseId);
+
+        course = courseDAO.find(courseId);
+        if (course != null) {
             selectedTeachers = courseDAO.findTeachersForCourse(courseId);
             if (!FacesContext.getCurrentInstance().isPostback() && conversation.isTransient()) {
                 conversation.begin();
             }
-        } catch (NoResultException e) {
+        } else {
             CurrentContext.redirect404();
         }
     }
@@ -79,6 +80,10 @@ public class EditCourseController implements Serializable {
 
     public List<Account> getAllTeachers() {
         return accountDAO.findAllTeachers();
+    }
+
+    public List<Account> getStudentsInCourse() {
+        return courseService.getStudentsAcceptedToCourse(course);
     }
 
     public List<Account> getSelectedTeachers() {

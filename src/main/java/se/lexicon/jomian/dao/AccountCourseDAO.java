@@ -4,29 +4,29 @@ import se.lexicon.jomian.entity.AccountCourse;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.io.Serializable;
 
 /**
  * @author Johan Gustafsson
  * @since 2016-09-20.
  */
-public class AccountCourseDAO {
+public class AccountCourseDAO extends AbstractDAO<AccountCourse> implements Serializable {
     @PersistenceContext
     private EntityManager em;
 
-    public void persist(AccountCourse accountCourse) {
-        em.persist(accountCourse);
+    AccountCourseDAO() {
+        super(AccountCourse.class);
     }
 
-    public void merge(AccountCourse accountCourse) {
-        em.merge(accountCourse);
+    @Override
+    EntityManager getEntityManager() {
+        return em;
     }
 
-    public void remove(AccountCourse accountCourse) {
-        em.remove(em.merge(accountCourse));
+    public AccountCourse findByAccountAndCourseId(Long accountId, Long courseId) {
+        return em.createNamedQuery("AccountCourse.FindByAccountAndCourseId", AccountCourse.class)
+                .setParameter("accountId", accountId)
+                .setParameter("courseId", courseId)
+                .getSingleResult();
     }
-
-    public AccountCourse findById(Long id) {
-        return em.find(AccountCourse.class, id);
-    }
-
 }

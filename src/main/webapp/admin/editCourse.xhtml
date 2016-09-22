@@ -53,8 +53,15 @@
                     <p:dataTable id="teacherDT" value="#{editCourseController.allTeachers}" var="teacher"
                                  rowKey="#{teacher.id}" selection="#{editCourseController.selectedTeachers}">
                         <p:column width="40" selectionMode="multiple"/>
-                        <p:column>
+                        <p:column headerText="#{language['account.nameHeader']}">
                             #{teacher.name}
+                        </p:column>
+                    </p:dataTable>
+
+                    <p:outputLabel for="studentDT" value="Elever"/>
+                    <p:dataTable id="studentDT" value="#{editCourseController.studentsInCourse}" var="student">
+                        <p:column headerText="#{language['account.nameHeader']}">
+                            #{student.name}
                         </p:column>
                     </p:dataTable>
 
