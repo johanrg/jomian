@@ -9,7 +9,6 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import javax.persistence.criteria.CriteriaQuery;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -64,7 +63,7 @@ public class CourseDAO extends AbstractDAO<Course> implements Serializable {
     }
 
     public List<AccountAndCourse> findAllStudentApplications() {
-        return em.createNamedQuery("Course.FindAllStudentApplications", AccountAndCourse.class)
+        return em.createNamedQuery("Course.FindAllOfRoleType", AccountAndCourse.class)
                 .setParameter("role", AccountCourse.Role.APPLICATION)
                 .getResultList();
     }

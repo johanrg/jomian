@@ -25,7 +25,7 @@ import java.util.List;
                 name = "Course.FindComingCourses",
                 query = "SELECT c FROM Course c WHERE c.startDate > CURRENT_DATE"),
         @NamedQuery(
-                name = "Course.FindAllStudentApplications",
+                name = "Course.FindAllOfRoleType",
                 query = "SELECT NEW se.lexicon.jomian.resultclass.AccountAndCourse(ac.id, ac.account.name, ac.account.email, c.name) FROM Course c, AccountCourse ac WHERE ac MEMBER OF c.accountCourses AND ac.role = :role ORDER BY c.name")
 })
 public class Course {
@@ -80,6 +80,7 @@ public class Course {
     }
 
     @Column(nullable = false)
+    @Temporal(TemporalType.DATE)
     public Date getStartDate() {
         return startDate;
     }
@@ -89,6 +90,7 @@ public class Course {
     }
 
     @Column(nullable = false)
+    @Temporal(TemporalType.DATE)
     public Date getEndDate() {
         return endDate;
     }

@@ -90,33 +90,26 @@ public class CourseService implements Serializable {
     }
 
     public boolean hasStudentApplied(Course course, Account account) {
-        for (AccountCourse accountCourse : course.getAccountCourses()) {
-            if (account.getId().equals(accountCourse.getAccount().getId())
-                    && (accountCourse.getRole() == AccountCourse.Role.APPLICATION)) {
-                return true;
-            }
-        }
-        return false;
+        return isAccountRoleOfCourse(course, account, AccountCourse.Role.APPLICATION);
     }
 
     public boolean hasStudentBeenApproved(Course course, Account account) {
-        for (AccountCourse accountCourse : course.getAccountCourses()) {
-            if (account.getId().equals(accountCourse.getAccount().getId())
-                    && (accountCourse.getRole() == AccountCourse.Role.STUDENT)) {
-                return true;
-            }
-        }
-        return false;
+        return isAccountRoleOfCourse(course, account, AccountCourse.Role.STUDENT);
     }
 
     public boolean isTeacherOfCourse(Course course, Account account) {
+        return isAccountRoleOfCourse(course, account, AccountCourse.Role.TEACHER);
+    }
+
+    public boolean isAccountRoleOfCourse(Course course, Account account, AccountCourse.Role role) {
         for (AccountCourse accountCourse : course.getAccountCourses()) {
             if (account.getId().equals(accountCourse.getAccount().getId())
-                    && accountCourse.getRole() == AccountCourse.Role.TEACHER) {
+                    && accountCourse.getRole() == role) {
                 return true;
             }
         }
         return false;
+
     }
 
     public void applyStudentToCourse(Course course, Account account) {

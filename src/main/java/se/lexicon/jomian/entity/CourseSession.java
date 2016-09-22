@@ -1,10 +1,8 @@
 package se.lexicon.jomian.entity;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.sql.Date;
-import java.sql.Time;
-import java.sql.Timestamp;
+import javax.validation.constraints.Size;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +15,9 @@ import java.util.List;
 @Entity
 public class CourseSession {
     private Long id;
+    private String title;
+    private Date startDate;
+    private Date endDate;
     private Date createdAt;
     private Course course;
     private List<Attendance> attendances = new ArrayList<>();
@@ -29,6 +30,36 @@ public class CourseSession {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    @Column(length = 120, nullable = false)
+    @Size(min = 1, max = 120)
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    @Column(nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    @Column(nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
     @Column(nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
