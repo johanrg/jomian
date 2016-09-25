@@ -38,6 +38,11 @@
                             <h:panelGroup layout="block" styleClass="dropdown-content">
                                 <h:link value="#{language['menu.student.myCourses']}"
                                         outcome="/restricted/myCourses" styleClass="dropdown-link"/>
+                                <h:link value="#{language['menu.student.myAttendance']}"
+                                        rendered="#{loginController.loggedInAccount.student}"
+                                        outcome="/restricted/myAttendance" styleClass="dropdown-link">
+                                    <f:param name="accountId" value="#{loginController.loggedInAccount.id}"/>
+                                </h:link>
                                 <h:commandLink styleClass="dropdown-link" value="#{language['menu.logout']}"
                                                action="#{loginController.logout}"/>
                             </h:panelGroup>

@@ -25,6 +25,9 @@ import java.util.List;
                 name = "Course.FindComingCourses",
                 query = "SELECT c FROM Course c WHERE c.startDate > CURRENT_DATE"),
         @NamedQuery(
+                name = "Course.FindStartedButNotFinishedCourses",
+                query = "SELECT c FROM Course c WHERE c.startDate <= CURRENT_DATE AND c.endDate > CURRENT_DATE"),
+        @NamedQuery(
                 name = "Course.FindAllOfRoleType",
                 query = "SELECT NEW se.lexicon.jomian.resultclass.AccountAndCourse(ac.id, ac.account.name, ac.account.email, c.name) FROM Course c, AccountCourse ac WHERE ac MEMBER OF c.accountCourses AND ac.role = :role ORDER BY c.name")
 })

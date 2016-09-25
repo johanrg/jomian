@@ -63,12 +63,29 @@
                         <p:column headerText="#{language['account.nameHeader']}">
                             #{student.name}
                         </p:column>
+                        <p:column width="55">
+                            <p:commandButton icon="ui-icon-trash"
+                                             action="#{editCourseController.removeStudentFromCourse(student)}">
+                                <p:confirm header="#{language['general.confirmation']}"
+                                           message="#{language['editCourse.verifyRemoveFromCourse']}"
+                                           icon="ui-icon-alert"/>
+                            </p:commandButton>
+                            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                <p:commandButton value="#{language['general.yes']}" type="button"
+                                                 styleClass="ui-confirmdialog-yes"
+                                                 icon="ui-icon-check"/>
+                                <p:commandButton value="#{language['general.no']}" type="button"
+                                                 styleClass="ui-confirmdialog-no"
+                                                 icon="ui-icon-close"/>
+                            </p:confirmDialog>
+                        </p:column>
                     </p:dataTable>
 
                 </p:panelGrid>
                 <p:commandButton value="#{language['general.save']}" update="messages"
                                  action="#{editCourseController.editCourse}" ajax="false"/>
             </p:panel>
+
         </h:form>
     </ui:define>
 </ui:composition>

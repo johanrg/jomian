@@ -151,4 +151,9 @@ public class Account {
     public void setAttendances(List<Attendance> attendances) {
         this.attendances = attendances;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        return o != null && o instanceof Account && getId().equals(((Account)o).getId());
+    }
 }

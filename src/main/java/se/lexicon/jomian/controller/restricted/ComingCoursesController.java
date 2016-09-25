@@ -29,7 +29,15 @@ public class ComingCoursesController {
     }
 
 
-    public List<Course> getAllCourses() {
+    public List<Course> getComingCourses() {
         return courseDAO.findComingCourses();
+    }
+
+    public List<Course> getStartedButNotFinishedCourses() {
+        return courseDAO.findStartedButNotFinishedCourses();
+    }
+
+    public Long getOpenSpots(Course course) {
+        return courseService.getOpenSpots(course);
     }
 }

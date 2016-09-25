@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<f:metadata>
+    <f:viewParam name="accountId" value="#{myAttendanceController.accountId}"/>
+</f:metadata>
+<ui:composition template="/WEB-INF/template/default/layout.xhtml">
+    <ui:define name="content">
+        <f:event type="preRenderView" listener="#{myAttendanceController.initView}"/>
+
+        <h:form id="myAttendanceForm">
+            <p:panel header="#{language['myAttendance.header']}">
+                <p:schedule value="#{myAttendanceController.eventModel}" timeZone="CET" locale="se"/>
+            </p:panel>
+        </h:form>
+        <script type="text/javascript">
+            PrimeFaces.locales['se'] = {
+                closeText: 'Stäng',
+                prevText: 'Förgående',
+                nextText: 'Nästa',
+                currentText: 'Aktuellt datum',
+                monthNames: ['Januari', 'Februari', 'Mars', 'April', 'Maj', 'Juni',
+                    'Juli', 'Augusti', 'September', 'Oktober', 'November', 'December'],
+                monthNamesShort: ['Jan', 'Feb', 'Mar', 'Apr', 'Maj', 'Jun',
+                    'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Dec'],
+                dayNames: ['Söndag', 'Måndag', 'Tisdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lördag'],
+                dayNamesShort: ['Sön', 'Mån', 'Tis', 'Ons', 'Tor', 'Fre', 'Lör'],
+                dayNamesMin: ['Sö', 'Må', 'Ti', 'On', 'To', 'Fr', 'Lö'],
+                weekHeader: 'Hf',
+                firstDay: 1,
+                isRTL: false,
+                showMonthAfterYear: false,
+                yearSuffix: 'År',
+                month: 'Månad',
+                week: 'Vecka',
+                day: 'Dag',
+                allDayText: 'Hela dagen'
+            };
+        </script>
+    </ui:define>
+</ui:composition>
+</html>

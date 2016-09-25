@@ -220,3 +220,9 @@ body {
     color: #333333;
     background: #eeffff;
 }
+
+.fc-event.not-present{
+
+    border: 1px solid #96070A;
+    background-color: #96070a;
+}

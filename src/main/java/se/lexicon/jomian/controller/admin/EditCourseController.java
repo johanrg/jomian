@@ -70,6 +70,12 @@ public class EditCourseController implements Serializable {
         return from + "?faces-redirect=true";
     }
 
+    public String removeStudentFromCourse(Account student) {
+        courseService.removeAccountFromCourse(course, student);
+        return "/admin/editCourse?from=" + from + "&courseId=" + courseId + "&faces-redirect=true";
+
+    }
+
     public Course getCourse() {
         return course;
     }

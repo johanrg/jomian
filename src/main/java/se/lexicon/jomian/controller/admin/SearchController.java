@@ -91,13 +91,12 @@ public class SearchController implements Serializable {
     }
 
     public List<String> getAutocompleteList(String query) {
-        List<String> result = new ArrayList<>();
         if (searchOption == SearchOption.ACCOUNT) {
-            accountService.getAccountNamesLike(query);
+            return accountService.getAccountNamesLike(query);
         } else if (searchOption == SearchOption.COURSE) {
-            courseService.getCourseNamesLike(query);
+            return courseService.getCourseNamesLike(query);
         }
-        return result;
+        return null;
     }
 
     public void changeListener(ValueChangeEvent event) {

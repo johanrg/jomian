@@ -10,23 +10,59 @@
     <ui:define name="content">
         <h:form id="comingCoursesForm">
             <p:panel header="#{language['comingCourses.header']}">
-                <p:dataTable id="courseDT" value="#{comingCoursesController.allCourses}" var="course"
-                             selectionMode="single" rowKey="#{course.id}">
-                    <p:ajax event="rowSelect" listener="#{comingCoursesController.onCourseRowSelect}"/>
-                    <p:column headerText="#{language['course.nameHeader']}">
-                        #{course.name}
-                    </p:column>
-                    <p:column headerText="#{language['course.startDateHeader']}">
-                        <h:outputText value="#{course.startDate}">
-                            <f:convertDateTime pattern="yyyy-MM-dd"/>
-                        </h:outputText>
-                    </p:column>
-                    <p:column headerText="#{language['course.endDateHeader']}">
-                        <h:outputText value="#{course.endDate}">
-                            <f:convertDateTime pattern="yyyy-MM-dd"/>
-                        </h:outputText>
-                    </p:column>
-                </p:dataTable>
+                <h:panelGroup rendered="#{comingCoursesController.comingCourses.size() ne 0}">
+                    <p:dataTable id="courseComingDT" value="#{comingCoursesController.comingCourses}" var="course"
+                                 selectionMode="single" rowKey="#{course.id}">
+                        <p:ajax event="rowSelect" listener="#{comingCoursesController.onCourseRowSelect}"/>
+                        <f:facet name="header">
+                            #{language['comingCourses.comingCoursesHeader']}
+                        </f:facet>
+                        <p:column headerText="#{language['course.nameHeader']}">
+                            #{course.name}
+                        </p:column>
+                        <p:column headerText="#{language['course.startDateHeader']}">
+                            <h:outputText value="#{course.startDate}">
+                                <f:convertDateTime pattern="yyyy-MM-dd"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="#{language['course.endDateHeader']}">
+                            <h:outputText value="#{course.endDate}">
+                                <f:convertDateTime pattern="yyyy-MM-dd"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column width="140" headerText="#{language['course.freeSpots']}">
+                           #{comingCoursesController.getOpenSpots(course)}
+                        </p:column>
+                    </p:dataTable>
+                </h:panelGroup>
+
+                <h:panelGroup rendered="#{comingCoursesController.startedButNotFinishedCourses.size() ne 0}">
+                    <br/>
+                    <p:dataTable id="courseStartedDT" value="#{comingCoursesController.startedButNotFinishedCourses}"
+                                 var="course"
+                                 selectionMode="single" rowKey="#{course.id}">
+                        <p:ajax event="rowSelect" listener="#{comingCoursesController.onCourseRowSelect}"/>
+                        <f:facet name="header">
+                            #{language['comingCourses.startedHeader']}
+                        </f:facet>
+                        <p:column headerText="#{language['course.nameHeader']}">
+                            #{course.name}
+                        </p:column>
+                        <p:column headerText="#{language['course.startDateHeader']}">
+                            <h:outputText value="#{course.startDate}">
+                                <f:convertDateTime pattern="yyyy-MM-dd"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="#{language['course.endDateHeader']}">
+                            <h:outputText value="#{course.endDate}">
+                                <f:convertDateTime pattern="yyyy-MM-dd"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column width="140" headerText="#{language['course.freeSpots']}">
+                            #{comingCoursesController.getOpenSpots(course)}
+                        </p:column>
+                    </p:dataTable>
+                </h:panelGroup>
             </p:panel>
         </h:form>
     </ui:define>

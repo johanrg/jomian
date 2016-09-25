@@ -34,6 +34,7 @@ public class VerifyAccountController {
 
     public void verifyAccount() {
         for (Account account : selectedAccounts) {
+            account.setStudent(true);
             account.setVerified(true);
             accountDAO.merge(account);
         }

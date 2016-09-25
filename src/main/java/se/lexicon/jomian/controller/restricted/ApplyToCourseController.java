@@ -1,12 +1,19 @@
 package se.lexicon.jomian.controller.restricted;
 
+import org.primefaces.model.DefaultScheduleEvent;
+import org.primefaces.model.DefaultScheduleModel;
+import org.primefaces.model.ScheduleModel;
 import se.lexicon.jomian.controller.LoginController;
 import se.lexicon.jomian.dao.CourseDAO;
+import se.lexicon.jomian.dao.CourseSessionDAO;
 import se.lexicon.jomian.entity.Account;
+import se.lexicon.jomian.entity.Attendance;
 import se.lexicon.jomian.entity.Course;
+import se.lexicon.jomian.entity.CourseSession;
 import se.lexicon.jomian.service.CourseService;
 import se.lexicon.jomian.util.CurrentContext;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
 import javax.faces.context.FacesContext;
@@ -30,12 +37,20 @@ public class ApplyToCourseController implements Serializable {
     @Inject
     private CourseDAO courseDAO;
     @Inject
+    private CourseSessionDAO courseSessionDAO;
+    @Inject
     private LoginController loginController;
     private Long courseId;
     private Course course;
     private List<Account> teachers = new ArrayList<>();
     private long studentsAppliedCount;
     private String from;
+    private ScheduleModel eventModel;
+
+    @PostConstruct
+    public void init() {
+        eventModel = new DefaultScheduleModel();
+    }
 
     public void initView() {
         if (courseId == null || courseId == 0) {
@@ -53,6 +68,14 @@ public class ApplyToCourseController implements Serializable {
             from = "/restricted/index";
         }
         studentsAppliedCount = courseService.getNumberOfStudentApplicationsForCourse(course);
+        eventModel.clear();
+        List<CourseSession> courseSessions = courseSessionDAO.findScheduleForCourse(courseId);
+        for (CourseSession courseSession : courseSessions) {
+            DefaultScheduleEvent s = new DefaultScheduleEvent(courseSession.getTitle(), courseSession.getStartDate(), courseSession.getEndDate(), courseSession);
+            s.setAllDay(courseSession.isAllDay());
+            eventModel.addEvent(s);
+        }
+
         if (!FacesContext.getCurrentInstance().isPostback() && conversation.isTransient()) {
             conversation.begin();
         }
@@ -75,7 +98,7 @@ public class ApplyToCourseController implements Serializable {
     }
 
     public boolean getHasStudentBeenApproved() {
-       return courseService.hasStudentBeenApproved(course, loginController.getLoggedInAccount());
+        return courseService.hasStudentBeenApproved(course, loginController.getLoggedInAccount());
     }
 
     public boolean isTeacherOfCourse() {
@@ -116,6 +139,14 @@ public class ApplyToCourseController implements Serializable {
 
     public List<Account> getTeachers() {
         return courseDAO.findTeachersForCourse(courseId);
+    }
+
+    public ScheduleModel getEventModel() {
+        return eventModel;
+    }
+
+    public void setEventModel(ScheduleModel eventModel) {
+        this.eventModel = eventModel;
     }
 }
 

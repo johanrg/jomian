@@ -24,7 +24,7 @@ public class MyCoursesController {
     CourseService courseService;
 
     public void onTeacherForCourseRowSelect(SelectEvent event) {
-        CurrentContext.redirect("/teacher/manageCourse.xhtml?courseId="
+        CurrentContext.redirect("/teacher/courseSchedule.xhtml?courseId="
                 + ((Course) event.getObject()).getId());
     }
 

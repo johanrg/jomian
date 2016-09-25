@@ -25,7 +25,7 @@
                     <p:column width="55">
                         <p:commandButton icon="ui-icon-trash"
                                          action="#{verifyAccountController.deleteAccount(account)}">
-                            <p:confirm header="Confirmation"
+                            <p:confirm header="#{language['general.confirmation']}"
                                        message="#{language['account.verifyAccountDeletion']}"
                                        icon="ui-icon-alert"/>
                         </p:commandButton>

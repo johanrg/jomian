@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<f:metadata>
+    <f:viewParam name="courseId" value="#{courseScheduleController.courseId}"/>
+</f:metadata>
+<ui:composition template="/WEB-INF/template/default/layout.xhtml">
+    <ui:define name="content">
+        <f:event type="preRenderView" listener="#{courseScheduleController.initView}"/>
+
+        <h:form>
+            <p:growl id="messages" showDetail="true"/>
+
+            <p:panel header="#{courseScheduleController.header}">
+                <p:schedule id="schedule" value="#{courseScheduleController.eventModel}" widgetVar="myschedule"
+                            timeZone="CET" locale="se">
+
+                    <p:ajax event="dateSelect" listener="#{courseScheduleController.onDateSelect}" update="eventDetails"
+                            oncomplete="PF('eventDialog').show();"/>
+                    <p:ajax event="eventSelect" listener="#{courseScheduleController.onEventSelect}"
+                            update="eventDetails"
+                            oncomplete="PF('eventDialog').show();"/>
+                    <p:ajax event="eventMove" listener="#{courseScheduleController.onEventMove}" update="messages"/>
+                    <p:ajax event="eventResize" listener="#{courseScheduleController.onEventResize}" update="messages"/>
+
+                </p:schedule>
+            </p:panel>
+
+            <p:dialog widgetVar="eventDialog" header="#{language['courseSchedule.widget.header']}" showEffect="clip" hideEffect="clip">
+                <h:panelGrid id="eventDetails" columns="2">
+                    <p:outputLabel for="title" value="#{language['courseSchedule.widget.titleLabel']}"/>
+                    <p:inputText id="title" value="#{courseScheduleController.event.title}" required="true"/>
+
+                    <p:outputLabel for="from" value="#{language['courseSchedule.widget.fromLabel']}"/>
+                    <p:calendar id="from" value="#{courseScheduleController.event.startDate}" timeZone="GMT+2"
+                                pattern="dd/MM/yyyy HH:mm"/>
+
+                    <p:outputLabel for="to" value="#{language['courseSchedule.widget.toLabel']}"/>
+                    <p:calendar id="to" value="#{courseScheduleController.event.endDate}" timeZone="GMT+2"
+                                pattern="dd/MM/yyyy HH:mm"/>
+
+                    <p:outputLabel for="allDay" value="#{language['courseSchedule.widget.allDayLabel']}"/>
+                    <h:selectBooleanCheckbox id="allDay" value="#{courseScheduleController.event.allDay}"/>
+
+                    <p:outputLabel for="studentsDT" value="#{language['courseSchedule.widget.attendanceLabel']}"/>
+                    <p:dataTable style="width: 300px" id="studentsDT" value="#{courseScheduleController.allStudents}"
+                                 var="student" rowKey="#{student.id}"
+                                 selection="#{courseScheduleController.selectedAccounts}">
+                        <p:column width="30" selectionMode="multiple"/>
+                        <p:column headerText="#{language['account.nameHeader']}">
+                            #{student.name}
+                        </p:column>
+                    </p:dataTable>
+                    <br/><br/>
+                    <h:panelGroup>
+                        <p:commandButton value="#{language['general.remove']}"
+                                         actionListener="#{courseScheduleController.removeEvent}"
+                                         oncomplete="PF('myschedule').update();PF('eventDialog').hide();"/>
+                        <p:commandButton id="addButton" value="#{language['general.save']}"
+                                         actionListener="#{courseScheduleController.addEvent}"
+                                         oncomplete="PF('myschedule').update();PF('eventDialog').hide();"/>
+                    </h:panelGroup>
+                </h:panelGrid>
+            </p:dialog>
+        </h:form>
+
+        <script type="text/javascript">
+            PrimeFaces.locales['se'] = {
+                closeText: 'Stäng',
+                prevText: 'Förgående',
+                nextText: 'Nästa',
+                currentText: 'Aktuellt datum',
+                monthNames: ['Januari', 'Februari', 'Mars', 'April', 'Maj', 'Juni',
+                    'Juli', 'Augusti', 'September', 'Oktober', 'November', 'December'],
+                monthNamesShort: ['Jan', 'Feb', 'Mar', 'Apr', 'Maj', 'Jun',
+                    'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Dec'],
+                dayNames: ['Söndag', 'Måndag', 'Tisdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lördag'],
+                dayNamesShort: ['Sön', 'Mån', 'Tis', 'Ons', 'Tor', 'Fre', 'Lör'],
+                dayNamesMin: ['Sö', 'Må', 'Ti', 'On', 'To', 'Fr', 'Lö'],
+                weekHeader: 'Hf',
+                firstDay: 1,
+                isRTL: false,
+                showMonthAfterYear: false,
+                yearSuffix: 'År',
+                month: 'Månad',
+                week: 'Vecka',
+                day: 'Dag',
+                allDayText: 'Hela dagen'
+            };
+        </script>
+    </ui:define>
+</ui:composition>
+</html>

@@ -48,10 +48,10 @@ public class ManageCourseController implements Serializable {
                 conversation.begin();
             }
             schedule = new DefaultScheduleModel();
-            course.getCourseSessions().forEach(cs -> {
+  /*          course.getCourseSessions().forEach(cs -> {
                         schedule.addEvent(new DefaultScheduleEvent(cs.getTitle(), cs.getStartDate(), cs.getEndDate()));
                     }
-            );
+            ); */
         } else {
             CurrentContext.redirect404();
         }

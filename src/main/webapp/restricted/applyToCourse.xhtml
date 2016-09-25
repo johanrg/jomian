@@ -48,23 +48,54 @@
                     <p:inputText id="placesLeft" value="#{applyToCourseController.placesLeft}" readonly="true"/>
 
                 </p:panelGrid>
-                <h:panelGroup rendered="#{!applyToCourseController.teacherOfCourse and !applyToCourseController.hasStudentBeenApproved}">
-                    <h:panelGroup rendered="#{applyToCourseController.hasStudentAlreadyApplied}">
-                        <p:commandButton value="#{language['course.cancelApplication']}"
-                                         action="#{applyToCourseController.removeFromCourse}" ajax="false"/>
-                    </h:panelGroup>
+                <h:panelGroup rendered="#{loginController.loggedInAccount.student}">
                     <h:panelGroup
-                            rendered="#{applyToCourseController.applicationStillOpen and !applyToCourseController.hasStudentAlreadyApplied}">
-                        <p:commandButton value="#{language['course.applyToCourse']}"
-                                         action="#{applyToCourseController.applyToCourse}" ajax="false"/>
+                            rendered="#{!applyToCourseController.teacherOfCourse and !applyToCourseController.hasStudentBeenApproved}">
+                        <h:panelGroup rendered="#{applyToCourseController.hasStudentAlreadyApplied}">
+                            <p:commandButton value="#{language['course.cancelApplication']}"
+                                             action="#{applyToCourseController.removeFromCourse}" ajax="false"/>
+                        </h:panelGroup>
+                        <h:panelGroup
+                                rendered="#{applyToCourseController.applicationStillOpen and !applyToCourseController.hasStudentAlreadyApplied}">
+                            <p:commandButton value="#{language['course.applyToCourse']}"
+                                             action="#{applyToCourseController.applyToCourse}" ajax="false"/>
+                        </h:panelGroup>
                     </h:panelGroup>
-                </h:panelGroup>
-                <h:panelGroup rendered="#{applyToCourseController.hasStudentBeenApproved}">
-                    <p:commandButton value="#{language['course.cancelCourse']}"
-                                     action="#{applyToCourseController.removeFromCourse}"/>
+                    <h:panelGroup rendered="#{applyToCourseController.hasStudentBeenApproved}">
+                        <p:commandButton value="#{language['course.cancelCourse']}"
+                                         action="#{applyToCourseController.removeFromCourse}"/>
+                    </h:panelGroup>
                 </h:panelGroup>
             </p:panel>
+
+            <p:panel header="Kursschema">
+                <p:schedule value="#{applyToCourseController.eventModel}" timeZone="CET" locale="se"/>
+            </p:panel>
         </h:form>
+        <script type="text/javascript">
+            PrimeFaces.locales['se'] = {
+                closeText: 'Stäng',
+                prevText: 'Förgående',
+                nextText: 'Nästa',
+                currentText: 'Aktuellt datum',
+                monthNames: ['Januari', 'Februari', 'Mars', 'April', 'Maj', 'Juni',
+                    'Juli', 'Augusti', 'September', 'Oktober', 'November', 'December'],
+                monthNamesShort: ['Jan', 'Feb', 'Mar', 'Apr', 'Maj', 'Jun',
+                    'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Dec'],
+                dayNames: ['Söndag', 'Måndag', 'Tisdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lördag'],
+                dayNamesShort: ['Sön', 'Mån', 'Tis', 'Ons', 'Tor', 'Fre', 'Lör'],
+                dayNamesMin: ['Sö', 'Må', 'Ti', 'On', 'To', 'Fr', 'Lö'],
+                weekHeader: 'Hf',
+                firstDay: 1,
+                isRTL: false,
+                showMonthAfterYear: false,
+                yearSuffix: 'År',
+                month: 'Månad',
+                week: 'Vecka',
+                day: 'Dag',
+                allDayText: 'Hela dagen'
+            };
+        </script>
     </ui:define>
 </ui:composition>
 </html>

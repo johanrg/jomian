@@ -13,12 +13,18 @@ import java.util.List;
  * @since 2016-09-04.
  */
 @Entity
+@NamedQueries({
+        @NamedQuery(
+                name = "CourseSession.FindScheduleForCourse",
+                query = "SELECT c FROM CourseSession c WHERE c.course.id = :courseId")
+})
 public class CourseSession {
     private Long id;
     private String title;
     private Date startDate;
     private Date endDate;
     private Date createdAt;
+    private boolean isAllDay;
     private Course course;
     private List<Attendance> attendances = new ArrayList<>();
 
@@ -38,7 +44,7 @@ public class CourseSession {
         return title;
     }
 
-    public void setTitle(String title) {
+   public void setTitle(String title) {
         this.title = title;
     }
 
@@ -62,6 +68,14 @@ public class CourseSession {
         this.endDate = endDate;
     }
 
+    public boolean isAllDay() {
+        return isAllDay;
+    }
+
+    public void setAllDay(boolean allDay) {
+        isAllDay = allDay;
+    }
+
     @Column(nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     public Date getCreatedAt() {
         return createdAt;
@@ -82,11 +96,11 @@ public class CourseSession {
     }
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "courseSession", orphanRemoval = true)
-    private List<Attendance> getAttendances() {
+    public List<Attendance> getAttendances() {
         return attendances;
     }
 
-    private void setAttendances(List<Attendance> attendances) {
+    public void setAttendances(List<Attendance> attendances) {
         this.attendances = attendances;
     }
 

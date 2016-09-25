@@ -11,7 +11,11 @@ import java.util.Date;
  * @since 2016-09-04.
  */
 @Entity
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"account_id", "coursesession_id"})})
+@NamedQueries({
+        @NamedQuery(
+                name = "Attendance.findAttendanceUntilToday",
+                query = "SELECT a FROM Attendance a WHERE a.account.id = :accountId AND a.courseSession.startDate <= CURRENT_DATE")
+})
 public class Attendance {
     private Long id;
     private boolean present;
@@ -48,7 +52,7 @@ public class Attendance {
     }
 
     @ManyToOne
-    @JoinColumn(nullable = false)
+    @JoinColumn(name = "account_id")
     public Account getAccount() {
         return account;
     }
@@ -58,7 +62,7 @@ public class Attendance {
     }
 
     @ManyToOne
-    @JoinColumn(nullable = false)
+    @JoinColumn(name = "courseSession_id")
     public CourseSession getCourseSession() {
         return courseSession;
     }

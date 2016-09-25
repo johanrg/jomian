@@ -37,7 +37,7 @@ public class CourseDAO extends AbstractDAO<Course> implements Serializable {
             Course course = find(courseId);
             List<Account> teachers = new ArrayList<>();
             for (AccountCourse accountCourse : course.getAccountCourses()) {
-                if (accountCourse.getAccount().isTeacher()) {
+                if (accountCourse.getRole() == AccountCourse.Role.TEACHER) {
                     teachers.add(accountCourse.getAccount());
                 }
             }
@@ -47,8 +47,28 @@ public class CourseDAO extends AbstractDAO<Course> implements Serializable {
         }
     }
 
+    public List<Account> findStudentsForCourse(Long courseId) {
+        try {
+            Course course = find(courseId);
+            List<Account> students = new ArrayList<>();
+            for (AccountCourse accountCourse : course.getAccountCourses()) {
+                if (accountCourse.getRole() == AccountCourse.Role.STUDENT) {
+                    students.add(accountCourse.getAccount());
+                }
+            }
+            return students;
+        } catch (NoResultException e) {
+            return Collections.emptyList();
+        }
+    }
+
     public List<Course> findComingCourses() {
         return em.createNamedQuery("Course.FindComingCourses", Course.class)
+                .getResultList();
+    }
+
+    public List<Course> findStartedButNotFinishedCourses() {
+        return em.createNamedQuery("Course.FindStartedButNotFinishedCourses", Course.class)
                 .getResultList();
     }
 

@@ -139,6 +139,10 @@ public class CourseService implements Serializable {
         }
     }
 
+    public Long getOpenSpots(Course course) {
+       return course.getMaxStudents() - getNumberOfStudentApplicationsForCourse(course);
+
+    }
     public List<String> getCourseNamesLike(String query) {
         List<Course> courses = courseDAO.findLikeName(query);
         return courses.stream().map(Course::getName).collect(Collectors.toList());
