@@ -6,9 +6,9 @@ import org.primefaces.model.chart.LineChartModel;
 import org.primefaces.model.chart.LineChartSeries;
 import se.lexicon.jomian.dao.AttendanceDAO;
 import se.lexicon.jomian.resultclass.TotalAttendanceForDay;
+import se.lexicon.jomian.util.Language;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -32,51 +32,10 @@ public class AttendanceStatisticsController implements Serializable {
 
     @PostConstruct
     public void init() {
-        createDateModel1();
+        createDateModel();
     }
 
-    public void initView() {
-        //createDateModel();
-    }
-
-    private String createDateModel() {
-        dateModel = new LineChartModel();
-        LineChartSeries series1 = new LineChartSeries();
-        series1.setLabel("Series 1");
-
-        series1.set("2014-01-01", 51);
-        series1.set("2014-01-06", 22);
-        series1.set("2014-01-12", 65);
-        series1.set("2014-01-18", 74);
-        series1.set("2014-01-24", 24);
-        series1.set("2014-01-30", 51);
-
-        LineChartSeries series2 = new LineChartSeries();
-        series2.setLabel("Series 2");
-
-        series2.set("2014-01-01", 32);
-        series2.set("2014-01-06", 73);
-        series2.set("2014-01-12", 24);
-        series2.set("2014-01-18", 12);
-        series2.set("2014-01-24", 74);
-        series2.set("2014-01-30", 62);
-
-        dateModel.addSeries(series1);
-        dateModel.addSeries(series2);
-
-        dateModel.setTitle("Zoom for Details");
-        dateModel.setZoom(true);
-        dateModel.getAxis(AxisType.Y).setLabel("Values");
-        DateAxis axis = new DateAxis("Dates");
-        axis.setTickAngle(-50);
-        axis.setMax("2014-02-01");
-        axis.setTickFormat("%b %#d, %y");
-
-        dateModel.getAxes().put(AxisType.X, axis);
-        return "/admin/attendanceStatistics";
-    }
-
-    private void createDateModel1() {
+    private void createDateModel() {
         dateModel = new LineChartModel();
 
         List<TotalAttendanceForDay> potentialList = attendanceDAO.findPotentialAttendanceForAllCoursesBetween(startDate, endDate);
@@ -96,19 +55,17 @@ public class AttendanceStatisticsController implements Serializable {
         dateModel.addSeries(potential);
         dateModel.addSeries(attending);
 
-        dateModel.setTitle("Zoom for Details");
+        dateModel.setTitle(Language.getMessage("statistics.header"));
         dateModel.setZoom(true);
         dateModel.getAxis(AxisType.Y).setLabel("Values");
         DateAxis axis = new DateAxis("Dates");
-//        axis.setTickAngle(-10);
-        //axis.setMax("2014-02-01");
         axis.setTickFormat("%b %#d, %y");
 
         dateModel.getAxes().put(AxisType.X, axis);
     }
 
     public void update() {
-        createDateModel1();
+        createDateModel();
     }
 
     public LineChartModel getDateModel() {

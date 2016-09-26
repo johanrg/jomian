@@ -8,24 +8,23 @@
       xmlns:p="http://primefaces.org/ui">
 <ui:composition template="/WEB-INF/template/default/layout.xhtml">
     <ui:define name="content">
-        <f:event type="preRenderView" listener="#{attendanceStatisticsController.initView}"/>
-        <p:panel>
+        <p:panel header="#{language['statistics.header']}">
             <h:form>
                 <p:panelGrid columns="2" styleClass="forms">
-                    <p:outputLabel for="startDate" value="Start Date:"/>
+                    <p:outputLabel for="startDate" value="#{language['statistics.startDate']}"/>
                     <p:calendar id="startDate" value="#{attendanceStatisticsController.startDate}" mode="popup"
                                 showOn="button"
                                 placeholder="yyyy-mm-dd">
                         <f:convertDateTime pattern="yyyy-MM-dd"/>
                     </p:calendar>
 
-                    <p:outputLabel for="endDate" value="End Date:"/>
+                    <p:outputLabel for="endDate" value="#{language['statistics.endDate']}"/>
                     <p:calendar id="endDate" value="#{attendanceStatisticsController.endDate}" mode="popup"
                                 showOn="button"
                                 placeholder="yyyy-mm-dd">
                         <f:convertDateTime pattern="yyyy-MM-dd"/>
                     </p:calendar>
-                    <p:commandButton value="Update" action="#{attendanceStatisticsController.update}" update="chart"
+                    <p:commandButton value="#{language['statistics.update']}" action="#{attendanceStatisticsController.update}" update="chart"
                                      ajax="false"/>
                 </p:panelGrid>
             </h:form>

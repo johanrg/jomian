@@ -48,22 +48,9 @@ public class ManageCourseController implements Serializable {
                 conversation.begin();
             }
             schedule = new DefaultScheduleModel();
-  /*          course.getCourseSessions().forEach(cs -> {
-                        schedule.addEvent(new DefaultScheduleEvent(cs.getTitle(), cs.getStartDate(), cs.getEndDate()));
-                    }
-            ); */
         } else {
             CurrentContext.redirect404();
         }
-    }
-
-    private Date nextDay9Am() {
-        Calendar t = Calendar.getInstance();
-        t.set(Calendar.DATE, t.get(Calendar.DATE) + 1);
-        t.set(Calendar.HOUR_OF_DAY, 16);
-        t.set(Calendar.MINUTE, 0);
-
-        return t.getTime();
     }
 
     public Long getCourseId() {

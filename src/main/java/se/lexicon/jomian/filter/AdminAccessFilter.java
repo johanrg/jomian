@@ -4,6 +4,7 @@ import se.lexicon.jomian.controller.LoginController;
 
 import javax.inject.Inject;
 import javax.servlet.*;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -14,8 +15,7 @@ import java.io.IOException;
  * @author Johan Gustafsson
  * @since 2016-09-08.
  */
-// TODO(Johan): This disables the admin check, enable before release.
-//@WebFilter(urlPatterns = {"/admin/*"})
+@WebFilter(urlPatterns = {"/admin/*"})
 public class AdminAccessFilter implements Filter {
     @Inject
     LoginController loginController;
@@ -30,8 +30,9 @@ public class AdminAccessFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
-        if (!loginController.isLoggedIn() || !loginController.getAccount().isAdmin()) {
-            response.sendRedirect(request.getContextPath() + "/faces/404.xhtml");
+        if (!loginController.isLoggedIn() || loginController.getLoggedInAccount() == null || !loginController.getLoggedInAccount().isAdmin()) {
+            response.sendRedirect(request.getContextPath() + "/WEB-INF/errorpage/404.xhtml");
+            return;
         }
 
         filterChain.doFilter(servletRequest, servletResponse);

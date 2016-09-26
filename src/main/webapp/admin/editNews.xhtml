@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<f:metadata>
+    <f:viewParam name="newsId" value="#{editNewsController.newsId}"/>
+</f:metadata>
+<ui:composition template="/WEB-INF/template/default/layout.xhtml">
+    <ui:define name="content">
+        <f:event type="preRenderView" listener="#{editNewsController.initView}"/>
+        <h:form id="addNewsForm">
+            <p:panel header="#{language['news.editNewsHeader']}">
+                <p:growl id="messages"/>
+                <p:panelGrid columns="2" styleClass="forms">
+                    <p:outputLabel for="title" value="#{language['news.titleLabel']}"/>
+                    <p:inputText id="title" value="#{editNewsController.news.title}"
+                                 required="true" requiredMessage="#{language['news.titleRequired']}" size="80"/>
+
+                    <p:outputLabel for="body" value="#{language['news.bodyLabel']}"/>
+                    <p:inputTextarea id="body" value="#{editNewsController.news.body}" cols="80" rows="12"
+                                     required="true" requiredMessage="#{language['news.bodyRequired']}"/>
+                </p:panelGrid>
+                <p:commandButton value="#{language['general.save']}" action="#{editNewsController.editNews}"
+                                 ajax="false"/>
+            </p:panel>
+        </h:form>
+    </ui:define>
+</ui:composition>
+</html>

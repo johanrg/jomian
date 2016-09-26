@@ -75,13 +75,17 @@ public class LoginController implements Serializable {
     }
 
     private void tryToLogIn() {
-        Long id = (Long) CurrentContext.getSessionMap().get(USER_SESSION_ID);
-        String password = (String) CurrentContext.getSessionMap().get(USER_SESSION_HASH);
-        if (id == null || password == null) {
-            return;
-        }
+        try {
+            Long id = (Long) CurrentContext.getSessionMap().get(USER_SESSION_ID);
+            String password = (String) CurrentContext.getSessionMap().get(USER_SESSION_HASH);
+            if (id == null || password == null) {
+                return;
+            }
 
-        loggedInAccount = accountDAO.findByIdAndPass(id, password);
-        isLoggedIn = loggedInAccount != null;
+            loggedInAccount = accountDAO.findByIdAndPass(id, password);
+            isLoggedIn = loggedInAccount != null;
+        } catch (NullPointerException e) {
+            // oops
+        }
     }
 }

@@ -16,8 +16,7 @@ import java.io.IOException;
  * @author Johan Gustafsson
  * @since 2016-09-08.
  */
-// TODO(Johan): This disables the login check, enable before release.
-//@WebFilter(urlPatterns = {"/restricted/*"})
+@WebFilter(urlPatterns = {"/restricted/*"})
 public class RestrictedAccessFilter implements Filter {
     @Inject
     LoginController loginController;
@@ -33,7 +32,8 @@ public class RestrictedAccessFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
         if (!loginController.isLoggedIn()) {
-            response.sendRedirect(request.getContextPath() + "/faces/login.xhtml");
+            response.sendRedirect(request.getContextPath() + "/login.xhtml");
+            return;
         }
 
         filterChain.doFilter(servletRequest, servletResponse);

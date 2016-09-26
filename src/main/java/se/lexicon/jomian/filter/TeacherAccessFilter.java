@@ -14,14 +14,13 @@ import java.io.IOException;
  * @author Johan Gustafsson
  * @since 2016-09-22.
  */
-//@WebFilter(urlPatterns = {"/teacher/*"})
+@WebFilter(urlPatterns = {"/teacher/*"})
 public class TeacherAccessFilter implements Filter {
     @Inject
     LoginController loginController;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-
     }
 
     @Override
@@ -29,17 +28,16 @@ public class TeacherAccessFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
-        if (!loginController.isLoggedIn() || !loginController.getAccount().isTeacher()) {
-            response.sendRedirect(request.getContextPath() + "/faces/404.xhtml");
+        if (!loginController.isLoggedIn() || loginController.getLoggedInAccount() == null || !loginController.getLoggedInAccount().isTeacher()) {
+            response.sendRedirect(request.getContextPath() + "/WEB-INF/errorpage/404.xhtml");
+            return;
         }
 
         filterChain.doFilter(servletRequest, servletResponse);
-
     }
 
     @Override
     public void destroy() {
-
     }
 }
 
