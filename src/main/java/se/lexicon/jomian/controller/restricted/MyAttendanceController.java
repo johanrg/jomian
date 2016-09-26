@@ -8,6 +8,7 @@ import se.lexicon.jomian.dao.AttendanceDAO;
 import se.lexicon.jomian.entity.Account;
 import se.lexicon.jomian.entity.Attendance;
 import se.lexicon.jomian.entity.CourseSession;
+import se.lexicon.jomian.service.AttendanceService;
 import se.lexicon.jomian.util.CurrentContext;
 
 import javax.annotation.PostConstruct;
@@ -29,6 +30,8 @@ public class MyAttendanceController implements Serializable {
     private AccountDAO accountDAO;
     @Inject
     private AttendanceDAO attendanceDAO;
+    @Inject
+    private AttendanceService attendanceService;
     private ScheduleModel eventModel;
     private Long accountId;
 
@@ -52,16 +55,7 @@ public class MyAttendanceController implements Serializable {
             CurrentContext.redirect404();
             return;
         }
-        eventModel.clear();
-        List<Attendance> attendances = attendanceDAO.findAttendanceUntilToday(accountId);
-        attendances.forEach(a -> {
-            CourseSession courseSession = a.getCourseSession();
-            DefaultScheduleEvent s = new DefaultScheduleEvent(courseSession.getTitle(), courseSession.getStartDate(), courseSession.getEndDate(), courseSession.isAllDay());
-            if (!a.isPresent()) {
-                s.setStyleClass("not-present");
-            }
-            eventModel.addEvent(s);
-        });
+        eventModel = attendanceService.populateScheduleModel(accountId);
     }
 
     public Long getAccountId() {

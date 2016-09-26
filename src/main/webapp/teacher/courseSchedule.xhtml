@@ -14,59 +14,117 @@
         <f:event type="preRenderView" listener="#{courseScheduleController.initView}"/>
 
         <h:form>
-            <p:growl id="messages" showDetail="true"/>
-
             <p:panel header="#{courseScheduleController.header}">
-                <p:schedule id="schedule" value="#{courseScheduleController.eventModel}" widgetVar="myschedule"
-                            timeZone="CET" locale="se">
+                <p:tabView>
+                    <p:tab title="#{language['courseSchedule.attendanceHeader']}">
+                        <p:growl id="messages" showDetail="true"/>
+                        <p:schedule id="schedule" value="#{courseScheduleController.eventModel}" widgetVar="myschedule"
+                                    timeZone="CET" locale="se">
 
-                    <p:ajax event="dateSelect" listener="#{courseScheduleController.onDateSelect}" update="eventDetails"
-                            oncomplete="PF('eventDialog').show();"/>
-                    <p:ajax event="eventSelect" listener="#{courseScheduleController.onEventSelect}"
-                            update="eventDetails"
-                            oncomplete="PF('eventDialog').show();"/>
-                    <p:ajax event="eventMove" listener="#{courseScheduleController.onEventMove}" update="messages"/>
-                    <p:ajax event="eventResize" listener="#{courseScheduleController.onEventResize}" update="messages"/>
+                            <p:ajax event="dateSelect" listener="#{courseScheduleController.onDateSelect}"
+                                    update="eventDetails"
+                                    oncomplete="PF('eventDialog').show();"/>
+                            <p:ajax event="eventSelect" listener="#{courseScheduleController.onEventSelect}"
+                                    update="eventDetails"
+                                    oncomplete="PF('eventDialog').show();"/>
+                            <p:ajax event="eventMove" listener="#{courseScheduleController.onEventMove}"
+                                    update="messages"/>
+                            <p:ajax event="eventResize" listener="#{courseScheduleController.onEventResize}"
+                                    update="messages"/>
+                        </p:schedule>
 
-                </p:schedule>
+                        <p:dialog widgetVar="eventDialog" header="#{language['courseSchedule.widget.header']}"
+                                  showEffect="clip" hideEffect="clip">
+                            <h:panelGrid id="eventDetails" columns="2">
+                                <p:outputLabel for="title" value="#{language['courseSchedule.widget.titleLabel']}"/>
+                                <p:inputText id="title" value="#{courseScheduleController.event.title}"
+                                             required="true"/>
+
+                                <p:outputLabel for="from" value="#{language['courseSchedule.widget.fromLabel']}"/>
+                                <p:calendar id="from" value="#{courseScheduleController.event.startDate}"
+                                            timeZone="GMT+2"
+                                            pattern="dd/MM/yyyy HH:mm"/>
+
+                                <p:outputLabel for="to" value="#{language['courseSchedule.widget.toLabel']}"/>
+                                <p:calendar id="to" value="#{courseScheduleController.event.endDate}"
+                                            timeZone="GMT+2"
+                                            pattern="dd/MM/yyyy HH:mm"/>
+
+                                <p:outputLabel for="allDay"
+                                               value="#{language['courseSchedule.widget.allDayLabel']}"/>
+                                <h:selectBooleanCheckbox id="allDay"
+                                                         value="#{courseScheduleController.event.allDay}"/>
+
+                                <p:outputLabel for="studentsDT"
+                                               value="#{language['courseSchedule.widget.attendanceLabel']}"/>
+                                <p:dataTable style="width: 300px" id="studentsDT"
+                                             value="#{courseScheduleController.allStudents}"
+                                             var="student" rowKey="#{student.id}"
+                                             selection="#{courseScheduleController.selectedAccounts}">
+                                    <p:column width="30" selectionMode="multiple"/>
+                                    <p:column headerText="#{language['account.nameHeader']}">
+                                        #{student.name}
+                                    </p:column>
+                                </p:dataTable>
+                                <br/><br/>
+                                <h:panelGroup>
+                                    <p:commandButton value="#{language['general.remove']}"
+                                                     actionListener="#{courseScheduleController.removeEvent}"
+                                                     oncomplete="PF('myschedule').update();PF('eventDialog').hide();"/>
+                                    <p:commandButton id="addButton" value="#{language['general.save']}"
+                                                     actionListener="#{courseScheduleController.addEvent}"
+                                                     oncomplete="PF('myschedule').update();PF('eventDialog').hide();"/>
+                                </h:panelGroup>
+                            </h:panelGrid>
+                        </p:dialog>
+                    </p:tab>
+                    <p:tab title="#{language['courseSchedule.courseInformation']}">
+                        <p:panelGrid columns="2" styleClass="forms">
+                            <p:outputLabel for="name" value="#{language['course.nameLabel']}"/>
+                            <p:inputText id="name" size="50" value="#{courseScheduleController.course.name}"
+                                         readonly="true"/>
+
+                            <p:outputLabel for="description" value="#{language['course.descriptionLabel']}"/>
+                            <p:inputTextarea id="description" value="#{courseScheduleController.course.description}"
+                                             rows="8"
+                                             cols="50" readonly="true"/>
+
+                            <p:outputLabel for="startDate" value="#{language['course.startDateLabel']}"/>
+                            <p:inputText id="startDate" value="#{courseScheduleController.course.startDate}"
+                                         mode="popup"
+                                         readonly="true">
+                                <f:convertDateTime pattern="yyyy-MM-dd"/>
+                            </p:inputText>
+
+                            <p:outputLabel for="endDate" value="#{language['course.endDateLabel']}"/>
+                            <p:inputText id="endDate" value="#{courseScheduleController.course.endDate}" mode="popup"
+                                         readonly="true">
+                                <f:convertDateTime pattern="yyyy-MM-dd"/>
+                            </p:inputText>
+
+                            <p:outputLabel for="teachers" value="#{language['course.teachersLabel']}"/>
+                            <p:dataTable id="teachers" value="#{courseScheduleController.teachers}" var="teacher">
+                                <p:column>
+                                    #{teacher.name}
+                                </p:column>
+                            </p:dataTable>
+
+                            <p:outputLabel for="studentDT" value="#{language['account.studentsLabel']}"/>
+                            <p:dataTable id="studentDT" value="#{courseScheduleController.studentsInCourse}"
+                                         var="student">
+                                <p:column>
+                                    #{student.name}
+                                </p:column>
+                            </p:dataTable>
+
+                            <p:outputLabel for="placesLeft" value="#{language['course.placesLeftLabel']}"/>
+                            <p:inputText id="placesLeft" value="#{courseScheduleController.placesLeft}"
+                                         readonly="true"/>
+
+                        </p:panelGrid>
+                    </p:tab>
+                </p:tabView>
             </p:panel>
-
-            <p:dialog widgetVar="eventDialog" header="#{language['courseSchedule.widget.header']}" showEffect="clip" hideEffect="clip">
-                <h:panelGrid id="eventDetails" columns="2">
-                    <p:outputLabel for="title" value="#{language['courseSchedule.widget.titleLabel']}"/>
-                    <p:inputText id="title" value="#{courseScheduleController.event.title}" required="true"/>
-
-                    <p:outputLabel for="from" value="#{language['courseSchedule.widget.fromLabel']}"/>
-                    <p:calendar id="from" value="#{courseScheduleController.event.startDate}" timeZone="GMT+2"
-                                pattern="dd/MM/yyyy HH:mm"/>
-
-                    <p:outputLabel for="to" value="#{language['courseSchedule.widget.toLabel']}"/>
-                    <p:calendar id="to" value="#{courseScheduleController.event.endDate}" timeZone="GMT+2"
-                                pattern="dd/MM/yyyy HH:mm"/>
-
-                    <p:outputLabel for="allDay" value="#{language['courseSchedule.widget.allDayLabel']}"/>
-                    <h:selectBooleanCheckbox id="allDay" value="#{courseScheduleController.event.allDay}"/>
-
-                    <p:outputLabel for="studentsDT" value="#{language['courseSchedule.widget.attendanceLabel']}"/>
-                    <p:dataTable style="width: 300px" id="studentsDT" value="#{courseScheduleController.allStudents}"
-                                 var="student" rowKey="#{student.id}"
-                                 selection="#{courseScheduleController.selectedAccounts}">
-                        <p:column width="30" selectionMode="multiple"/>
-                        <p:column headerText="#{language['account.nameHeader']}">
-                            #{student.name}
-                        </p:column>
-                    </p:dataTable>
-                    <br/><br/>
-                    <h:panelGroup>
-                        <p:commandButton value="#{language['general.remove']}"
-                                         actionListener="#{courseScheduleController.removeEvent}"
-                                         oncomplete="PF('myschedule').update();PF('eventDialog').hide();"/>
-                        <p:commandButton id="addButton" value="#{language['general.save']}"
-                                         actionListener="#{courseScheduleController.addEvent}"
-                                         oncomplete="PF('myschedule').update();PF('eventDialog').hide();"/>
-                    </h:panelGroup>
-                </h:panelGrid>
-            </p:dialog>
         </h:form>
 
         <script type="text/javascript">

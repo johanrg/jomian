@@ -38,6 +38,8 @@ public class CourseScheduleController implements Serializable {
     private CourseDAO courseDAO;
     @Inject
     private CourseSessionService courseSessionService;
+    @Inject
+    private CourseService courseService;
     private Long courseId;
     private ScheduleModel eventModel;
     private ScheduleEvent event = new DefaultScheduleEvent();
@@ -156,5 +158,26 @@ public class CourseScheduleController implements Serializable {
 
     public void setSelectedAccounts(List<Account> selectedAccounts) {
         this.selectedAccounts = selectedAccounts;
+    }
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
+    }
+
+    public List<Account> getTeachers() {
+        return courseDAO.findTeachersForCourse(courseId);
+    }
+
+    public List<Account> getStudentsInCourse() {
+        return courseService.getStudentsAcceptedToCourse(course);
+    }
+
+    public Long getPlacesLeft() {
+        return courseService.getOpenSpots(course);
+
     }
 }

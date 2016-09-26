@@ -1,8 +1,14 @@
 package se.lexicon.jomian.controller.admin;
 
+import org.primefaces.model.DefaultScheduleEvent;
+import org.primefaces.model.ScheduleModel;
 import se.lexicon.jomian.dao.AccountDAO;
+import se.lexicon.jomian.dao.AttendanceDAO;
 import se.lexicon.jomian.entity.Account;
+import se.lexicon.jomian.entity.Attendance;
+import se.lexicon.jomian.entity.CourseSession;
 import se.lexicon.jomian.service.AccountService;
+import se.lexicon.jomian.service.AttendanceService;
 import se.lexicon.jomian.util.CurrentContext;
 
 import javax.enterprise.context.Conversation;
@@ -11,6 +17,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author Johan Gustafsson
@@ -25,9 +32,14 @@ public class EditAccountController implements Serializable {
     private AccountService accountService;
     @Inject
     private AccountDAO accountDAO;
+    @Inject
+    private AttendanceDAO attendanceDAO;
+    @Inject
+    private AttendanceService attendanceService;
     private Account account = new Account();
     private Long accountId;
     private String from;
+    private ScheduleModel eventModel;
 
     public void initView() {
         if (accountId == null) {
@@ -45,6 +57,7 @@ public class EditAccountController implements Serializable {
             from = "/restricted";
         }
 
+        eventModel = attendanceService.populateScheduleModel(accountId);
         if (!FacesContext.getCurrentInstance().isPostback() && conversation.isTransient()) {
             conversation.begin();
         }
@@ -78,5 +91,13 @@ public class EditAccountController implements Serializable {
 
     public void setFrom(String from) {
         this.from = from;
+    }
+
+    public ScheduleModel getEventModel() {
+        return eventModel;
+    }
+
+    public void setEventModel(ScheduleModel eventModel) {
+        this.eventModel = eventModel;
     }
 }

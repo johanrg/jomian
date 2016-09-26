@@ -16,61 +16,66 @@
 
         <h:form id="applyToCourseForm">
             <p:panel header="#{language['applyToCourse.header']}">
-                <p:panelGrid columns="2" styleClass="forms">
-                    <p:outputLabel for="name" value="#{language['course.nameLabel']}"/>
-                    <p:inputText id="name" size="50" value="#{applyToCourseController.course.name}"
-                                 readonly="true"/>
+                <p:tabView>
+                    <p:tab title="#{language['course.courseInformationHeader']}">
+                        <p:panelGrid columns="2" styleClass="forms">
+                            <p:outputLabel for="name" value="#{language['course.nameLabel']}"/>
+                            <p:inputText id="name" size="50" value="#{applyToCourseController.course.name}"
+                                         readonly="true"/>
 
-                    <p:outputLabel for="description" value="#{language['course.descriptionLabel']}"/>
-                    <p:inputTextarea id="description" value="#{applyToCourseController.course.description}" rows="8"
-                                     cols="50" readonly="true"/>
+                            <p:outputLabel for="description" value="#{language['course.descriptionLabel']}"/>
+                            <p:inputTextarea id="description" value="#{applyToCourseController.course.description}"
+                                             rows="8"
+                                             cols="50" readonly="true"/>
 
-                    <p:outputLabel for="startDate" value="#{language['course.startDateLabel']}"/>
-                    <p:inputText id="startDate" value="#{applyToCourseController.course.startDate}" mode="popup"
-                                 readonly="true">
-                        <f:convertDateTime pattern="yyyy-MM-dd"/>
-                    </p:inputText>
+                            <p:outputLabel for="startDate" value="#{language['course.startDateLabel']}"/>
+                            <p:inputText id="startDate" value="#{applyToCourseController.course.startDate}" mode="popup"
+                                         readonly="true">
+                                <f:convertDateTime pattern="yyyy-MM-dd"/>
+                            </p:inputText>
 
-                    <p:outputLabel for="endDate" value="#{language['course.endDateLabel']}"/>
-                    <p:inputText id="endDate" value="#{applyToCourseController.course.endDate}" mode="popup"
-                                 readonly="true">
-                        <f:convertDateTime pattern="yyyy-MM-dd"/>
-                    </p:inputText>
+                            <p:outputLabel for="endDate" value="#{language['course.endDateLabel']}"/>
+                            <p:inputText id="endDate" value="#{applyToCourseController.course.endDate}" mode="popup"
+                                         readonly="true">
+                                <f:convertDateTime pattern="yyyy-MM-dd"/>
+                            </p:inputText>
 
-                    <p:outputLabel for="teachers" value="#{language['course.teachersLabel']}"/>
-                    <p:dataTable id="teachers" value="#{applyToCourseController.teachers}" var="teacher">
-                        <p:column>
-                            #{teacher.name}
-                        </p:column>
-                    </p:dataTable>
+                            <p:outputLabel for="teachers" value="#{language['course.teachersLabel']}"/>
+                            <p:dataTable id="teachers" value="#{applyToCourseController.teachers}" var="teacher">
+                                <p:column>
+                                    #{teacher.name}
+                                </p:column>
+                            </p:dataTable>
 
-                    <p:outputLabel for="placesLeft" value="#{language['course.placesLeftLabel']}"/>
-                    <p:inputText id="placesLeft" value="#{applyToCourseController.placesLeft}" readonly="true"/>
+                            <p:outputLabel for="placesLeft" value="#{language['course.placesLeftLabel']}"/>
+                            <p:inputText id="placesLeft" value="#{applyToCourseController.placesLeft}" readonly="true"/>
 
-                </p:panelGrid>
-                <h:panelGroup rendered="#{loginController.loggedInAccount.student}">
-                    <h:panelGroup
-                            rendered="#{!applyToCourseController.teacherOfCourse and !applyToCourseController.hasStudentBeenApproved}">
-                        <h:panelGroup rendered="#{applyToCourseController.hasStudentAlreadyApplied}">
-                            <p:commandButton value="#{language['course.cancelApplication']}"
-                                             action="#{applyToCourseController.removeFromCourse}" ajax="false"/>
+                        </p:panelGrid>
+                        <h:panelGroup rendered="#{loginController.loggedInAccount.student}">
+                            <h:panelGroup
+                                    rendered="#{!applyToCourseController.teacherOfCourse and !applyToCourseController.hasStudentBeenApproved}">
+                                <h:panelGroup rendered="#{applyToCourseController.hasStudentAlreadyApplied}">
+                                    <p:commandButton value="#{language['course.cancelApplication']}"
+                                                     action="#{applyToCourseController.removeFromCourse}" ajax="false"/>
+                                </h:panelGroup>
+                                <h:panelGroup
+                                        rendered="#{applyToCourseController.applicationStillOpen and !applyToCourseController.hasStudentAlreadyApplied}">
+                                    <p:commandButton value="#{language['course.applyToCourse']}"
+                                                     action="#{applyToCourseController.applyToCourse}" ajax="false"/>
+                                </h:panelGroup>
+                            </h:panelGroup>
+                            <h:panelGroup rendered="#{applyToCourseController.hasStudentBeenApproved}">
+                                <p:commandButton value="#{language['course.cancelCourse']}"
+                                                 action="#{applyToCourseController.removeFromCourse}"/>
+                            </h:panelGroup>
                         </h:panelGroup>
-                        <h:panelGroup
-                                rendered="#{applyToCourseController.applicationStillOpen and !applyToCourseController.hasStudentAlreadyApplied}">
-                            <p:commandButton value="#{language['course.applyToCourse']}"
-                                             action="#{applyToCourseController.applyToCourse}" ajax="false"/>
-                        </h:panelGroup>
-                    </h:panelGroup>
-                    <h:panelGroup rendered="#{applyToCourseController.hasStudentBeenApproved}">
-                        <p:commandButton value="#{language['course.cancelCourse']}"
-                                         action="#{applyToCourseController.removeFromCourse}"/>
-                    </h:panelGroup>
-                </h:panelGroup>
+                    </p:tab>
+                    <p:tab title="#{language['course.courseScheduleHeader']}">
+                        <p:schedule value="#{applyToCourseController.eventModel}" timeZone="CET" locale="se"/>
+                    </p:tab>
+                </p:tabView>
             </p:panel>
 
-            <p:panel header="Kursschema">
-                <p:schedule value="#{applyToCourseController.eventModel}" timeZone="CET" locale="se"/>
-            </p:panel>
         </h:form>
         <script type="text/javascript">
             PrimeFaces.locales['se'] = {

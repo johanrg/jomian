@@ -15,32 +15,63 @@
         <f:event type="preRenderView" listener="#{editAccountController.initView}"/>
 
         <h:form id="editAccountForm">
-            <p:growl id="messages"/>
             <p:panel header="#{language['editAccount.header']}">
-                <h:inputHidden id="from" value="#{editAccountController.from}"/>
-                <p:panelGrid columns="2" styleClass="forms">
-                    <p:outputLabel for="name" value="#{language['account.nameLabel']}"/>
-                    <p:inputText id="name" value="#{editAccountController.account.name}"/>
+                <p:tabView>
+                    <p:tab title="#{language['account.informationHeader']}">
+                        <p:growl id="messages"/>
+                        <h:inputHidden id="from" value="#{editAccountController.from}"/>
+                        <p:panelGrid columns="2" styleClass="forms">
+                            <p:outputLabel for="name" value="#{language['account.nameLabel']}"/>
+                            <p:inputText id="name" value="#{editAccountController.account.name}"/>
 
-                    <p:outputLabel for="email" value="#{language['account.emailLabel']}"/>
-                    <p:inputText id="email" value="#{editAccountController.account.email}"/>
+                            <p:outputLabel for="email" value="#{language['account.emailLabel']}"/>
+                            <p:inputText id="email" value="#{editAccountController.account.email}"/>
 
-                    <p:outputLabel for="student" value="#{language['account.studentLabel']}"/>
-                    <p:selectBooleanCheckbox id="student" value="#{editAccountController.account.student}"/>
+                            <p:outputLabel for="student" value="#{language['account.studentLabel']}"/>
+                            <p:selectBooleanCheckbox id="student" value="#{editAccountController.account.student}"/>
 
-                    <p:outputLabel for="teacher" value="#{language['account.teacherLabel']}"/>
-                    <p:selectBooleanCheckbox id="teacher" value="#{editAccountController.account.teacher}"/>
+                            <p:outputLabel for="teacher" value="#{language['account.teacherLabel']}"/>
+                            <p:selectBooleanCheckbox id="teacher" value="#{editAccountController.account.teacher}"/>
 
-                    <p:outputLabel for="admin" value="#{language['account.adminLabel']}"/>
-                    <p:selectBooleanCheckbox id="admin" value="#{editAccountController.account.admin}"/>
+                            <p:outputLabel for="admin" value="#{language['account.adminLabel']}"/>
+                            <p:selectBooleanCheckbox id="admin" value="#{editAccountController.account.admin}"/>
 
-                    <p:outputLabel for="verify" value="#{language['account.verifyLabel']}"/>
-                    <p:selectBooleanCheckbox id="verify" value="#{editAccountController.account.verified}"/>
-                    <p:commandButton value="#{language['general.save']}"
-                                     action="#{editAccountController.editAccount}"/>
-                </p:panelGrid>
+                            <p:outputLabel for="verify" value="#{language['account.verifyLabel']}"/>
+                            <p:selectBooleanCheckbox id="verify" value="#{editAccountController.account.verified}"/>
+                            <p:commandButton value="#{language['general.save']}"
+                                             action="#{editAccountController.editAccount}"/>
+                        </p:panelGrid>
+                    </p:tab>
+                    <p:tab title="#{language['account.attendanceHeader']}">
+                        <p:schedule id="schedule" value="#{editAccountController.eventModel}" timeZone="CET" locale="se"/>
+                    </p:tab>
+                </p:tabView>
             </p:panel>
         </h:form>
+        <script type="text/javascript">
+            PrimeFaces.locales['se'] = {
+                closeText: 'Stäng',
+                prevText: 'Förgående',
+                nextText: 'Nästa',
+                currentText: 'Aktuellt datum',
+                monthNames: ['Januari', 'Februari', 'Mars', 'April', 'Maj', 'Juni',
+                    'Juli', 'Augusti', 'September', 'Oktober', 'November', 'December'],
+                monthNamesShort: ['Jan', 'Feb', 'Mar', 'Apr', 'Maj', 'Jun',
+                    'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Dec'],
+                dayNames: ['Söndag', 'Måndag', 'Tisdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lördag'],
+                dayNamesShort: ['Sön', 'Mån', 'Tis', 'Ons', 'Tor', 'Fre', 'Lör'],
+                dayNamesMin: ['Sö', 'Må', 'Ti', 'On', 'To', 'Fr', 'Lö'],
+                weekHeader: 'Hf',
+                firstDay: 1,
+                isRTL: false,
+                showMonthAfterYear: false,
+                yearSuffix: 'År',
+                month: 'Månad',
+                week: 'Vecka',
+                day: 'Dag',
+                allDayText: 'Hela dagen'
+            };
+        </script>
     </ui:define>
 </ui:composition>
 </html>

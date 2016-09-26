@@ -7,8 +7,6 @@ import se.lexicon.jomian.util.Language;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,10 +17,8 @@ import java.util.stream.Collectors;
  */
 @Stateless
 public class AccountService implements Serializable {
-    @PersistenceContext
-    private EntityManager em;
     @Inject
-    AccountDAO accountDAO;
+    private AccountDAO accountDAO;
 
     public void create(Account account) throws ServiceException {
         if (accountDAO.findByEmail(account.getEmail()) != null) {
@@ -37,7 +33,7 @@ public class AccountService implements Serializable {
         } else {
             account.setVerified(false);
         }
-        em.persist(account);
+        accountDAO.persist(account);
     }
 
     public Account returnAccountWithMatchingCredentials(String email, String password) throws ServiceException {

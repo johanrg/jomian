@@ -13,8 +13,14 @@ import java.util.Date;
 @Entity
 @NamedQueries({
         @NamedQuery(
-                name = "Attendance.findAttendanceUntilToday",
-                query = "SELECT a FROM Attendance a WHERE a.account.id = :accountId AND a.courseSession.startDate <= CURRENT_DATE")
+                name = "Attendance.FindAttendanceUntilToday",
+                query = "SELECT a FROM Attendance a WHERE a.account.id = :accountId AND a.courseSession.startDate <= CURRENT_DATE"),
+        @NamedQuery(
+                name = "Attendance.FindAttendanceForAllCoursesBetween",
+                query = "SELECT new se.lexicon.jomian.resultclass.TotalAttendanceForDay(c.startDate, count(a.id)) FROM CourseSession c, Attendance a WHERE a MEMBER OF c.attendances AND a.present=TRUE AND c.startDate >= :startDate AND c.endDate <= :endDate GROUP BY c.startDate ORDER BY c.startDate ASC"),
+        @NamedQuery(
+                name = "Attendance.FindPotentialAttendanceForAllCoursesBetween",
+                query = "SELECT new se.lexicon.jomian.resultclass.TotalAttendanceForDay(c.startDate, count(a.id)) FROM CourseSession c, Attendance a WHERE a MEMBER OF c.attendances AND c.startDate >= :startDate AND c.endDate <= :endDate GROUP BY c.startDate ORDER BY c.startDate ASC"),
 })
 public class Attendance {
     private Long id;

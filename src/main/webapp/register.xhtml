@@ -9,33 +9,33 @@
 <ui:composition template="/WEB-INF/template/default/layout.xhtml">
     <ui:define name="content">
 
-        <h1>#{language['register.header']}</h1>
-
-        <h:form id="registerForm">
-            <p:growl id="messages"/>
-            <p:panelGrid columns="2" styleClass="forms">
-                <p:outputLabel for="name" value="#{language['account.nameLabel']}"/>
-                <p:inputText id="name" value="#{registerController.account.name}"
-                             required="true" requiredMessage="#{language['account.nameRequired']}"/>
-                <p:outputLabel for="password" value="#{language['account.passwordLabel']}"/>
-                <p:password id="password" value="#{registerController.account.password}"
-                            feedback="true" inline="true"
-                            required="true" requiredMessage="#{language['account.passwordRequired']}">
-                    <f:validator validatorId="passwordValidator"/>
-                    <f:attribute name="confirmPassword" value="#{confirmPassword}"/>
-                </p:password>
-                <p:outputLabel for="confirmPassword" value="#{language['account.confirmPasswordLabel']}"/>
-                <p:password id="confirmPassword" required="true"
-                            binding="#{confirmPassword}"
-                            requiredMessage="#{language['account.confirmPasswordRequired']}"/>
-                <p:outputLabel for="email" value="#{language['account.emailLabel']}"/>
-                <p:inputText id="email" value="#{registerController.account.email}"
-                             required="true"
-                             requiredMessage="#{language['account.emailRequired']}"/>
-                <p:commandButton value="#{language['register.registerButton']}" update="messages"
-                                 action="#{registerController.submit}" ajax="false"/>
-            </p:panelGrid>
-        </h:form>
+        <p:panel header="#{language['register.header']}">
+            <h:form id="registerForm">
+                <p:growl id="messages"/>
+                <p:panelGrid columns="2" styleClass="forms">
+                    <p:outputLabel for="name" value="#{language['account.nameLabel']}"/>
+                    <p:inputText id="name" value="#{registerController.account.name}"
+                                 required="true" requiredMessage="#{language['account.nameRequired']}"/>
+                    <p:outputLabel for="password" value="#{language['account.passwordLabel']}"/>
+                    <p:password id="password" value="#{registerController.account.password}"
+                                feedback="true" inline="true"
+                                required="true" requiredMessage="#{language['account.passwordRequired']}">
+                        <f:validator validatorId="passwordValidator"/>
+                        <f:attribute name="confirmPassword" value="#{confirmPassword}"/>
+                    </p:password>
+                    <p:outputLabel for="confirmPassword" value="#{language['account.confirmPasswordLabel']}"/>
+                    <p:password id="confirmPassword" required="true"
+                                binding="#{confirmPassword}"
+                                requiredMessage="#{language['account.confirmPasswordRequired']}"/>
+                    <p:outputLabel for="email" value="#{language['account.emailLabel']}"/>
+                    <p:inputText id="email" value="#{registerController.account.email}"
+                                 required="true"
+                                 requiredMessage="#{language['account.emailRequired']}"/>
+                    <p:commandButton value="#{language['register.registerButton']}" update="messages"
+                                     action="#{registerController.submit}" ajax="false"/>
+                </p:panelGrid>
+            </h:form>
+        </p:panel>
     </ui:define>
 </ui:composition>
 </html>
