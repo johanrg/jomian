@@ -47,4 +47,14 @@ public class AttendanceDAO extends AbstractDAO<Attendance> implements Serializab
                 .setParameter("endDate", endDate)
                 .getResultList();
     }
+
+    public Long findAttendanceForCourseBetween(Long courseId, boolean present, Date startDate, Date endDate) {
+        Long l = (Long) em.createNamedQuery("Attendance.FindAttendanceForCourseBetween")
+                .setParameter("courseId", courseId)
+                .setParameter("present", present)
+                .setParameter("startDate", startDate)
+                .setParameter("endDate", endDate)
+                .getSingleResult();
+        return l;
+    }
 }

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/template/default/layout.xhtml">
+    <ui:define name="content">
+        <p:panel header="#{language['statistics.header']}">
+            <h:form>
+                <p:panelGrid columns="2" styleClass="forms">
+                    <p:outputLabel for="course" value="Course:"/>
+                    <p:selectOneMenu id="course" value="#{attendanceStatisticsPerCourseController.courseId}">
+                        <f:selectItems value="#{attendanceStatisticsPerCourseController.mapOfCourses}"/>
+                    </p:selectOneMenu>
+                    <p:outputLabel for="startDate" value="#{language['statistics.startDate']}"/>
+                    <p:calendar id="startDate" value="#{attendanceStatisticsPerCourseController.startDate}" mode="popup"
+                                showOn="button"
+                                placeholder="yyyy-mm-dd">
+                        <f:convertDateTime pattern="yyyy-MM-dd"/>
+                    </p:calendar>
+
+                    <p:outputLabel for="endDate" value="#{language['statistics.endDate']}"/>
+                    <p:calendar id="endDate" value="#{attendanceStatisticsPerCourseController.endDate}" mode="popup"
+                                showOn="button"
+                                placeholder="yyyy-mm-dd">
+                        <f:convertDateTime pattern="yyyy-MM-dd"/>
+                    </p:calendar>
+                    <p:commandButton value="#{language['statistics.update']}"
+                                     action="#{attendanceStatisticsPerCourseController.update}" update="chart"
+                                     ajax="false"/>
+                </p:panelGrid>
+                <p:chart type="pie" model="#{attendanceStatisticsPerCourseController.statisticsModel}"
+                         style="width:400px;height:300px"/>
+            </h:form>
+        </p:panel>
+    </ui:define>
+</ui:composition>
+</html>

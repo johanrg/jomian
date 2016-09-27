@@ -21,6 +21,9 @@ import java.util.Date;
         @NamedQuery(
                 name = "Attendance.FindPotentialAttendanceForAllCoursesBetween",
                 query = "SELECT new se.lexicon.jomian.resultclass.TotalAttendanceForDay(c.startDate, count(a.id)) FROM CourseSession c, Attendance a WHERE a MEMBER OF c.attendances AND c.startDate >= :startDate AND c.endDate <= :endDate GROUP BY c.startDate ORDER BY c.startDate ASC"),
+        @NamedQuery(
+                name = "Attendance.FindAttendanceForCourseBetween",
+                query = "SELECT count(c.id) FROM CourseSession c, Attendance a WHERE a MEMBER OF c.attendances AND a.present=:present AND c.course.id=:courseId AND c.startDate>=:startDate AND c.endDate<=:endDate"),
 })
 public class Attendance {
     private Long id;
