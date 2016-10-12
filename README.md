@@ -4,13 +4,8 @@ The exam project for the 2016-05 Göteborg Lexicon Java Course.
 The purpose of this program is to teach the participants how to build and manage a small/medium sized web project
 built in Jave EE using Glassfish and PostgreSQL.
 
-The participants in this project are:
-
-Johan
-Mikael
-Andreas
 ##What is it?
-It's going to be a small program to handle courses for a small school, mainly to keep track of the attendance of the
+It's a small program to handle courses for a small school, mainly to keep track of the attendance of the
 students.
 
 ##How to install
