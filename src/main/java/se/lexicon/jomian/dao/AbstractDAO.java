@@ -30,6 +30,10 @@ public abstract class AbstractDAO<T> {
         getEntityManager().remove(getEntityManager().merge(entity));
     }
 
+    public void detach(T entity) {
+        getEntityManager().detach(entity);
+    }
+
     public T find(Object id) {
         return getEntityManager().find(entityClass, id);
     }

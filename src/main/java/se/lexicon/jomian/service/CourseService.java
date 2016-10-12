@@ -76,15 +76,11 @@ public class CourseService implements Serializable {
 
     private void addTeachersFromUpdatedList(Course course, List<Account> updatedTeacherList) {
         for (Account teacher : updatedTeacherList) {
-            boolean found = false;
             for (AccountCourse accountCourse : course.getAccountCourses()) {
                 if (accountCourse.getAccount().equals(teacher)) {
-                    found = true;
+                    addAccountToCourse(course, teacher, AccountCourse.Role.TEACHER);
                     break;
                 }
-            }
-            if (!found) {
-                addAccountToCourse(course, teacher, AccountCourse.Role.TEACHER);
             }
         }
     }
